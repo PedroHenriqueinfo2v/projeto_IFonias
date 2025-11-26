@@ -1,0 +1,208 @@
+/* ======================== 
+   VARIÁVEIS - MODO CLARO REFINADO
+   ======================== */
+:root {
+    --fundo-pagina: #F8F5F2; 
+    --texto-principal: #1C1C1C;
+    --cor-cabecalho: #F26D00; /* Laranja VIBRANTE */
+    --cor-titulo: #F2A000; /* Amarelo/Ouro */
+    
+    --cor-card-fundo: #ffffff;
+    --cor-texto-secundario: #444; 
+    --cor-borda-leve: #EFEFEF;
+    --borda-radius: 10px;
+    --sombra-leve: 0 8px 25px rgba(0, 0, 0, 0.1); 
+    --sombra-interativa: 0 10px 30px rgba(242, 109, 0, 0.3); 
+}
+
+/* Base e Layout */
+body {
+    background-color: var(--fundo-pagina);
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; 
+    color: var(--texto-principal);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 15px;
+}
+
+/* ======================== 
+   NAVEGAÇÃO (NAVBAR)
+   ======================== */
+.navbar {
+    background: linear-gradient(90deg, var(--cor-cabecalho), #ff9900);
+    padding: 12px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.navbar-nav {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item a {
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    display: block;
+    font-weight: 700;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.nav-item a:hover {
+    background-color: transparent;
+    border-color: white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+}
+
+/* TÍTULO H1 */
+h1 {
+    color: var(--texto-principal); 
+    font-weight: 900;
+    font-size: 2.5em;
+    margin-bottom: 25px;
+    text-align: center;
+    border-bottom: 3px solid var(--cor-titulo);
+    padding-bottom: 10px;
+}
+
+/* ======================== 
+   CARD DE ÁUDIO
+   ======================== */
+.card-audio {
+    background-color: var(--cor-card-fundo);
+    border-radius: var(--borda-radius);
+    box-shadow: var(--sombra-leve);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    padding: 30px;
+    margin-bottom: 40px;
+    
+    display: grid;
+    grid-template-areas: 
+        "header player"
+        "body player"
+        "footer player";
+    grid-template-columns: 2.5fr 3fr; 
+    align-items: center;
+}
+
+.card-audio:hover {
+    box-shadow: var(--sombra-interativa); 
+    transform: translateY(-3px); 
+}
+
+/* Header */
+.autor-link {
+    font-weight: 800;
+    font-size: 1.15em; 
+    color: var(--texto-principal);
+}
+
+.autor-link:hover {
+    color: var(--cor-cabecalho);
+    text-decoration: underline;
+}
+
+.data-publicacao {
+    display: block;
+    color: var(--cor-texto-secundario);
+    font-size: 0.8em;
+    margin-top: 3px;
+    font-style: italic;
+}
+
+/* Player Container */
+.player-container {
+    grid-area: player;
+    padding: 15px;
+    background-color: var(--fundo-pagina); 
+    border-radius: var(--borda-radius);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+    overflow: hidden;
+}
+
+.player-audio {
+    width: 100%;
+}
+
+/* Corpo do Card */
+.card-body {
+    grid-area: body;
+    padding-right: 30px;
+}
+
+.titulo-audio {
+    color: var(--cor-cabecalho); 
+    font-weight: 900;
+    font-size: 1.8em; 
+    margin-bottom: 8px;
+}
+
+.legenda {
+    color: var(--cor-texto-secundario);
+    font-size: 1.0em;
+}
+
+/* Footer (Interações) */
+.card-footer {
+    grid-area: footer;
+    border-top: 2px solid var(--cor-borda-leve);
+    padding-top: 20px;
+    margin-top: 20px;
+    display: flex;
+    gap: 25px;
+    font-size: 0.95em;
+    padding-right: 30px;
+}
+
+.btn-curtir, .btn-comentarios {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--cor-texto-secundario);
+}
+
+.btn-curtir:hover {
+    color: #cc0000;
+    transform: scale(1.05);
+}
+
+.btn-comentarios:hover {
+    color: var(--cor-titulo);
+    transform: scale(1.05);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .card-audio {
+        grid-template-areas: 
+            "header header"
+            "player player"
+            "body body"
+            "footer footer";
+        grid-template-columns: 1fr;
+    }
+
+    .player-container, .card-body, .card-footer {
+        padding: 0;
+    }
+
+    .card-body {
+        margin-top: 15px;
+    }
+}

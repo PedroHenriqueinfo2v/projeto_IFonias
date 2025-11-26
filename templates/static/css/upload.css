@@ -1,0 +1,212 @@
+/* ======================== 
+   VARIÁVEIS (Consistente)
+   ======================== */
+:root {
+    --fundo-pagina: #F8F5F2; 
+    --texto-principal: #1C1C1C;
+    --cor-cabecalho: #F26D00; 
+    --cor-titulo: #F2A000; 
+    
+    --cor-card-fundo: #ffffff; 
+    --cor-borda: #E0E0E0;
+    --cor-texto-secundario: #666;
+    --borda-radius: 10px;
+    --sombra-leve: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Base e Layout */
+body {
+    background-color: var(--fundo-pagina);
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    color: var(--texto-principal);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 15px;
+}
+
+/* Navbar CSS (Repetido para consistência) */
+.navbar {
+    background: linear-gradient(90deg, var(--cor-cabecalho), #ff9900);
+    padding: 12px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.navbar-nav {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item a {
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    display: block;
+    font-weight: 700;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.nav-item a:hover {
+    background-color: transparent;
+    border-color: white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+}
+
+/* Título */
+h1 {
+    color: var(--cor-cabecalho);
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 800;
+    font-size: 2.5em;
+}
+
+/* Estilo do Formulário (Grid com Preview) */
+.form-upload {
+    background-color: var(--cor-card-fundo);
+    padding: 40px;
+    border-radius: var(--borda-radius);
+    box-shadow: var(--sombra-leve);
+    border: none;
+    transition: box-shadow 0.3s ease;
+    
+    display: grid;
+    grid-template-columns: 2fr 1fr; 
+    gap: 30px;
+    align-items: start;
+}
+
+.form-fields {
+    grid-column: 1 / 2;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: var(--texto-principal);
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select,
+.form-group input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--borda-radius);
+    box-sizing: border-box; 
+    font-size: 1em;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--cor-titulo); 
+    box-shadow: 0 0 8px rgba(242, 160, 0, 0.6); 
+    outline: none;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.btn-submit {
+    background: linear-gradient(90deg, var(--cor-cabecalho), #ff9900);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: var(--borda-radius);
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    display: block;
+    width: 100%;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-submit:hover {
+    background: linear-gradient(90deg, #ff9900, #F26D00);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Preview Box (Lateral) */
+.preview-box {
+    grid-column: 2 / 3;
+    padding: 20px;
+    background-color: var(--fundo-pagina);
+    border-radius: var(--borda-radius);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--cor-borda-leve);
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, border-color 0.3s;
+}
+
+.preview-box:hover {
+    border-color: var(--cor-cabecalho);
+    transform: scale(1.02);
+}
+
+.preview-box h3 {
+    color: var(--cor-titulo);
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.preview-box p {
+    color: var(--cor-texto-secundario);
+    font-size: 0.9em;
+}
+
+.preview-icon {
+    font-size: 3.5em;
+    color: var(--cor-cabecalho);
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .form-upload {
+        grid-template-columns: 1fr;
+    }
+    .preview-box {
+        grid-column: 1 / 2;
+        order: -1; 
+        height: auto;
+    }
+}
