@@ -31,7 +31,7 @@ body {
 }
 
 /* ======================== 
-   NAVEGAÇÃO (NAVBAR) - MELHORADA
+   NAVBAR (Consistente)
    ======================== */
 .navbar {
     background: linear-gradient(90deg, var(--cor-cabecalho), #ff9900);
@@ -41,9 +41,9 @@ body {
 
 .nav-main-layout {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-around; 
     align-items: center;
-    max-width: 1200px; 
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -93,7 +93,7 @@ body {
 }
 
 .btn-perfil {
-    background-color: var(--cor-titulo); 
+    background-color: var(--cor-titulo);
     color: var(--texto-principal);
     text-decoration: none;
     padding: 8px 15px;
@@ -213,6 +213,7 @@ h1 {
     gap: 15px;
 }
 
+/* Esconde o input de arquivo padrão */
 .simple-file-upload input[type="file"] {
     position: absolute;
     width: 1px;
@@ -224,6 +225,7 @@ h1 {
     border: 0;
 }
 
+/* Estiliza o rótulo como um botão simples */
 .custom-file-button {
     background-color: var(--cor-cabecalho);
     color: white;
@@ -241,6 +243,7 @@ h1 {
     transform: translateY(-1px);
 }
 
+/* Estilo para mostrar o nome do arquivo selecionado */
 .file-name-display {
     color: var(--cor-texto-secundario);
     font-size: 0.95em;
@@ -250,33 +253,10 @@ h1 {
     white-space: nowrap;
 }
 
-/* Responsividade */
+/* ======================== 
+   RESPONSIVIDADE
+   ======================== */
 @media (max-width: 768px) {
-    /* Navbar Responsiva */
-    .nav-main-layout {
-        flex-direction: column; 
-        align-items: center;
-        gap: 10px;
-        text-align: center;
-    }
-    
-    .navbar-logo {
-        margin-bottom: 5px;
-    }
-
-    .navbar-nav {
-        width: 100%;
-        justify-content: space-around;
-        order: 3; 
-    }
-    
-    .nav-actions {
-        width: 100%;
-        justify-content: center;
-        order: 2;
-    }
-    
-    /* Formulário Responsivo */
     .container {
         margin-top: 20px; 
     }
@@ -299,5 +279,25 @@ h1 {
     .custom-file-button {
         width: 100%;
         text-align: center;
+    }
+
+    /* Navbar Responsiva para Mobile */
+    .nav-main-layout {
+        flex-direction: column; 
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .navbar-logo {
+        margin-bottom: 5px;
+    }
+    .navbar-nav {
+        width: 100%;
+        justify-content: space-around;
+        order: 3; 
+    }
+    .nav-actions {
+        width: 100%;
+        justify-content: center;
+        order: 2;
     }
 }

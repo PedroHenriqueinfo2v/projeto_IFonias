@@ -10,7 +10,7 @@
     <header class="navbar">
         <nav class="container nav-main-layout">
             
-            <a href="timeline.html" class="navbar-logo">
+            <a href="index.html" class="navbar-logo">
                 <span class="logo-icon">🎧</span> IFonias
             </a>
             
@@ -20,121 +20,61 @@
             </ul>
 
             <div class="nav-actions">
-                <span class="btn-perfil static-active">👤 Meu Perfil</span> 
-            </div>
+                </div>
         </nav>
     </header>
 
     <div class="container">
+        
         <div class="perfil-header">
-            <div class="perfil-cover-bg"></div> 
+            <div class="perfil-cover-bg">
+                </div> 
+            
             <div class="perfil-info-box">
                 <div class="perfil-avatar"></div> 
-                <h2 class="perfil-nome">Nome do Aluno Exemplo</h2>
-                <p class="perfil-meta">Curso: TADS | Campus: Mossoró | 52 Seguidores</p>
-                <button class="btn-follow">Seguir</button>
+                <h2 class="perfil-nome">Pedro Henrique de O. Xavier</h2>
+                <p class="perfil-meta">
+                    Curso: TADS (3º Ano) | Campus: Ceará-Mirim
+                </p>
+                <p class="perfil-bio">
+                    Entusiasta de áudio, criador do podcast "Tecnologia e Café" e desenvolvedor do projeto **IFonias**. 
+                </p>
+
+                <div class="perfil-stats">
+                    <span>**24** Publicações</span>
+                </div>
             </div>
         </div>
 
-        <h3 class="perfil-titulo-audios">Áudios Publicados</h3>
+        <h3 class="perfil-titulo-audios">💿 Áudios Publicados</h3>
 
         <div class="publicacoes-grid">
             
-            <a href="javascript:void(0)" class="audio-card-grid" onclick="openModal('Trilha Sonora para Estudar', 'Aluno Exemplo')">
+            <a href="#" class="audio-card-grid">
                 <div class="audio-cover-grid" style="background: linear-gradient(135deg, #F2A000, #ffc733);"></div>
-                <p class="audio-title-grid">Trilha Sonora para Estudar</p>
-                <p class="audio-meta-grid">Publicado em 20/Out</p>
+                <p class="audio-title-grid">Tecnologia e Café #5</p>
+                <p class="audio-meta-grid">Podcast | 20/Out</p>
             </a>
 
-            <a href="javascript:void(0)" class="audio-card-grid" onclick="openModal('Dicas de Python', 'Aluno Exemplo')">
-                <div class="audio-cover-grid" style="background: linear-gradient(135deg, #F26D00, #ff9900);"></div>
-                <p class="audio-title-grid">Dicas de Python</p>
-                <p class="audio-meta-grid">Publicado em 15/Out</p>
+            <a href="#" class="audio-card-grid">
+                <div class="audio-cover-grid" style="background: linear-gradient(135deg, #007bff, #33aaff);"></div>
+                <p class="audio-title-grid">Trilha Lofi #1</p>
+                <p class="audio-meta-grid">Música Original | 15/Out</p>
             </a>
 
-            <a href="javascript:void(0)" class="audio-card-grid" onclick="openModal('Entrevista IFRN', 'Aluno Exemplo')">
-                <div class="audio-cover-grid" style="background: linear-gradient(135deg, #7451eb, #a287ff);"></div>
-                <p class="audio-title-grid">Entrevista com Ex-Aluno IFRN</p>
-                <p class="audio-meta-grid">Publicado em 01/Out</p>
-            </a>
-            
-            <a href="javascript:void(0)" class="audio-card-grid" onclick="openModal('Projeto EXPOTEC 2024', 'Aluno Exemplo')">
+            <a href="#" class="audio-card-grid">
                 <div class="audio-cover-grid" style="background: linear-gradient(135deg, #28a745, #5cb85c);"></div>
-                <p class="audio-title-grid">Projeto EXPOTEC 2024</p>
-                <p class="audio-meta-grid">Publicado em 20/Set</p>
+                <p class="audio-title-grid">Relato Histórico I</p>
+                <p class="audio-meta-grid">Relato Oral | 01/Out</p>
             </a>
 
+            <a href="#" class="audio-card-grid">
+                <div class="audio-cover-grid" style="background: linear-gradient(135deg, #F26D00, #ff9900);"></div>
+                <p class="audio-title-grid">A Peça do Pátio</p>
+                <p class="audio-meta-grid">Dramatização | 25/Set</p>
+            </a>
+            
         </div>
     </div>
-    
-    
-    <div id="commentsModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeModal()">×</span>
-            <h2>Comentários</h2>
-            
-            <div class="audio-summary-modal">
-                <span class="summary-icon">🎧</span>
-                <p class="summary-title" id="modalAudioTitle">Título do Áudio Selecionado</p>
-                <p class="summary-meta" id="modalAudioAuthor">Por: Autor(a) / Curso</p>
-            </div>
-            
-            <div id="commentsList" class="comments-list">
-                <div class="comment-item">
-                    <p class="comment-meta">**Aluno C (TADS)** - 1h atrás</p>
-                    <p class="comment-text">Muito útil para estudar!</p>
-                </div>
-                 <div class="comment-item">
-                    <p class="comment-meta">**Professor D** - 30 min atrás</p>
-                    <p class="comment-text">Parabéns pelo excelente projeto.</p>
-                </div>
-            </div>
-            
-            <div class="comment-form-container">
-                <h3>Adicionar Comentário</h3>
-                <textarea id="newCommentText" placeholder="Escreva seu comentário aqui..."></textarea>
-                <button onclick="submitComment()">Comentar</button>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        function openModal(audioTitle, audioAuthor) {
-            document.getElementById('modalAudioTitle').innerText = audioTitle;
-            document.getElementById('modalAudioAuthor').innerText = 'Por: ' + audioAuthor;
-            document.getElementById('commentsModal').style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('commentsModal').style.display = 'none';
-        }
-
-        function submitComment() {
-            const commentText = document.getElementById('newCommentText').value;
-            if (commentText.trim() === "") {
-                alert("Por favor, escreva um comentário.");
-                return;
-            }
-            
-            const commentsList = document.getElementById('commentsList');
-            const newCommentHTML = `
-                <div class="comment-item">
-                    <p class="comment-meta">**Você (Aluno IFRN)** - Agora</p>
-                    <p class="comment-text">${commentText}</p>
-                </div>
-            `;
-            commentsList.insertAdjacentHTML('afterbegin', newCommentHTML); 
-
-            document.getElementById('newCommentText').value = ''; 
-            alert("Comentário adicionado. (Atenção: Funcionalidade real exige servidor/banco de dados)");
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('commentsModal');
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
-    </script>
 </body>
 </html>

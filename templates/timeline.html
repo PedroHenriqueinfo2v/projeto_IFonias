@@ -3,25 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repositório IFonias - Linha do Tempo</title>
+    <title>Repositório Digital IFCM - Linha do Tempo</title>
     <link rel="stylesheet" href="static/css/timeline.css">
 </head>
 <body>
     <header class="navbar">
-        <nav class="container nav-main-layout">
-            
-            <a href="timeline.html" class="navbar-logo">
-                <span class="logo-icon">🎧</span> IFonias
-            </a>
-            
+        <nav class="container">
             <ul class="navbar-nav">
-                <li class="nav-item active"><a href="timeline.html">Linha do Tempo</a></li> 
-                <li class="nav-item"><a href="upload.html">Publicar Áudio</a></li>
+                <li class="nav-item"><a href="timeline.html">Linha do Tempo</a></li>
+                <li class="nav-item"><a href="upload.html">Publicar Novo Áudio</a></li>
+                <li class="nav-item"><a href="perfil.html">Meu Perfil</a></li> 
             </ul>
-
-            <div class="nav-actions">
-                <a href="perfil.html" class="btn-perfil">👤 Meu Perfil</a> 
-            </div>
         </nav>
     </header>
 
@@ -108,16 +100,22 @@
     </div>
     
     <script>
+        // Função para abrir o modal e carregar dados do áudio (simulado)
         function openModal(audioTitle, audioAuthor) {
+            // Carrega os dados do áudio no cabeçalho do modal
             document.getElementById('modalAudioTitle').innerText = audioTitle;
             document.getElementById('modalAudioAuthor').innerText = 'Por: ' + audioAuthor;
+
+            // Exibe o modal
             document.getElementById('commentsModal').style.display = 'block';
         }
 
+        // Função para fechar o modal
         function closeModal() {
             document.getElementById('commentsModal').style.display = 'none';
         }
 
+        // Função que simula o envio do comentário
         function submitComment() {
             const commentText = document.getElementById('newCommentText').value;
             if (commentText.trim() === "") {
@@ -125,6 +123,7 @@
                 return;
             }
             
+            // Simulação de adição do comentário à lista
             const commentsList = document.getElementById('commentsList');
             const newCommentHTML = `
                 <div class="comment-item">
@@ -132,12 +131,14 @@
                     <p class="comment-text">${commentText}</p>
                 </div>
             `;
+            // Adiciona no topo da lista
             commentsList.insertAdjacentHTML('afterbegin', newCommentHTML); 
 
-            document.getElementById('newCommentText').value = ''; 
+            document.getElementById('newCommentText').value = ''; // Limpa o campo
             alert("Comentário adicionado. (Atenção: Funcionalidade real exige servidor/banco de dados)");
         }
 
+        // Fechar o modal se o usuário clicar fora dele
         window.onclick = function(event) {
             const modal = document.getElementById('commentsModal');
             if (event.target == modal) {
