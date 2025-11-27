@@ -3,60 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload de Áudio - IFCM</title>
+    <title>Upload de Áudio - IFonias</title>
     <link rel="stylesheet" href="static/css/upload.css">
 </head>
 <body>
     <header class="navbar">
-        <nav class="container">
+        <nav class="container nav-main-layout">
+            
+            <a href="index.html" class="navbar-logo">
+                <span class="logo-icon">🎧</span> IFonias
+            </a>
+            
             <ul class="navbar-nav">
                 <li class="nav-item"><a href="timeline.html">Linha do Tempo</a></li>
-                <li class="nav-item"><a href="upload.html">Publicar Novo Áudio</a></li>
-                <li class="nav-item"><a href="perfil.html">Meu Perfil</a></li> 
+                <li class="nav-item active"><a href="upload.html">Publicar Áudio</a></li>
             </ul>
+
+            <div class="nav-actions">
+                <a href="perfil.html" class="btn-perfil">👤 Meu Perfil</a> 
+            </div>
         </nav>
     </header>
 
     <div class="container">
-        <h1>🎙️ Publicar Novo Áudio</h1>
+        <h1>Publicação de Conteúdo Sonoro</h1>
+        <p class="intro-text">Compartilhe o seu projeto, podcast ou música com toda a comunidade IFRN. É hora de dar voz à sua criatividade e ao conhecimento.</p>
 
         <form class="form-upload" method="POST" enctype="multipart/form-data" action="#">
             
             <div class="form-fields">
                 <div class="form-group">
-                    <label for="titulo">Título do Áudio:</label>
-                    <input type="text" id="titulo" name="titulo" required>
+                    <label for="titulo">Título da Produção (Obrigatório):</label>
+                    <input type="text" id="titulo" name="titulo" required placeholder="Ex: Ciência e Café: Entrevista com a Professora Maria">
                 </div>
 
                 <div class="form-group">
-                    <label for="audio_file">Selecione o Arquivo (.mp3, .wav):</label>
-                    <input type="file" id="audio_file" name="audio_file" accept="audio/*" required>
+                    <label for="autoria">Créditos e Autoria:</label>
+                    <input type="text" id="autoria" name="autoria" placeholder="Nome do(s) estudante(s), Projeto ou Grupo responsável.">
+                </div>
+                
+                <div class="form-group simple-file-upload">
+                    <label>Arquivo de Áudio (.mp3, .wav):</label>
+                    <div class="file-input-wrapper">
+                        <label for="audio_file" class="custom-file-button">
+                            Escolher Arquivo...
+                        </label>
+                        <span class="file-name-display">Nenhum arquivo selecionado</span>
+                        <input type="file" id="audio_file" name="audio_file" accept="audio/mp3, audio/wav, audio/mpeg" required>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="tipo_audio">Tipo de Conteúdo:</label>
+                    <label for="tipo_audio">Tipo de Conteúdo (Obrigatório):</label>
                     <select id="tipo_audio" name="tipo_audio" required>
-                        <option value="">Selecione...</option>
-                        <option value="1">Música Original</option>
-                        <option value="2">Podcast / Programa</option>
-                        <option value="3">Outra Gravação</option>
+                        <option value="">Selecione o Gênero da sua Produção...</option>
+                        <option value="podcast">Podcast / Programa de Rádio</option>
+                        <option value="musica">Música Original / Trilha Sonora</option>
+                        <option value="relato">Relato de Experiência / Entrevista</option>
+                        <option value="dramatizacao">Apresentação Teatral / Dramatização</option>
+                        <option value="outros">Outros Formatos Sonoros</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="legenda">Legenda da Publicação:</label>
-                    <textarea id="legenda" name="legenda" placeholder="Conte mais sobre o seu áudio..."></textarea>
+                    <label for="legenda">Sinopse da Publicação:</label>
+                    <textarea id="legenda" name="legenda" placeholder="Descreva brevemente o que é o seu áudio, quais tópicos ele aborda e seu objetivo. (Máx. 500 caracteres)"></textarea>
                 </div>
                 
-                <button type="submit" class="btn-submit">Publicar no Repositório</button>
-            </div>
-
-            <div class="preview-box">
-                <span class="preview-icon">▶️</span>
-                <h3>Pré-visualização do Card</h3>
-                <p>Aqui aparecerá uma pré-visualização de como o seu áudio será exibido na Linha do Tempo e no Perfil.</p>
-                <p style="margin-top: 15px; font-weight: bold;">**Título do Áudio**</p>
-                <p style="font-size: 0.8em; color: var(--cor-cabecalho);">Nome do Usuário</p>
+                <button type="submit" class="btn-submit">Publicar no Repositório IFonias</button>
             </div>
         </form>
     </div>

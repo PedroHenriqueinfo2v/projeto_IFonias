@@ -40,7 +40,7 @@
                 </p>
             </div>
             <div class="card-footer">
-                <a href="#" class="btn-comentarios">💬 15 Comentários</a>
+                <a href="javascript:void(0)" class="btn-comentarios" onclick="openModal('A Crise do Segundo Ano (Podcast)', 'Maria Eduarda (TI)')">💬 15 Comentários</a>
                 <button class="btn-curtir">❤️ 42 Curtidas</button>
             </div>
         </div>
@@ -62,10 +62,89 @@
                 <p class="legenda">Minha primeira música eletrônica. Ideal para codar ou estudar física!</p>
             </div>
             <div class="card-footer">
-                <a href="#" class="btn-comentarios">💬 3 Comentários</a>
+                <a href="javascript:void(0)" class="btn-comentarios" onclick="openModal('Trilha Lofi #1 - Para Estudar', 'João V. (Mecânica)')">💬 3 Comentários</a>
                 <button class="btn-curtir">❤️ 105 Curtidas</button>
             </div>
         </div>
     </div>
+    
+    
+    <div id="commentsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">×</span>
+            <h2>Comentários</h2>
+            
+            <div class="audio-summary-modal">
+                <span class="summary-icon">🎧</span>
+                <p class="summary-title" id="modalAudioTitle">Título do Áudio Selecionado</p>
+                <p class="summary-meta" id="modalAudioAuthor">Por: Autor(a) / Curso</p>
+            </div>
+            
+            <div id="commentsList" class="comments-list">
+                <div class="comment-item">
+                    <p class="comment-meta">**Aluno A (Mecânica)** - 1h atrás</p>
+                    <p class="comment-text">Me identifiquei muito com a pressão do segundo ano!</p>
+                </div>
+                 <div class="comment-item">
+                    <p class="comment-meta">**Aluno B (Química)** - 30 min atrás</p>
+                    <p class="comment-text">Ótima iniciativa, parabéns!</p>
+                </div>
+            </div>
+            
+            <div class="comment-form-container">
+                <h3>Adicionar Comentário</h3>
+                <textarea id="newCommentText" placeholder="Escreva seu comentário aqui..."></textarea>
+                <button onclick="submitComment()">Comentar</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Função para abrir o modal e carregar dados do áudio (simulado)
+        function openModal(audioTitle, audioAuthor) {
+            // Carrega os dados do áudio no cabeçalho do modal
+            document.getElementById('modalAudioTitle').innerText = audioTitle;
+            document.getElementById('modalAudioAuthor').innerText = 'Por: ' + audioAuthor;
+
+            // Exibe o modal
+            document.getElementById('commentsModal').style.display = 'block';
+        }
+
+        // Função para fechar o modal
+        function closeModal() {
+            document.getElementById('commentsModal').style.display = 'none';
+        }
+
+        // Função que simula o envio do comentário
+        function submitComment() {
+            const commentText = document.getElementById('newCommentText').value;
+            if (commentText.trim() === "") {
+                alert("Por favor, escreva um comentário.");
+                return;
+            }
+            
+            // Simulação de adição do comentário à lista
+            const commentsList = document.getElementById('commentsList');
+            const newCommentHTML = `
+                <div class="comment-item">
+                    <p class="comment-meta">**Você (Aluno IFRN)** - Agora</p>
+                    <p class="comment-text">${commentText}</p>
+                </div>
+            `;
+            // Adiciona no topo da lista
+            commentsList.insertAdjacentHTML('afterbegin', newCommentHTML); 
+
+            document.getElementById('newCommentText').value = ''; // Limpa o campo
+            alert("Comentário adicionado. (Atenção: Funcionalidade real exige servidor/banco de dados)");
+        }
+
+        // Fechar o modal se o usuário clicar fora dele
+        window.onclick = function(event) {
+            const modal = document.getElementById('commentsModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
 </body>
 </html>
