@@ -4,12 +4,13 @@
 :root {
     --fundo-pagina: #F8F5F2; 
     --texto-principal: #1C1C1C;
-    --cor-cabecalho: #F26D00; 
-    --cor-titulo: #F2A000; 
+    --cor-cabecalho: #F26D00; /* Laranja IFRN */
+    --cor-titulo: #F2A000; /* Amarelo/Ouro */
     
     --cor-card-fundo: #ffffff; 
     --cor-borda: #E0E0E0;
     --cor-texto-secundario: #666;
+    --cor-sucesso: #28a745; 
     --borda-radius: 10px;
     --sombra-leve: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
@@ -29,16 +30,40 @@ body {
     padding: 0 15px;
 }
 
-/* Navbar CSS (Repetido para consistência) */
+/* ======================== 
+   NAVEGAÇÃO (NAVBAR) - MELHORADA
+   ======================== */
 .navbar {
     background: linear-gradient(90deg, var(--cor-cabecalho), #ff9900);
     padding: 12px 0;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }
 
+.nav-main-layout {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    max-width: 1200px; 
+    margin: 0 auto;
+}
+
+.navbar-logo {
+    color: white;
+    text-decoration: none;
+    font-size: 1.8em;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+}
+
+.logo-icon {
+    font-size: 1.2em;
+    margin-right: 8px;
+}
+
 .navbar-nav {
     display: flex;
-    justify-content: center;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -55,39 +80,68 @@ body {
     border: 1px solid transparent;
 }
 
-.nav-item a:hover {
-    background-color: transparent;
+.nav-item a:hover, .nav-item.active a {
+    background-color: rgba(255, 255, 255, 0.15); 
     border-color: white;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     transform: translateY(-1px);
 }
 
-/* Título */
+.nav-actions {
+    display: flex;
+    align-items: center;
+}
+
+.btn-perfil {
+    background-color: var(--cor-titulo); 
+    color: var(--texto-principal);
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-weight: 700;
+    transition: all 0.3s;
+    white-space: nowrap; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn-perfil:hover {
+    background-color: white;
+    color: var(--cor-cabecalho);
+}
+
+/* ======================== 
+   TÍTULO E INTRODUÇÃO
+   ======================== */
 h1 {
     color: var(--cor-cabecalho);
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 5px; 
     font-weight: 800;
     font-size: 2.5em;
 }
 
-/* Estilo do Formulário (Grid com Preview) */
+.intro-text {
+    text-align: center;
+    color: var(--cor-texto-secundario);
+    font-size: 1.05em;
+    margin-bottom: 30px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ======================== 
+   FORMULÁRIO DE UPLOAD
+   ======================== */
 .form-upload {
+    display: block; 
+    max-width: 600px; 
+    margin: 40px auto; 
+    
     background-color: var(--cor-card-fundo);
     padding: 40px;
     border-radius: var(--borda-radius);
     box-shadow: var(--sombra-leve);
-    border: none;
-    transition: box-shadow 0.3s ease;
-    
-    display: grid;
-    grid-template-columns: 2fr 1fr; 
-    gap: 30px;
-    align-items: start;
-}
-
-.form-fields {
-    grid-column: 1 / 2;
 }
 
 .form-group {
@@ -103,8 +157,7 @@ h1 {
 
 .form-group input[type="text"],
 .form-group textarea,
-.form-group select,
-.form-group input[type="file"] {
+.form-group select {
     width: 100%;
     padding: 12px;
     border: 1px solid var(--cor-borda);
@@ -128,6 +181,7 @@ h1 {
     min-height: 120px;
 }
 
+/* Botão de Envio */
 .btn-submit {
     background: linear-gradient(90deg, var(--cor-cabecalho), #ff9900);
     color: white;
@@ -149,64 +203,101 @@ h1 {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
 }
 
-/* Preview Box (Lateral) */
-.preview-box {
-    grid-column: 2 / 3;
-    padding: 20px;
-    background-color: var(--fundo-pagina);
-    border-radius: var(--borda-radius);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border: 2px solid var(--cor-borda-leve);
-    text-align: center;
-    height: 100%;
+/* ======================== 
+   ESTILO SIMPLIFICADO DE INPUT DE ARQUIVO
+   ======================== */
+
+.file-input-wrapper {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    transition: transform 0.3s ease, border-color 0.3s;
+    gap: 15px;
 }
 
-.preview-box:hover {
-    border-color: var(--cor-cabecalho);
-    transform: scale(1.02);
+.simple-file-upload input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
 }
 
-.preview-box h3 {
-    color: var(--cor-titulo);
-    font-size: 1.2em;
-    margin-bottom: 10px;
+.custom-file-button {
+    background-color: var(--cor-cabecalho);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s;
+    white-space: nowrap; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.preview-box p {
+.custom-file-button:hover {
+    background-color: #ff9900;
+    transform: translateY(-1px);
+}
+
+.file-name-display {
     color: var(--cor-texto-secundario);
-    font-size: 0.9em;
-}
-
-.preview-icon {
-    font-size: 3.5em;
-    color: var(--cor-cabecalho);
-    animation: pulse 1.5s infinite alternate;
-}
-
-@keyframes pulse {
-    from {
-        opacity: 0.8;
-        transform: scale(1);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1.05);
-    }
+    font-size: 0.95em;
+    flex-grow: 1; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
-    .form-upload {
-        grid-template-columns: 1fr;
+    /* Navbar Responsiva */
+    .nav-main-layout {
+        flex-direction: column; 
+        align-items: center;
+        gap: 10px;
+        text-align: center;
     }
-    .preview-box {
-        grid-column: 1 / 2;
-        order: -1; 
-        height: auto;
+    
+    .navbar-logo {
+        margin-bottom: 5px;
+    }
+
+    .navbar-nav {
+        width: 100%;
+        justify-content: space-around;
+        order: 3; 
+    }
+    
+    .nav-actions {
+        width: 100%;
+        justify-content: center;
+        order: 2;
+    }
+    
+    /* Formulário Responsivo */
+    .container {
+        margin-top: 20px; 
+    }
+    
+    .form-upload {
+        padding: 25px;
+        margin: 20px auto;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    .file-input-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .custom-file-button {
+        width: 100%;
+        text-align: center;
     }
 }
