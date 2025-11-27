@@ -32,7 +32,7 @@ body {
 }
 
 /* ======================== 
-   NAVEGAÇÃO (NAVBAR)
+   NAVEGAÇÃO (NAVBAR) - MELHORADA
    ======================== */
 .navbar {
     background: linear-gradient(90deg, var(--cor-cabecalho), #ff9900);
@@ -40,9 +40,33 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }
 
+.nav-main-layout {
+    display: flex;
+    justify-content: space-between; /* Distribui espaço entre os itens */
+    align-items: center;
+    max-width: 1200px; /* Alarga o layout no desktop */
+    margin: 0 auto;
+}
+
+/* 1. Logo */
+.navbar-logo {
+    color: white;
+    text-decoration: none;
+    font-size: 1.8em;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+}
+
+.logo-icon {
+    font-size: 1.2em;
+    margin-right: 8px;
+}
+
+/* 2. Links Principais */
 .navbar-nav {
     display: flex;
-    justify-content: center;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -59,11 +83,34 @@ body {
     border: 1px solid transparent;
 }
 
-.nav-item a:hover {
-    background-color: transparent;
+.nav-item a:hover, .nav-item.active a {
+    background-color: rgba(255, 255, 255, 0.15); 
     border-color: white;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     transform: translateY(-1px);
+}
+
+/* 3. Ações (Botão Perfil - Link) */
+.nav-actions {
+    display: flex;
+    align-items: center;
+}
+
+.btn-perfil {
+    background-color: var(--cor-titulo); /* Amarelo */
+    color: var(--texto-principal);
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-weight: 700;
+    transition: all 0.3s;
+    white-space: nowrap; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn-perfil:hover {
+    background-color: white;
+    color: var(--cor-cabecalho);
 }
 
 /* TÍTULO H1 */
@@ -102,7 +149,6 @@ h1 {
     transform: translateY(-3px); 
 }
 
-/* Header */
 .autor-link {
     font-weight: 800;
     font-size: 1.15em; 
@@ -122,7 +168,6 @@ h1 {
     font-style: italic;
 }
 
-/* Player Container */
 .player-container {
     grid-area: player;
     padding: 15px;
@@ -136,7 +181,6 @@ h1 {
     width: 100%;
 }
 
-/* Corpo do Card */
 .card-body {
     grid-area: body;
     padding-right: 30px;
@@ -154,7 +198,6 @@ h1 {
     font-size: 1.0em;
 }
 
-/* Footer (Interações) */
 .card-footer {
     grid-area: footer;
     border-top: 2px solid var(--cor-borda-leve);
@@ -187,8 +230,169 @@ h1 {
     transform: scale(1.05);
 }
 
-/* Responsividade */
+/* ======================== 
+   MODAL DE COMENTÁRIOS (Estilos repetidos em perfil.css)
+   ======================== */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.6); 
+}
+
+.modal-content {
+    background-color: var(--cor-card-fundo);
+    margin: 5% auto; 
+    padding: 30px;
+    border-radius: var(--borda-radius);
+    width: 90%; 
+    max-width: 600px; 
+    box-shadow: var(--sombra-leve);
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(-20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+.close-button {
+    color: var(--cor-texto-secundario);
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: var(--cor-cabecalho);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.audio-summary-modal {
+    background-color: var(--fundo-pagina);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.summary-icon {
+    font-size: 2em;
+    color: var(--cor-titulo);
+}
+
+.summary-title {
+    font-weight: 700;
+    color: var(--texto-principal);
+    margin: 0;
+}
+
+.summary-meta {
+    font-size: 0.9em;
+    color: var(--cor-texto-secundario);
+    margin: 0;
+}
+
+.comments-list {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 10px;
+    margin-bottom: 20px;
+}
+
+.comment-item {
+    border-bottom: 1px solid var(--cor-borda-leve);
+    padding: 10px 0;
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+}
+
+.comment-meta {
+    font-size: 0.9em;
+    color: var(--cor-cabecalho);
+    font-weight: 700;
+    margin: 0 0 5px 0;
+}
+
+.comment-text {
+    margin: 0 0 10px 0;
+    color: var(--texto-principal);
+}
+
+.comment-form-container h3 {
+    font-size: 1.2em;
+    color: var(--texto-principal);
+    margin: 15px 0 10px 0;
+}
+
+.comment-form-container textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    border: 1px solid var(--cor-borda-leve);
+    border-radius: 8px;
+    resize: vertical;
+    box-sizing: border-box;
+    font-family: inherit;
+    margin-bottom: 10px;
+}
+
+.comment-form-container button {
+    background-color: var(--cor-titulo);
+    color: var(--texto-principal);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.comment-form-container button:hover {
+    background-color: #ffd700;
+}
+
+/* ======================== 
+   RESPONSIVIDADE
+   ======================== */
 @media (max-width: 768px) {
+    /* Navbar Responsiva */
+    .nav-main-layout {
+        flex-direction: column; 
+        align-items: center;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .navbar-logo {
+        margin-bottom: 5px;
+    }
+
+    .navbar-nav {
+        width: 100%;
+        justify-content: space-around;
+        order: 3; /* Move links para baixo */
+    }
+    
+    .nav-actions {
+        width: 100%;
+        justify-content: center;
+        order: 2; /* Move botão perfil para o meio */
+    }
+    
+    /* Card de Áudio Responsivo */
     .card-audio {
         grid-template-areas: 
             "header header"

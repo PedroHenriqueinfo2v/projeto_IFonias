@@ -3,17 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repositório Digital IFCM - Linha do Tempo</title>
+    <title>Repositório IFonias - Linha do Tempo</title>
     <link rel="stylesheet" href="static/css/timeline.css">
 </head>
 <body>
     <header class="navbar">
-        <nav class="container">
+        <nav class="container nav-main-layout">
+            
+            <a href="timeline.html" class="navbar-logo">
+                <span class="logo-icon">🎧</span> IFonias
+            </a>
+            
             <ul class="navbar-nav">
-                <li class="nav-item"><a href="timeline.html">Linha do Tempo</a></li>
-                <li class="nav-item"><a href="upload.html">Publicar Novo Áudio</a></li>
-                <li class="nav-item"><a href="perfil.html">Meu Perfil</a></li> 
+                <li class="nav-item active"><a href="timeline.html">Linha do Tempo</a></li> 
+                <li class="nav-item"><a href="upload.html">Publicar Áudio</a></li>
             </ul>
+
+            <div class="nav-actions">
+                <a href="perfil.html" class="btn-perfil">👤 Meu Perfil</a> 
+            </div>
         </nav>
     </header>
 
@@ -40,7 +48,7 @@
                 </p>
             </div>
             <div class="card-footer">
-                <a href="#" class="btn-comentarios">💬 15 Comentários</a>
+                <a href="javascript:void(0)" class="btn-comentarios" onclick="openModal('A Crise do Segundo Ano (Podcast)', 'Maria Eduarda (TI)')">💬 15 Comentários</a>
                 <button class="btn-curtir">❤️ 42 Curtidas</button>
             </div>
         </div>
@@ -62,10 +70,80 @@
                 <p class="legenda">Minha primeira música eletrônica. Ideal para codar ou estudar física!</p>
             </div>
             <div class="card-footer">
-                <a href="#" class="btn-comentarios">💬 3 Comentários</a>
+                <a href="javascript:void(0)" class="btn-comentarios" onclick="openModal('Trilha Lofi #1 - Para Estudar', 'João V. (Mecânica)')">💬 3 Comentários</a>
                 <button class="btn-curtir">❤️ 105 Curtidas</button>
             </div>
         </div>
     </div>
+    
+    
+    <div id="commentsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">×</span>
+            <h2>Comentários</h2>
+            
+            <div class="audio-summary-modal">
+                <span class="summary-icon">🎧</span>
+                <p class="summary-title" id="modalAudioTitle">Título do Áudio Selecionado</p>
+                <p class="summary-meta" id="modalAudioAuthor">Por: Autor(a) / Curso</p>
+            </div>
+            
+            <div id="commentsList" class="comments-list">
+                <div class="comment-item">
+                    <p class="comment-meta">**Aluno A (Mecânica)** - 1h atrás</p>
+                    <p class="comment-text">Me identifiquei muito com a pressão do segundo ano!</p>
+                </div>
+                 <div class="comment-item">
+                    <p class="comment-meta">**Aluno B (Química)** - 30 min atrás</p>
+                    <p class="comment-text">Ótima iniciativa, parabéns!</p>
+                </div>
+            </div>
+            
+            <div class="comment-form-container">
+                <h3>Adicionar Comentário</h3>
+                <textarea id="newCommentText" placeholder="Escreva seu comentário aqui..."></textarea>
+                <button onclick="submitComment()">Comentar</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function openModal(audioTitle, audioAuthor) {
+            document.getElementById('modalAudioTitle').innerText = audioTitle;
+            document.getElementById('modalAudioAuthor').innerText = 'Por: ' + audioAuthor;
+            document.getElementById('commentsModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('commentsModal').style.display = 'none';
+        }
+
+        function submitComment() {
+            const commentText = document.getElementById('newCommentText').value;
+            if (commentText.trim() === "") {
+                alert("Por favor, escreva um comentário.");
+                return;
+            }
+            
+            const commentsList = document.getElementById('commentsList');
+            const newCommentHTML = `
+                <div class="comment-item">
+                    <p class="comment-meta">**Você (Aluno IFRN)** - Agora</p>
+                    <p class="comment-text">${commentText}</p>
+                </div>
+            `;
+            commentsList.insertAdjacentHTML('afterbegin', newCommentHTML); 
+
+            document.getElementById('newCommentText').value = ''; 
+            alert("Comentário adicionado. (Atenção: Funcionalidade real exige servidor/banco de dados)");
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('commentsModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
 </body>
 </html>
