@@ -16,7 +16,7 @@
             
             <ul class="navbar-nav">
                 <li class="nav-item"><a href="timeline.html">Linha do Tempo</a></li>
-                <li class="nav-item"><a href="upload.html">Publicar Áudio</a></li>
+                <li class="nav-item"><a href="upload.html">Publicar Novo Áudio</a></li>
             </ul>
 
             <div class="nav-actions">
@@ -28,111 +28,78 @@
     <div class="container">
         <div class="perfil-header">
             <div class="perfil-cover-bg"></div> 
-            <div class="perfil-info-box">
-                <div class="perfil-avatar"></div> 
+            
+            <div class="perfil-info-box" data-profile-id="123"> 
+                
+                <div class="perfil-avatar" style="background-image: url('static/img/avatar_exemplo.png');"></div> 
                 <h2 class="perfil-nome">Nome do Aluno Exemplo</h2>
                 <p class="perfil-meta">Curso: TADS | Campus: Mossoró | 52 Seguidores</p>
-                <button class="btn-follow">Seguir</button>
+                
+                <button class="btn-follow" id="btn-follow-toggle">Seguir</button>
             </div>
         </div>
 
-        <h3 class="perfil-titulo-audios">Áudios Publicados</h3>
+        <h3 class="perfil-titulo-audios">💿 Áudios Publicados</h3>
 
         <div class="publicacoes-grid">
             
-            <a href="javascript:void(0)" class="audio-card-grid" onclick="openModal('Trilha Sonora para Estudar', 'Aluno Exemplo')">
+            <a href="#" class="audio-card-grid">
                 <div class="audio-cover-grid" style="background: linear-gradient(135deg, #F2A000, #ffc733);"></div>
                 <p class="audio-title-grid">Trilha Sonora para Estudar</p>
                 <p class="audio-meta-grid">Publicado em 20/Out</p>
             </a>
 
-            <a href="javascript:void(0)" class="audio-card-grid" onclick="openModal('Dicas de Python', 'Aluno Exemplo')">
-                <div class="audio-cover-grid" style="background: linear-gradient(135deg, #F26D00, #ff9900);"></div>
-                <p class="audio-title-grid">Dicas de Python</p>
+            <a href="#" class="audio-card-grid">
+                <div class="audio-cover-grid" style="background: linear-gradient(135deg, #00A0F2, #33c7ff);"></div>
+                <p class="audio-title-grid">Dicas Essenciais de Produtividade</p>
+                <p class="audio-meta-grid">Publicado em 18/Out</p>
+            </a>
+
+            <a href="#" class="audio-card-grid">
+                <div class="audio-cover-grid" style="background: linear-gradient(135deg, #9400D3, #C71585);"></div>
+                <p class="audio-title-grid">Entrevista sobre TCC</p>
                 <p class="audio-meta-grid">Publicado em 15/Out</p>
             </a>
 
-            <a href="javascript:void(0)" class="audio-card-grid" onclick="openModal('Entrevista IFRN', 'Aluno Exemplo')">
-                <div class="audio-cover-grid" style="background: linear-gradient(135deg, #7451eb, #a287ff);"></div>
-                <p class="audio-title-grid">Entrevista com Ex-Aluno IFRN</p>
-                <p class="audio-meta-grid">Publicado em 01/Out</p>
+            <a href="#" class="audio-card-grid">
+                <div class="audio-cover-grid" style="background: linear-gradient(135deg, #228B22, #3CB371);"></div>
+                <p class="audio-title-grid">Análise de Dados</p>
+                <p class="audio-meta-grid">Publicado em 10/Out</p>
             </a>
             
-            <a href="javascript:void(0)" class="audio-card-grid" onclick="openModal('Projeto EXPOTEC 2024', 'Aluno Exemplo')">
-                <div class="audio-cover-grid" style="background: linear-gradient(135deg, #28a745, #5cb85c);"></div>
-                <p class="audio-title-grid">Projeto EXPOTEC 2024</p>
-                <p class="audio-meta-grid">Publicado em 20/Set</p>
-            </a>
+            </div>
+    </div>
 
-        </div>
-    </div>
-    
-    
-    <div id="commentsModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeModal()">×</span>
-            <h2>Comentários</h2>
-            
-            <div class="audio-summary-modal">
-                <span class="summary-icon">🎧</span>
-                <p class="summary-title" id="modalAudioTitle">Título do Áudio Selecionado</p>
-                <p class="summary-meta" id="modalAudioAuthor">Por: Autor(a) / Curso</p>
-            </div>
-            
-            <div id="commentsList" class="comments-list">
-                <div class="comment-item">
-                    <p class="comment-meta">**Aluno C (TADS)** - 1h atrás</p>
-                    <p class="comment-text">Muito útil para estudar!</p>
-                </div>
-                 <div class="comment-item">
-                    <p class="comment-meta">**Professor D** - 30 min atrás</p>
-                    <p class="comment-text">Parabéns pelo excelente projeto.</p>
-                </div>
-            </div>
-            
-            <div class="comment-form-container">
-                <h3>Adicionar Comentário</h3>
-                <textarea id="newCommentText" placeholder="Escreva seu comentário aqui..."></textarea>
-                <button onclick="submitComment()">Comentar</button>
-            </div>
-        </div>
-    </div>
-    
     <script>
-        function openModal(audioTitle, audioAuthor) {
-            document.getElementById('modalAudioTitle').innerText = audioTitle;
-            document.getElementById('modalAudioAuthor').innerText = 'Por: ' + audioAuthor;
-            document.getElementById('commentsModal').style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('commentsModal').style.display = 'none';
-        }
-
-        function submitComment() {
-            const commentText = document.getElementById('newCommentText').value;
-            if (commentText.trim() === "") {
-                alert("Por favor, escreva um comentário.");
-                return;
-            }
+        // -----------------------------------------------------------
+        // 1. Variáveis Chave que devem ser preenchidas pelo Java (Back-end)
+        // -----------------------------------------------------------
+        
+        // ESTE É O ID DO USUÁRIO QUE ESTÁ LOGADO NO SISTEMA.
+        // Em Java (JSP/Thymeleaf), você preencheria isso assim: 
+        // const USER_LOGGED_IN_ID = <%= session.getAttribute("userId") %>;
+        const USER_LOGGED_IN_ID = 123; 
+        
+        // -----------------------------------------------------------
+        // 2. Lógica de Ocultação do Botão
+        // -----------------------------------------------------------
+        
+        const perfilInfoBox = document.querySelector('.perfil-info-box');
+        const followButton = document.getElementById('btn-follow-toggle');
+        
+        if (perfilInfoBox && followButton) {
+            // Obtém o ID do perfil que está sendo visualizado (do atributo data-profile-id)
+            const PROFILE_BEING_VIEWED_ID = parseInt(perfilInfoBox.getAttribute('data-profile-id'));
             
-            const commentsList = document.getElementById('commentsList');
-            const newCommentHTML = `
-                <div class="comment-item">
-                    <p class="comment-meta">**Você (Aluno IFRN)** - Agora</p>
-                    <p class="comment-text">${commentText}</p>
-                </div>
-            `;
-            commentsList.insertAdjacentHTML('afterbegin', newCommentHTML); 
-
-            document.getElementById('newCommentText').value = ''; 
-            alert("Comentário adicionado. (Atenção: Funcionalidade real exige servidor/banco de dados)");
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('commentsModal');
-            if (event.target == modal) {
-                closeModal();
+            // Compara os IDs (IMPORTANTE: Use números inteiros para a comparação)
+            if (USER_LOGGED_IN_ID === PROFILE_BEING_VIEWED_ID) {
+                // Se os IDs forem iguais, é o perfil do próprio usuário.
+                followButton.style.display = 'none'; // Oculta o botão 'Seguir'.
+            } else {
+                // Se os IDs forem diferentes, é um perfil de terceiro.
+                followButton.style.display = 'block'; // Garante que o botão 'Seguir' esteja visível.
+                // Aqui você adicionaria uma lógica extra para verificar se o usuário JÁ segue este perfil
+                // e trocar o texto para "Deixar de Seguir" (Unfollow).
             }
         }
     </script>

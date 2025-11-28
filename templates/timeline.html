@@ -48,8 +48,8 @@
                 </p>
             </div>
             <div class="card-footer">
-                <a href="javascript:void(0)" class="btn-comentarios" onclick="openModal('A Crise do Segundo Ano (Podcast)', 'Maria Eduarda (TI)')">💬 15 Comentários</a>
-                <button class="btn-curtir">❤️ 42 Curtidas</button>
+                <a href="javascript:void(0)" class="btn-comentarios" onclick="openCommentsModal('A Crise do Segundo Ano (Podcast)', 'Maria Eduarda (TI)')">💬 15 Comentários</a>
+                <button class="btn-curtir" onclick="openLikesModal('A Crise do Segundo Ano (Podcast)', 42)">❤️ 42 Curtidas</button>
             </div>
         </div>
 
@@ -70,8 +70,8 @@
                 <p class="legenda">Minha primeira música eletrônica. Ideal para codar ou estudar física!</p>
             </div>
             <div class="card-footer">
-                <a href="javascript:void(0)" class="btn-comentarios" onclick="openModal('Trilha Lofi #1 - Para Estudar', 'João V. (Mecânica)')">💬 3 Comentários</a>
-                <button class="btn-curtir">❤️ 105 Curtidas</button>
+                <a href="javascript:void(0)" class="btn-comentarios" onclick="openCommentsModal('Trilha Lofi #1 - Para Estudar', 'João V. (Mecânica)')">💬 3 Comentários</a>
+                <button class="btn-curtir" onclick="openLikesModal('Trilha Lofi #1 - Para Estudar', 105)">❤️ 105 Curtidas</button>
             </div>
         </div>
     </div>
@@ -79,7 +79,7 @@
     
     <div id="commentsModal" class="modal">
         <div class="modal-content">
-            <span class="close-button" onclick="closeModal()">×</span>
+            <span class="close-button" onclick="closeModal('commentsModal')">×</span>
             <h2>Comentários</h2>
             
             <div class="audio-summary-modal">
@@ -107,15 +107,46 @@
         </div>
     </div>
     
+    <div id="likesModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('likesModal')">×</span>
+            <h2 id="likesModalTitle">Curtidas</h2>
+            
+            <div class="audio-summary-modal">
+                <span class="summary-icon">❤️</span>
+                <p class="summary-title" id="likesAudioTitle">Título do Áudio Selecionado</p>
+                <p class="summary-meta" id="likesCount">Total: 42 Curtidas</p>
+            </div>
+            
+            <div id="likesList" class="comments-list">
+                <div class="comment-item"><p class="comment-meta">**Aluno F (TI)**</p></div>
+                <div class="comment-item"><p class="comment-meta">**Professor G**</p></div>
+                <div class="comment-item"><p class="comment-meta">**Aluno H (Mecânica)**</p></div>
+                <div class="comment-item"><p class="comment-meta">**Aluno I (Química)**</p></div>
+                <div class="comment-item"><p class="comment-meta">**Aluno J (TADS)**</p></div>
+                <div class="comment-item"><p class="comment-meta">**Aluno K (TI)**</p></div>
+                <div class="comment-item"><p class="comment-meta">**Professor L**</p></div>
+                <div class="comment-item"><p class="comment-meta">**Aluno M (Mecânica)**</p></div>
+                </div>
+        </div>
+    </div>
+    
     <script>
-        function openModal(audioTitle, audioAuthor) {
+        function openCommentsModal(audioTitle, audioAuthor) {
             document.getElementById('modalAudioTitle').innerText = audioTitle;
             document.getElementById('modalAudioAuthor').innerText = 'Por: ' + audioAuthor;
             document.getElementById('commentsModal').style.display = 'block';
         }
 
-        function closeModal() {
-            document.getElementById('commentsModal').style.display = 'none';
+        // NOVA FUNÇÃO: Abrir Modal de Curtidas
+        function openLikesModal(audioTitle, count) {
+            document.getElementById('likesAudioTitle').innerText = audioTitle;
+            document.getElementById('likesCount').innerText = `Total: ${count} Curtidas`;
+            document.getElementById('likesModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
         }
 
         function submitComment() {
@@ -139,9 +170,13 @@
         }
 
         window.onclick = function(event) {
-            const modal = document.getElementById('commentsModal');
-            if (event.target == modal) {
-                closeModal();
+            const commentsModal = document.getElementById('commentsModal');
+            const likesModal = document.getElementById('likesModal');
+            if (event.target == commentsModal) {
+                closeModal('commentsModal');
+            }
+            if (event.target == likesModal) {
+                closeModal('likesModal');
             }
         }
     </script>

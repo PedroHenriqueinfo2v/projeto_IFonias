@@ -31,7 +31,7 @@ body {
 }
 
 /* ======================== 
-   NAVEGAÇÃO (NAVBAR)
+   NAVEGAÇÃO (NAVBAR) - Estrutura de 3 Colunas
    ======================== */
 .navbar {
     background: linear-gradient(90deg, var(--cor-cabecalho), #ff9900);
@@ -82,8 +82,8 @@ body {
     border: 1px solid transparent;
 }
 
-.nav-item a:hover, .nav-item.active a {
-    background-color: rgba(255, 255, 255, 0.15); 
+.nav-item a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
     border-color: white;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     transform: translateY(-1px);
@@ -95,7 +95,7 @@ body {
     align-items: center;
 }
 
-/* Estilo Base para o botão/indicador */
+/* Estilo Base para o indicador de perfil */
 .btn-perfil {
     background-color: var(--cor-titulo); 
     color: var(--texto-principal);
@@ -105,15 +105,20 @@ body {
     transition: all 0.3s;
     white-space: nowrap; 
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    display: block; /* Garante que <span> se comporte como bloco para padding */
+    display: block;
 }
 
-/* ESTILO ESPECÍFICO DE ATIVO/ESTÁTICO NO PERFIL.HTML */
+/* ESTILO ESPECÍFICO DE ATIVO/ESTÁTICO (NO PERFIL.HTML) */
 .btn-perfil.static-active {
-    background-color: white; /* Fundo branco para indicar que está ativo */
+    background-color: white; 
     color: var(--cor-cabecalho);
     cursor: default; /* Remove o ponteiro de link */
-    transform: none; /* Garante que não haja animação/hover */
+    transform: none; 
+}
+/* Garante que o indicador estático não tenha efeitos de hover */
+.btn-perfil.static-active:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+    background-color: white;
 }
 
 
@@ -161,6 +166,10 @@ body {
     border-radius: 50%;
     margin: 0 auto 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    /* Estilos para Imagem de Perfil */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .perfil-nome {
@@ -174,24 +183,6 @@ body {
     color: var(--cor-texto-secundario);
     font-size: 1.1em;
     margin-bottom: 15px;
-}
-
-.btn-follow {
-    background-color: var(--cor-cabecalho);
-    color: white;
-    padding: 10px 25px;
-    border: none;
-    border-radius: 50px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-}
-
-.btn-follow:hover {
-    background-color: var(--cor-titulo);
-    transform: translateY(-2px);
-    box-shadow: var(--sombra-interativa);
 }
 
 /* ======================== 
@@ -208,8 +199,9 @@ body {
 }
 
 .publicacoes-grid {
+    /* MUDANÇA AQUI: Reduzido o minmax de 140px para 100px para caber mais itens por linha */
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 30px;
     text-align: center;
 }
@@ -257,178 +249,4 @@ body {
     color: var(--cor-texto-secundario);
     font-size: 0.9em;
     margin: 0;
-}
-
-/* ======================== 
-   MODAL DE COMENTÁRIOS
-   ======================== */
-.modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1000; 
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgba(0, 0, 0, 0.6); 
-}
-
-.modal-content {
-    background-color: var(--cor-card-fundo);
-    margin: 5% auto; 
-    padding: 30px;
-    border-radius: var(--borda-radius);
-    width: 90%; 
-    max-width: 600px; 
-    box-shadow: var(--sombra-leve);
-    animation: fadeIn 0.3s;
-}
-
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(-20px);}
-    to {opacity: 1; transform: translateY(0);}
-}
-
-.close-button {
-    color: var(--cor-texto-secundario);
-    float: right;
-    font-size: 30px;
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-.close-button:hover,
-.close-button:focus {
-    color: var(--cor-cabecalho);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.audio-summary-modal {
-    background-color: var(--fundo-pagina);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.summary-icon {
-    font-size: 2em;
-    color: var(--cor-titulo);
-}
-
-.summary-title {
-    font-weight: 700;
-    color: var(--texto-principal);
-    margin: 0;
-}
-
-.summary-meta {
-    font-size: 0.9em;
-    color: var(--cor-texto-secundario);
-    margin: 0;
-}
-
-.comments-list {
-    max-height: 300px;
-    overflow-y: auto;
-    padding-right: 10px;
-    margin-bottom: 20px;
-}
-
-.comment-item {
-    border-bottom: 1px solid var(--cor-borda-leve);
-    padding: 10px 0;
-}
-
-.comment-item:last-child {
-    border-bottom: none;
-}
-
-.comment-meta {
-    font-size: 0.9em;
-    color: var(--cor-cabecalho);
-    font-weight: 700;
-    margin: 0 0 5px 0;
-}
-
-.comment-text {
-    margin: 0 0 10px 0;
-    color: var(--texto-principal);
-}
-
-.comment-form-container h3 {
-    font-size: 1.2em;
-    color: var(--texto-principal);
-    margin: 15px 0 10px 0;
-}
-
-.comment-form-container textarea {
-    width: 100%;
-    min-height: 80px;
-    padding: 10px;
-    border: 1px solid var(--cor-borda-leve);
-    border-radius: 8px;
-    resize: vertical;
-    box-sizing: border-box;
-    font-family: inherit;
-    margin-bottom: 10px;
-}
-
-.comment-form-container button {
-    background-color: var(--cor-titulo);
-    color: var(--texto-principal);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.comment-form-container button:hover {
-    background-color: #ffd700;
-}
-
-/* ======================== 
-   RESPONSIVIDADE
-   ======================== */
-@media (max-width: 768px) {
-    /* Navbar Responsiva */
-    .nav-main-layout {
-        flex-direction: column; 
-        align-items: center;
-        gap: 10px;
-        text-align: center;
-    }
-    
-    .navbar-logo {
-        margin-bottom: 5px;
-    }
-
-    .navbar-nav {
-        width: 100%;
-        justify-content: space-around;
-        order: 3; 
-    }
-    
-    .nav-actions {
-        width: 100%;
-        justify-content: center;
-        order: 2;
-    }
-    
-    /* Perfil Responsivo */
-    .perfil-nome {
-        font-size: 2.2em;
-    }
-    .perfil-meta {
-        font-size: 0.9em;
-    }
-    .publicacoes-grid {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    }
 }
