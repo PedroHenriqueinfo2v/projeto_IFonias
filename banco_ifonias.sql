@@ -18,6 +18,8 @@
 --
 -- Table structure for table `audio`
 --
+create database ifonias_db;
+use ifonias_db;
 
 DROP TABLE IF EXISTS `audio`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
