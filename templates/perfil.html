@@ -9,61 +9,83 @@
 
 <body>
 
-<header class="navbar">
-    <nav class="container nav-main-layout">
+<header class="perfil-header">
 
-        <a href="{{ url_for('timeline') }}" class="navbar-logo">
-            <span class="logo-icon">🎧</span> IFonias
-        </a>
+    <div class="perfil-info-wrapper">
 
-        <ul class="navbar-nav">
-            <li class="nav-item"><a href="{{ url_for('timeline') }}">Linha do Tempo</a></li>
-            <li class="nav-item"><a href="{{ url_for('upload') }}">Publicar Áudio</a></li>
-        </ul>
-
-        <div class="nav-actions">
-            <span class="btn-perfil static-active">👤 Meu Perfil</span>
+        <div class="perfil-avatar">
+            {% if usuario.avatar %}
+                <img src="{{ url_for('static', filename='avatars/' ~ usuario.avatar) }}">
+            {% else %}
+                <img src="{{ url_for('static', filename='img/default_profile.png') }}">
+            {% endif %}
         </div>
 
-    </nav>
+        <div class="perfil-textos">
+            <h1 class="perfil-nome">{{ usuario.nome }}</h1>
+            <p class="perfil-meta">{{ usuario.curso }} • {{ usuario.campus }}</p>
+
+            <a href="{{ url_for('editar_perfil') }}" class="btn-editar-perfil">Editar Perfil</a>
+        </div>
+
+    </div>
+
 </header>
 
 
-<div class="container">
+<div class="perfil-container">
 
-    <div class="perfil-header">
-        <div class="perfil-cover-bg"></div>
-
-        <div class="perfil-info-box" data-profile-id="{{ usuario.id_usuario }}">
-
-            <h2 class="perfil-nome">{{ usuario.nome }}</h2>
-
-            <p class="perfil-meta">
-                Curso: {{ usuario.curso }} | Campus: {{ usuario.campus }}
-            </p>
-
-        </div>
-    </div>
-
-    <h3 class="perfil-titulo-audios">💿 Áudios Publicados</h3>
+    <h2 class="secao-titulo">Suas Publicações</h2>
 
     <div class="publicacoes-grid">
+
         {% for pub in audios %}
-        <a class="audio-card-grid">
+        <div class="audio-card">
 
-            <div class="audio-cover-grid"
-                 style="background: linear-gradient(135deg, #00A0F2, #33c7ff);"></div>
+            <div class="audio-thumb">🎧</div>
 
-            <p class="audio-title-grid">{{ pub.titulo }}</p>
-            <p class="audio-meta-grid">
-                {{ pub.criado_em.strftime('%d/%b') }}
-            </p>
+            <div class="audio-info">
+                <h3>{{ pub.titulo }}</h3>
+                <p class="audio-date">{{ pub.criado_em.strftime('%d/%m/%Y') }}</p>
 
-        </a>
+                <button class="btn-excluir"
+                    onclick="abrirModalDelete(`{{ url_for('deletar_audio', id_audio=pub.id_audio) }}`)">
+                    Excluir
+                </button>
+            </div>
+
+        </div>
         {% endfor %}
+
     </div>
 
 </div>
+
+
+<!-- MODAL -->
+<div id="modalConfirmDelete" class="modal-delete">
+    <div class="modal-delete-content">
+
+        <h2>Excluir Publicação</h2>
+        <p>Tem certeza que deseja excluir este áudio?</p>
+
+        <div class="modal-delete-actions">
+            <button onclick="fecharModalDelete()" class="btn-cancel">Cancelar</button>
+            <a id="deleteConfirmBtn" class="btn-delete">Excluir</a>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function abrirModalDelete(url) {
+    document.getElementById("deleteConfirmBtn").href = url;
+    document.getElementById("modalConfirmDelete").style.display = "flex";
+}
+function fecharModalDelete() {
+    document.getElementById("modalConfirmDelete").style.display = "none";
+}
+</script>
 
 </body>
 </html>

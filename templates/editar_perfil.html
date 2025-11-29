@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Perfil</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/editar_perfil.css') }}">
+</head>
+<body>
+
+<div class="edit-box">
+
+    <h1>Editar Perfil ✏</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <label>Nome:</label>
+        <input type="text" name="nome" value="{{ usuario.nome }}" required>
+
+        <label>Usuário:</label>
+        <input type="text" name="usuario" value="{{ usuario.usuario }}" required>
+
+        <label>Curso:</label>
+        <input type="text" name="curso" value="{{ usuario.curso }}" required>
+
+        <label>Campus:</label>
+        <input type="text" name="campus" value="{{ usuario.campus }}" required>
+
+        <label>Foto de Perfil:</label>
+        <input type="file" name="avatar" accept="image/*">
+
+        {% if usuario.avatar %}
+        <p class="preview-label">Avatar atual:</p>
+        <img src="{{ url_for('static', filename='avatars/' ~ usuario.avatar) }}" class="avatar-preview">
+        {% endif %}
+
+        <button type="submit">Salvar</button>
+    </form>
+
+    <a href="{{ url_for('perfil') }}" class="link-voltar">Cancelar</a>
+
+</div>
+
+</body>
+</html>

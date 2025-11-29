@@ -1,25 +1,33 @@
-/* Conteúdo de timeline.css */
-/* ======================== 
+/* timeline.css — versão PRO (Flex layout) */
+
+/* ========================
    VARIÁVEIS - MODO CLARO REFINADO
    ======================== */
 :root {
-    --fundo-pagina: #F8F5F2; 
+    --fundo-pagina: #F8F5F2;
     --texto-principal: #1C1C1C;
-    --cor-cabecalho: #F26D00; /* Laranja VIBRANTE */
-    --cor-titulo: #F2A000; /* Amarelo/Ouro */
-    
+    --cor-cabecalho: #F26D00;
+    --cor-titulo: #F2A000;
     --cor-card-fundo: #ffffff;
-    --cor-texto-secundario: #444; 
+    --cor-texto-secundario: #444;
     --cor-borda-leve: #EFEFEF;
     --borda-radius: 10px;
-    --sombra-leve: 0 8px 25px rgba(0, 0, 0, 0.1); 
-    --sombra-interativa: 0 10px 30px rgba(242, 109, 0, 0.3); 
+    --sombra-leve: 0 8px 25px rgba(0, 0, 0, 0.1);
+    --sombra-interativa: 0 10px 30px rgba(242, 109, 0, 0.3);
+    --card-gap: 24px;
+}
+
+/* Box sizing global */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
 /* Base e Layout */
 body {
     background-color: var(--fundo-pagina);
-    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; 
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
     color: var(--texto-principal);
     margin: 0;
     padding: 0;
@@ -32,7 +40,7 @@ body {
     padding: 0 15px;
 }
 
-/* ======================== 
+/* ========================
    NAVEGAÇÃO (NAVBAR) - MELHORADA
    ======================== */
 .navbar {
@@ -43,13 +51,13 @@ body {
 
 .nav-main-layout {
     display: flex;
-    justify-content: space-between; /* Distribui espaço entre os itens */
+    justify-content: space-between;
     align-items: center;
-    max-width: 1200px; /* Alarga o layout no desktop */
+    max-width: 1200px;
     margin: 0 auto;
 }
 
-/* 1. Logo */
+/* Logo */
 .navbar-logo {
     color: white;
     text-decoration: none;
@@ -65,7 +73,7 @@ body {
     margin-right: 8px;
 }
 
-/* 2. Links Principais */
+/* Links Principais */
 .navbar-nav {
     display: flex;
     list-style: none;
@@ -85,27 +93,27 @@ body {
 }
 
 .nav-item a:hover, .nav-item.active a {
-    background-color: rgba(255, 255, 255, 0.15); 
+    background-color: rgba(255, 255, 255, 0.15);
     border-color: white;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     transform: translateY(-1px);
 }
 
-/* 3. Ações (Botão Perfil - Link) */
+/* Ações (Botão Perfil - Link) */
 .nav-actions {
     display: flex;
     align-items: center;
 }
 
 .btn-perfil {
-    background-color: var(--cor-titulo); /* Amarelo */
+    background-color: var(--cor-titulo);
     color: var(--texto-principal);
     text-decoration: none;
     padding: 8px 15px;
     border-radius: 50px;
     font-weight: 700;
     transition: all 0.3s;
-    white-space: nowrap; 
+    white-space: nowrap;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
@@ -116,7 +124,7 @@ body {
 
 /* TÍTULO H1 */
 h1 {
-    color: var(--texto-principal); 
+    color: var(--texto-principal);
     font-weight: 900;
     font-size: 2.5em;
     margin-bottom: 25px;
@@ -125,35 +133,63 @@ h1 {
     padding-bottom: 10px;
 }
 
-/* ======================== 
-   CARD DE ÁUDIO
+/* ========================
+   CARD DE ÁUDIO (FLEX PRO)
    ======================== */
 .card-audio {
     background-color: var(--cor-card-fundo);
     border-radius: var(--borda-radius);
     box-shadow: var(--sombra-leve);
     transition: box-shadow 0.3s ease, transform 0.3s ease;
-    padding: 30px;
+    padding: 24px;
     margin-bottom: 40px;
-    
-    display: grid;
-    grid-template-areas: 
-        "header player"
-        "body player"
-        "footer player";
-    grid-template-columns: 2.5fr 3fr; 
-    align-items: center;
+
+    /* FLEX layout: left = conteúdo, right = player */
+    display: flex;
+    gap: var(--card-gap);
+    align-items: flex-start;
 }
 
+/* hover */
 .card-audio:hover {
-    box-shadow: var(--sombra-interativa); 
-    transform: translateY(-3px); 
+    box-shadow: var(--sombra-interativa);
+    transform: translateY(-3px);
 }
 
+/* Área esquerda (conteúdo text) */
+.card-body {
+    flex: 1 1 auto;
+    min-width: 0; /* important to allow truncation/scrolling children */
+}
+
+/* Área direita (player) */
+.player-container {
+    flex: 0 0 340px; /* fixed-ish width for player column on desktop */
+    max-width: 40%;
+    padding: 16px;
+    background-color: var(--fundo-pagina);
+    border-radius: var(--borda-radius);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    /* make sure player stays visible */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+/* Make audio control responsive */
+.player-audio {
+    width: 100%;
+    max-width: 100%;
+    outline: none;
+}
+
+/* Textual content */
 .autor-link {
     font-weight: 800;
-    font-size: 1.15em; 
+    font-size: 1.15em;
     color: var(--texto-principal);
+    text-decoration: none;
 }
 
 .autor-link:hover {
@@ -165,51 +201,45 @@ h1 {
     display: block;
     color: var(--cor-texto-secundario);
     font-size: 0.8em;
-    margin-top: 3px;
+    margin-top: 6px;
     font-style: italic;
 }
 
-.player-container {
-    grid-area: player;
-    padding: 15px;
-    background-color: var(--fundo-pagina); 
-    border-radius: var(--borda-radius);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
-    overflow: hidden;
-}
-
-.player-audio {
-    width: 100%;
-}
-
-.card-body {
-    grid-area: body;
-    padding-right: 30px;
-}
-
+/* Título e legenda */
 .titulo-audio {
-    color: var(--cor-cabecalho); 
+    color: var(--cor-cabecalho);
     font-weight: 900;
-    font-size: 1.8em; 
-    margin-bottom: 8px;
+    font-size: 1.6em;
+    margin: 8px 0 12px 0;
 }
 
+/* Legenda: evita que quebre layout e mantém leitura */
 .legenda {
     color: var(--cor-texto-secundario);
     font-size: 1.0em;
+    line-height: 1.45;
+    white-space: normal;
+    word-break: break-word;
+    /* limit height so a very long sinopse não quebre layout */
+    max-height: 220px;
+    overflow-y: auto;
+    padding-right: 6px; /* espaço para scrollbar */
+    margin-bottom: 8px;
 }
 
+/* card footer (curtir / comentários) */
 .card-footer {
-    grid-area: footer;
     border-top: 2px solid var(--cor-borda-leve);
-    padding-top: 20px;
-    margin-top: 20px;
+    padding-top: 16px;
+    margin-top: 18px;
     display: flex;
-    gap: 25px;
+    gap: 20px;
     font-size: 0.95em;
-    padding-right: 30px;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
+/* buttons */
 .btn-curtir, .btn-comentarios {
     background: none;
     border: none;
@@ -231,28 +261,28 @@ h1 {
     transform: scale(1.05);
 }
 
-/* ======================== 
-   MODAL DE COMENTÁRIOS (Estilos repetidos em perfil.css)
+/* ========================
+   MODAL DE COMENTÁRIOS
    ======================== */
 .modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1000; 
+    display: none;
+    position: fixed;
+    z-index: 1000;
     left: 0;
     top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgba(0, 0, 0, 0.6); 
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 .modal-content {
     background-color: var(--cor-card-fundo);
-    margin: 5% auto; 
+    margin: 5% auto;
     padding: 30px;
     border-radius: var(--borda-radius);
-    width: 90%; 
-    max-width: 600px; 
+    width: 90%;
+    max-width: 600px;
     box-shadow: var(--sombra-leve);
     animation: fadeIn 0.3s;
 }
@@ -304,6 +334,7 @@ h1 {
     margin: 0;
 }
 
+/* Lista de comentários */
 .comments-list {
     max-height: 300px;
     overflow-y: auto;
@@ -332,6 +363,7 @@ h1 {
     color: var(--texto-principal);
 }
 
+/* Formulário de comentário */
 .comment-form-container h3 {
     font-size: 1.2em;
     color: var(--texto-principal);
@@ -365,18 +397,25 @@ h1 {
     background-color: #ffd700;
 }
 
-/* ======================== 
+/* ========================
    RESPONSIVIDADE
    ======================== */
+@media (max-width: 992px) {
+    .player-container {
+        flex: 0 0 300px;
+        max-width: 38%;
+    }
+}
+
 @media (max-width: 768px) {
     /* Navbar Responsiva */
     .nav-main-layout {
-        flex-direction: column; 
+        flex-direction: column;
         align-items: center;
         gap: 10px;
         text-align: center;
     }
-    
+
     .navbar-logo {
         margin-bottom: 5px;
     }
@@ -384,176 +423,137 @@ h1 {
     .navbar-nav {
         width: 100%;
         justify-content: space-around;
-        order: 3; /* Move links para baixo */
+        order: 3;
     }
-    
+
     .nav-actions {
         width: 100%;
         justify-content: center;
-        order: 2; /* Move botão perfil para o meio */
-    }
-    
-    /* Card de Áudio Responsivo */
-    .card-audio {
-        grid-template-areas: 
-            "header header"
-            "player player"
-            "body body"
-            "footer footer";
-        grid-template-columns: 1fr;
+        order: 2;
     }
 
-    .player-container, .card-body, .card-footer {
-        padding: 0;
+    /* Card de Áudio Responsivo: empilha em coluna */
+    .card-audio {
+        flex-direction: column;
+        gap: 12px;
+        padding: 18px;
+    }
+
+    .player-container {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: none;
+        padding: 12px;
     }
 
     .card-body {
-        margin-top: 15px;
+        width: 100%;
+        padding: 0;
+    }
+
+    .card-footer {
+        padding-top: 12px;
+        margin-top: 12px;
+        gap: 12px;
+    }
+
+    .titulo-audio {
+        font-size: 1.4em;
+    }
+
+    .legenda {
+        max-height: 280px;
     }
 }
 
-/* ======================== 
-   MODAL DE COMENTÁRIOS (NOVO BLOCO)
-   ======================== */
-.modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1000; 
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgba(0, 0, 0, 0.6); 
+/* Pequenos ajustes finais */
+a { color: inherit; }
+
+/* Modo vertical mais estético */
+.card-audio {
+    flex-direction: column !important;
+    align-items: stretch !important;
 }
 
-.modal-content {
-    background-color: var(--cor-card-fundo);
-    margin: 5% auto; 
-    padding: 30px;
-    border-radius: var(--borda-radius);
-    width: 90%; 
-    max-width: 600px; 
-    box-shadow: var(--sombra-leve);
+/* Player ocupa 100% da largura */
+.player-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+}
+
+.curtidas-area {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.contador-curtidas {
+    font-weight: 600;
+    color: #333;
+}
+
+.curtidores-lista {
+    color: #777;
+    font-style: italic;
+    font-size: 0.9em;
+}
+/* MODAL DE CURTIDAS — estilo Instagram */
+.modal-likes {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+}
+
+.modal-likes-content {
+    background: #fff;
+    width: 90%;
+    max-width: 380px;
+    margin: 8% auto;
+    padding: 20px;
+    border-radius: 12px;
     animation: fadeIn 0.3s;
 }
 
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(-20px);}
-    to {opacity: 1; transform: translateY(0);}
-}
-
-.close-button {
-    color: var(--cor-texto-secundario);
+.close-likes {
     float: right;
-    font-size: 30px;
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-.close-button:hover,
-.close-button:focus {
-    color: var(--cor-cabecalho);
-    text-decoration: none;
+    font-size: 28px;
     cursor: pointer;
+    color: #444;
 }
 
-/* Título e Resumo do Áudio no Modal */
-.modal-content h2 {
-    color: var(--cor-cabecalho);
-    margin-bottom: 20px;
-    border-bottom: 2px solid var(--cor-borda-leve);
-    padding-bottom: 10px;
+.close-likes:hover {
+    color: #F26D00;
 }
 
-.audio-summary-modal {
-    background-color: var(--fundo-pagina);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.summary-icon {
-    font-size: 2em;
-    color: var(--cor-titulo);
-}
-
-.summary-title {
-    font-weight: 700;
-    color: var(--texto-principal);
-    margin: 0;
-}
-
-.summary-meta {
-    font-size: 0.9em;
-    color: var(--cor-texto-secundario);
-    margin: 0;
-}
-
-
-/* Lista e Itens de Comentário */
-.comments-list {
+.likes-list {
     max-height: 300px;
     overflow-y: auto;
+    margin-top: 20px;
     padding-right: 10px;
-    margin-bottom: 20px;
 }
 
-.comment-item {
-    border-bottom: 1px solid var(--cor-borda-leve);
-    padding: 10px 0;
-}
-
-.comment-item:last-child {
-    border-bottom: none;
-}
-
-.comment-meta {
-    font-size: 0.9em;
-    color: var(--cor-cabecalho);
-    font-weight: 700;
-    margin: 0 0 5px 0;
-}
-
-.comment-text {
-    margin: 0 0 10px 0;
-    color: var(--texto-principal);
-}
-
-
-/* Formulário de Comentário */
-.comment-form-container h3 {
-    font-size: 1.2em;
-    color: var(--texto-principal);
-    margin: 15px 0 10px 0;
-}
-
-.comment-form-container textarea {
-    width: 100%;
-    min-height: 80px;
+.like-item {
     padding: 10px;
-    border: 1px solid var(--cor-borda-leve);
-    border-radius: 8px;
-    resize: vertical;
-    box-sizing: border-box;
-    font-family: inherit;
-    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    font-weight: 600;
 }
 
-.comment-form-container button {
-    background-color: var(--cor-titulo);
-    color: var(--texto-principal);
+.btn-curtidas-lista {
+    background: none;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: 700;
+    color: #444;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-weight: 700;
+    font-size: 0.95em;
 }
 
-.comment-form-container button:hover {
-    background-color: #ffd700;
+.btn-curtidas-lista:hover {
+    color: #F26D00;
 }

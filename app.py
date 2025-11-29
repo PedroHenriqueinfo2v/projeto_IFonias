@@ -23,6 +23,14 @@ def conectar():
 UPLOAD_FOLDER = "static/audios"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {"mp3", "wav", "mpeg"}
+AVATAR_FOLDER = "static/avatars"
+app.config["AVATAR_FOLDER"] = AVATAR_FOLDER
+
+# Criar pasta se não existir
+if not os.path.exists(AVATAR_FOLDER):
+    os.makedirs(AVATAR_FOLDER)
+
+
 
 def arquivo_permitido(nome):
     return "." in nome and nome.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -84,22 +92,65 @@ def timeline():
     db = conectar()
     cursor = db.cursor(dictionary=True)
 
+    # =======================
+    # Todos os áudios + total de curtidas
+    # =======================
     cursor.execute("""
-        SELECT a.*, u.nome
+        SELECT a.*, u.nome,
+            (SELECT COUNT(*) FROM curtidas c WHERE c.audio_id = a.id_audio) AS total_curtidas
         FROM audios a
         JOIN usuarios u ON a.usuario_id = u.id_usuario
         ORDER BY a.criado_em DESC
     """)
     audios = cursor.fetchall()
 
+    # =======================
+    # Quais áudios o usuário curtiu
+    # =======================
     cursor.execute("SELECT audio_id FROM curtidas WHERE usuario_id=%s",
                    (session["usuario_id"],))
     curtidos = [c["audio_id"] for c in cursor.fetchall()]
 
+    # =======================
+    # Comentários
+    # =======================
+    cursor.execute("""
+        SELECT c.*, u.nome AS nome_usuario
+        FROM comentarios c
+        JOIN usuarios u ON c.usuario_id = u.id_usuario
+        ORDER BY c.criado_em ASC
+    """)
+    comentarios_brutos = cursor.fetchall()
+
+    comentarios = {}
+    for c in comentarios_brutos:
+        comentarios.setdefault(c["audio_id"], []).append(c)
+
+    # =======================
+    # Lista de curtidores por áudio
+    # =======================
+    cursor.execute("""
+        SELECT c.audio_id, u.nome
+        FROM curtidas c
+        JOIN usuarios u ON u.id_usuario = c.usuario_id
+    """)
+    curtidores_brutos = cursor.fetchall()
+
+    curtidores = {}
+    for c in curtidores_brutos:
+        curtidores.setdefault(c["audio_id"], []).append(c["nome"])
+
     cursor.close()
     db.close()
 
-    return render_template("timeline.html", audios=audios, curtidos=curtidos)
+    return render_template(
+        "timeline.html",
+        audios=audios,
+        curtidos=curtidos,
+        comentarios=comentarios,
+        curtidores=curtidores
+    )
+
 
 # ===========================
 # PERFIL
@@ -127,6 +178,103 @@ def perfil():
     db.close()
 
     return render_template("perfil.html", usuario=usuario, audios=audios)
+
+# ===========================
+# DELETAR ÁUDIO
+# ===========================
+@app.route("/deletar_audio/<int:id_audio>")
+def deletar_audio(id_audio):
+    if "usuario_id" not in session:
+        return redirect(url_for("login"))
+
+    db = conectar()
+    cursor = db.cursor(dictionary=True)
+
+    # Verifica se o áudio pertence ao usuário
+    cursor.execute("""
+        SELECT * FROM audios WHERE id_audio=%s AND usuario_id=%s
+    """, (id_audio, session["usuario_id"]))
+    audio = cursor.fetchone()
+
+    if not audio:
+        cursor.close()
+        db.close()
+        return redirect(url_for("perfil"))
+
+    # Deleta curtidas e comentários antes (integridade)
+    cursor.execute("DELETE FROM curtidas WHERE audio_id=%s", (id_audio,))
+    cursor.execute("DELETE FROM comentarios WHERE audio_id=%s", (id_audio,))
+
+    # Deleta o arquivo de áudio do disco
+    caminho = os.path.join(app.config["UPLOAD_FOLDER"], audio["arquivo_audio"])
+    if os.path.exists(caminho):
+        os.remove(caminho)
+
+    # Deleta o registro
+    cursor.execute("DELETE FROM audios WHERE id_audio=%s", (id_audio,))
+    db.commit()
+
+    cursor.close()
+    db.close()
+
+    return redirect(url_for("perfil"))
+
+# ===========================
+# EDITAR PERFIL
+# ===========================
+@app.route("/editar_perfil", methods=["GET", "POST"])
+def editar_perfil():
+    if "usuario_id" not in session:
+        return redirect(url_for("login"))
+
+    db = conectar()
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM usuarios WHERE id_usuario=%s",
+                   (session["usuario_id"],))
+    usuario = cursor.fetchone()
+
+    if request.method == "POST":
+        nome = request.form.get("nome")
+        usuario_login = request.form.get("usuario")
+        curso = request.form.get("curso")
+        campus = request.form.get("campus")
+
+        avatar_file = request.files.get("avatar")
+
+        avatar_nome = usuario["avatar"]  # mantém o antigo se não trocar
+
+        if avatar_file and avatar_file.filename != "":
+            nome_seguro = secure_filename(avatar_file.filename)
+            avatar_caminho = os.path.join(app.config["AVATAR_FOLDER"], nome_seguro)
+
+            # remove avatar antigo
+            if usuario["avatar"]:
+                caminho_antigo = os.path.join(app.config["AVATAR_FOLDER"], usuario["avatar"])
+                if os.path.exists(caminho_antigo):
+                    os.remove(caminho_antigo)
+
+            avatar_file.save(avatar_caminho)
+            avatar_nome = nome_seguro
+
+        cursor.execute("""
+            UPDATE usuarios 
+            SET nome=%s, usuario=%s, curso=%s, campus=%s, avatar=%s
+            WHERE id_usuario=%s
+        """, (nome, usuario_login, curso, campus, avatar_nome, session["usuario_id"]))
+
+        db.commit()
+        cursor.close()
+        db.close()
+
+        session["nome"] = nome
+
+        return redirect(url_for("perfil"))
+
+    cursor.close()
+    db.close()
+    return render_template("editar_perfil.html", usuario=usuario)
+
 
 # ===========================
 # UPLOAD
@@ -198,6 +346,9 @@ def comentar(audio_id):
 
     texto = request.form.get("comentario")
 
+    if not texto.strip():
+        return redirect(url_for("timeline"))
+
     db = conectar()
     cursor = db.cursor()
 
@@ -211,6 +362,7 @@ def comentar(audio_id):
     db.close()
 
     return redirect(url_for("timeline"))
+
 
 # ===========================
 # CADASTRO

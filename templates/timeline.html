@@ -28,7 +28,6 @@
     </nav>
 </header>
 
-
 <div class="container">
 
     <h1>Novidades do Repositório</h1>
@@ -36,33 +35,170 @@
     {% for audio in audios %}
     <div class="card-audio">
 
+        <!-- HEADER -->
         <div class="card-header">
-            <div class="autor-info">
-                <a href="{{ url_for('perfil') }}" class="autor-link">
-                    {{ audio.nome }}
-                </a>
-
-                <span class="data-publicacao">
-                    Publicado em {{ audio.criado_em.strftime('%d/%m às %H:%M') }}
-                </span>
-            </div>
+            <a href="{{ url_for('perfil') }}" class="autor-link">
+                {{ audio.nome }}
+            </a>
+            <span class="data-publicacao">
+                Publicado em {{ audio.criado_em.strftime('%d/%m às %H:%M') }}
+            </span>
         </div>
 
+        <!-- PLAYER -->
         <div class="player-container">
             <audio controls class="player-audio">
                 <source src="{{ url_for('static', filename='audios/' ~ audio.arquivo_audio) }}" type="audio/mpeg">
             </audio>
         </div>
 
+        <!-- BODY -->
         <div class="card-body">
             <h3 class="titulo-audio">{{ audio.titulo }}</h3>
             <p class="legenda">{{ audio.legenda }}</p>
         </div>
 
+        <!-- FOOTER -->
+        <div class="card-footer">
+
+            <!-- Curtir -->
+            {% if audio.id_audio in curtidos %}
+                <a href="{{ url_for('curtir', audio_id=audio.id_audio) }}" class="btn-curtir" style="color:red;">
+                    ❤️ Curtido
+                </a>
+            {% else %}
+                <a href="{{ url_for('curtir', audio_id=audio.id_audio) }}" class="btn-curtir">
+                    🤍 Curtir
+                </a>
+            {% endif %}
+
+            <!-- BOTÃO PARA VER CURTIDAS -->
+            <button class="btn-curtidas-lista" data-likes-id="{{ audio.id_audio }}">
+                {{ audio.total_curtidas }} curtidas
+            </button>
+
+            <!-- BOTÃO COMENTÁRIOS -->
+            <button class="btn-comentarios" data-audio-id="{{ audio.id_audio }}">
+                💬 Comentários ({{ comentarios.get(audio.id_audio, []) | length }})
+            </button>
+
+        </div>
+
+        <!-- ========== MODAL DE CURTIDAS (ESTILO INSTA) ========== -->
+        <div id="modal-likes-{{ audio.id_audio }}" class="modal-likes">
+            <div class="modal-likes-content">
+                <span class="close-likes" data-close-likes="{{ audio.id_audio }}">&times;</span>
+                <h2>Quem curtiu</h2>
+
+                <div class="likes-list">
+                    {% for nome in curtidores.get(audio.id_audio, []) %}
+                        <div class="like-item">{{ nome }}</div>
+                    {% endfor %}
+
+                    {% if curtidores.get(audio.id_audio, []) | length == 0 %}
+                        <p style="text-align:center; color:gray;">Ninguém curtiu ainda.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- ======================================== -->
+
+        <!-- ========== MODAL DE COMENTÁRIOS (VOLTOU) ========== -->
+        <div id="modal-{{ audio.id_audio }}" class="modal">
+            <div class="modal-content">
+                <span class="close-button" data-close-audio-id="{{ audio.id_audio }}">&times;</span>
+
+                <h2>Comentários</h2>
+
+                <div class="audio-summary-modal">
+                    <span class="summary-icon">🎧</span>
+                    <div>
+                        <p class="summary-title">{{ audio.titulo }}</p>
+                        <p class="summary-meta">de {{ audio.nome }}</p>
+                    </div>
+                </div>
+
+                <!-- LISTA -->
+                <div class="comments-list">
+                    {% for c in comentarios.get(audio.id_audio, []) %}
+                        <div class="comment-item">
+                            <p class="comment-meta">
+                                {{ c.nome_usuario }} — {{ c.criado_em.strftime('%d/%m %H:%M') }}
+                            </p>
+                            <p class="comment-text">{{ c.texto }}</p>
+                        </div>
+                    {% endfor %}
+
+                    {% if comentarios.get(audio.id_audio, []) | length == 0 %}
+                        <p style="color:gray; text-align:center;">Nenhum comentário ainda.</p>
+                    {% endif %}
+                </div>
+
+                <!-- FORM -->
+                <div class="comment-form-container">
+                    <h3>Adicionar comentário</h3>
+                    <form method="POST" action="{{ url_for('comentar', audio_id=audio.id_audio) }}">
+                        <textarea name="comentario" required></textarea>
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <!-- ============================================ -->
+
     </div>
     {% endfor %}
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* ========== ABRIR CURTIDAS ========== */
+    document.querySelectorAll('.btn-curtidas-lista').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.dataset.likesId;
+            document.getElementById("modal-likes-" + id).style.display = "block";
+        });
+    });
+
+    /* ========== FECHAR CURTIDAS ========== */
+    document.querySelectorAll('.close-likes').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.dataset.closeLikes;
+            document.getElementById("modal-likes-" + id).style.display = "none";
+        });
+    });
+
+    /* ========== ABRIR COMENTÁRIOS ========== */
+    document.querySelectorAll('.btn-comentarios').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.preventDefault();
+            const id = btn.dataset.audioId;
+            document.getElementById("modal-" + id).style.display = "block";
+        });
+    });
+
+    /* ========== FECHAR COMENTÁRIOS ========== */
+    document.querySelectorAll('.close-button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.dataset.closeAudioId;
+            document.getElementById("modal-" + id).style.display = "none";
+        });
+    });
+
+    /* ========== FECHAR CLICANDO FORA ========== */
+    window.addEventListener('click', event => {
+        document.querySelectorAll('.modal, .modal-likes').forEach(modal => {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+    });
+
+});
+</script>
 
 </body>
 </html>
