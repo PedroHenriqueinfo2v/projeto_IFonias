@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - IFonias</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+
+<div class="login-box">
+
+    <h1>IFonias 🎧</h1>
+
+    {% if sem_usuarios %}
+        <div class="alert alerta-vermelho">
+            Nenhum usuário cadastrado no sistema.
+        </div>
+        <a href="{{ url_for('cadastrar') }}" class="btn-cadastrar">Criar Primeiro Usuário</a>
+    {% else %}
+
+        {% if erro_login %}
+            <div class="alert alerta-vermelho">Usuário ou senha incorretos.</div>
+        {% endif %}
+
+        {% if cadastro_ok %}
+            <div class="alert alerta-verde">Cadastro realizado! Faça login.</div>
+        {% endif %}
+
+        <form method="POST">
+            <label>Usuário:</label>
+            <input type="text" name="usuario" required>
+
+            <label>Senha:</label>
+            <input type="password" name="senha" required>
+
+            <button type="submit">Entrar</button>
+        </form>
+
+        <a href="{{ url_for('cadastrar') }}" class="link-secundario">Criar nova conta</a>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

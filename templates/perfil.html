@@ -3,105 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil do Aluno - IFonias</title>
-    <link rel="stylesheet" href="static/css/perfil.css">
+    <title>Perfil - IFonias</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
 </head>
+
 <body>
-    <header class="navbar">
-        <nav class="container nav-main-layout">
-            
-            <a href="timeline.html" class="navbar-logo">
-                <span class="logo-icon">🎧</span> IFonias
-            </a>
-            
-            <ul class="navbar-nav">
-                <li class="nav-item"><a href="timeline.html">Linha do Tempo</a></li>
-                <li class="nav-item"><a href="upload.html">Publicar Novo Áudio</a></li>
-            </ul>
 
-            <div class="nav-actions">
-                <span class="btn-perfil static-active">👤 Meu Perfil</span> 
-            </div>
-        </nav>
-    </header>
+<header class="navbar">
+    <nav class="container nav-main-layout">
 
-    <div class="container">
-        <div class="perfil-header">
-            <div class="perfil-cover-bg"></div> 
-            
-            <div class="perfil-info-box" data-profile-id="123"> 
-                
-                <div class="perfil-avatar" style="background-image: url('static/img/avatar_exemplo.png');"></div> 
-                <h2 class="perfil-nome">Nome do Aluno Exemplo</h2>
-                <p class="perfil-meta">Curso: TADS | Campus: Mossoró | 52 Seguidores</p>
-                
-                <button class="btn-follow" id="btn-follow-toggle">Seguir</button>
-            </div>
+        <a href="{{ url_for('timeline') }}" class="navbar-logo">
+            <span class="logo-icon">🎧</span> IFonias
+        </a>
+
+        <ul class="navbar-nav">
+            <li class="nav-item"><a href="{{ url_for('timeline') }}">Linha do Tempo</a></li>
+            <li class="nav-item"><a href="{{ url_for('upload') }}">Publicar Áudio</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <span class="btn-perfil static-active">👤 Meu Perfil</span>
         </div>
 
-        <h3 class="perfil-titulo-audios">💿 Áudios Publicados</h3>
+    </nav>
+</header>
 
-        <div class="publicacoes-grid">
-            
-            <a href="#" class="audio-card-grid">
-                <div class="audio-cover-grid" style="background: linear-gradient(135deg, #F2A000, #ffc733);"></div>
-                <p class="audio-title-grid">Trilha Sonora para Estudar</p>
-                <p class="audio-meta-grid">Publicado em 20/Out</p>
-            </a>
 
-            <a href="#" class="audio-card-grid">
-                <div class="audio-cover-grid" style="background: linear-gradient(135deg, #00A0F2, #33c7ff);"></div>
-                <p class="audio-title-grid">Dicas Essenciais de Produtividade</p>
-                <p class="audio-meta-grid">Publicado em 18/Out</p>
-            </a>
+<div class="container">
 
-            <a href="#" class="audio-card-grid">
-                <div class="audio-cover-grid" style="background: linear-gradient(135deg, #9400D3, #C71585);"></div>
-                <p class="audio-title-grid">Entrevista sobre TCC</p>
-                <p class="audio-meta-grid">Publicado em 15/Out</p>
-            </a>
+    <div class="perfil-header">
+        <div class="perfil-cover-bg"></div>
 
-            <a href="#" class="audio-card-grid">
-                <div class="audio-cover-grid" style="background: linear-gradient(135deg, #228B22, #3CB371);"></div>
-                <p class="audio-title-grid">Análise de Dados</p>
-                <p class="audio-meta-grid">Publicado em 10/Out</p>
-            </a>
-            
-            </div>
+        <div class="perfil-info-box" data-profile-id="{{ user.id_usuario }}">
+
+            <h2 class="perfil-nome">{{ user.nome }}</h2>
+            <p class="perfil-meta">
+                Curso: {{ user.curso }} | Campus: {{ user.campus }} |
+                {{ seguidores_total }} Seguidores
+            </p>
+
+            {% if session['user_id'] != user.id_usuario %}
+                <form method="POST" action="{{ url_for('seguir', user_id=user.id_usuario) }}">
+                    <button class="btn-follow">
+                        {% if seguindo %}
+                            Deixar de seguir
+                        {% else %}
+                            Seguir
+                        {% endif %}
+                    </button>
+                </form>
+            {% endif %}
+
+        </div>
     </div>
 
-    <script>
-        // -----------------------------------------------------------
-        // 1. Variáveis Chave que devem ser preenchidas pelo Java (Back-end)
-        // -----------------------------------------------------------
-        
-        // ESTE É O ID DO USUÁRIO QUE ESTÁ LOGADO NO SISTEMA.
-        // Em Java (JSP/Thymeleaf), você preencheria isso assim: 
-        // const USER_LOGGED_IN_ID = <%= session.getAttribute("userId") %>;
-        const USER_LOGGED_IN_ID = 123; 
-        
-        // -----------------------------------------------------------
-        // 2. Lógica de Ocultação do Botão
-        // -----------------------------------------------------------
-        
-        const perfilInfoBox = document.querySelector('.perfil-info-box');
-        const followButton = document.getElementById('btn-follow-toggle');
-        
-        if (perfilInfoBox && followButton) {
-            // Obtém o ID do perfil que está sendo visualizado (do atributo data-profile-id)
-            const PROFILE_BEING_VIEWED_ID = parseInt(perfilInfoBox.getAttribute('data-profile-id'));
-            
-            // Compara os IDs (IMPORTANTE: Use números inteiros para a comparação)
-            if (USER_LOGGED_IN_ID === PROFILE_BEING_VIEWED_ID) {
-                // Se os IDs forem iguais, é o perfil do próprio usuário.
-                followButton.style.display = 'none'; // Oculta o botão 'Seguir'.
-            } else {
-                // Se os IDs forem diferentes, é um perfil de terceiro.
-                followButton.style.display = 'block'; // Garante que o botão 'Seguir' esteja visível.
-                // Aqui você adicionaria uma lógica extra para verificar se o usuário JÁ segue este perfil
-                // e trocar o texto para "Deixar de Seguir" (Unfollow).
-            }
-        }
-    </script>
+    <h3 class="perfil-titulo-audios">💿 Áudios Publicados</h3>
+
+    <div class="publicacoes-grid">
+        {% for pub in publicacoes %}
+        <a class="audio-card-grid">
+
+            <div class="audio-cover-grid"
+                 style="background: linear-gradient(135deg, #00A0F2, #33c7ff);"></div>
+
+            <p class="audio-title-grid">{{ pub.titulo }}</p>
+            <p class="audio-meta-grid">
+                {{ pub.data_hora_publicacao.strftime('%d/%b') }}
+            </p>
+
+        </a>
+        {% endfor %}
+    </div>
+
+</div>
+
 </body>
 </html>

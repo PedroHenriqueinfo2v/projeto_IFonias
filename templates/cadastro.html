@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar - IFonias</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
+</head>
+<body>
+
+<div class="cadastro-box">
+
+    <h1>Criar Conta 🎓</h1>
+
+    <form method="POST">
+
+        <label>Nome Completo:</label>
+        <input type="text" name="nome" required>
+
+        <label>Usuário:</label>
+        <input type="text" name="usuario" required>
+
+        <label>Senha:</label>
+        <input type="password" name="senha" required>
+
+        <label>Curso:</label>
+        <input type="text" name="curso" placeholder="Ex: TADS" required>
+
+        <label>Campus:</label>
+        <input type="text" name="campus" placeholder="Ex: Mossoró" required>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <a href="{{ url_for('login') }}" class="link-voltar">Voltar ao Login</a>
+
+</div>
+
+</body>
+</html>

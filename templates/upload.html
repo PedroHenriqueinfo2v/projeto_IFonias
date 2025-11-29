@@ -3,76 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload de Áudio - IFonias</title>
-    <link rel="stylesheet" href="static/css/upload.css">
+    <title>Upload - IFonias</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
 </head>
+
 <body>
-    <header class="navbar">
-        <nav class="container nav-main-layout">
-            
-            <a href="timeline.html" class="navbar-logo">
-                <span class="logo-icon">🎧</span> IFonias
-            </a>
-            
-            <ul class="navbar-nav">
-                <li class="nav-item"><a href="timeline.html">Linha do Tempo</a></li>
-                <li class="nav-item active"><a href="upload.html">Publicar Áudio</a></li>
-            </ul>
 
-            <div class="nav-actions">
-                <a href="perfil.html" class="btn-perfil">👤 Meu Perfil</a> 
+<header class="navbar">
+    <nav class="container nav-main-layout">
+        
+        <a href="{{ url_for('timeline') }}" class="navbar-logo">
+            <span class="logo-icon">🎧</span> IFonias
+        </a>
+
+        <ul class="navbar-nav">
+            <li class="nav-item"><a href="{{ url_for('timeline') }}">Linha do Tempo</a></li>
+            <li class="nav-item active"><a href="{{ url_for('upload') }}">Publicar Áudio</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="{{ url_for('perfil', user_id=session['user_id']) }}" class="btn-perfil">👤 Meu Perfil</a>
+        </div>
+
+    </nav>
+</header>
+
+
+<div class="container">
+
+    <h1>Publicação de Conteúdo Sonoro</h1>
+    <p class="intro-text">
+        Compartilhe seu podcast, música ou produção sonora com a comunidade IF.
+    </p>
+
+    <form class="form-upload" method="POST" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="titulo">Título da Produção:</label>
+            <input type="text" id="titulo" name="titulo" required>
+        </div>
+
+        <div class="form-group">
+            <label for="autoria">Autoria:</label>
+            <input type="text" id="autoria" name="autoria">
+        </div>
+
+        <div class="form-group simple-file-upload">
+            <label>Arquivo de Áudio:</label>
+
+            <div class="file-input-wrapper">
+                <label for="audio_file" class="custom-file-button">Escolher Arquivo...</label>
+                <span class="file-name-display">Nenhum arquivo</span>
+                <input type="file" id="audio_file" name="audio_file"
+                       accept="audio/mp3, audio/wav" required>
             </div>
-        </nav>
-    </header>
+        </div>
 
-    <div class="container">
-        <h1>Publicação de Conteúdo Sonoro</h1>
-        <p class="intro-text">Compartilhe o seu projeto, podcast ou música com toda a comunidade IFRN. É hora de dar voz à sua criatividade e ao conhecimento.</p>
+        <div class="form-group">
+            <label for="tipo_audio">Tipo:</label>
+            <select name="tipo_audio" required>
+                <option value="">Selecione...</option>
+                <option value="podcast">Podcast</option>
+                <option value="musica">Música</option>
+                <option value="relato">Relato</option>
+                <option value="dramatizacao">Dramatização</option>
+                <option value="outros">Outros</option>
+            </select>
+        </div>
 
-        <form class="form-upload" method="POST" enctype="multipart/form-data" action="#">
-            
-            <div class="form-fields">
-                <div class="form-group">
-                    <label for="titulo">Título da Produção (Obrigatório):</label>
-                    <input type="text" id="titulo" name="titulo" required placeholder="Ex: Ciência e Café: Entrevista com a Professora Maria">
-                </div>
+        <div class="form-group">
+            <label for="legenda">Sinopse:</label>
+            <textarea name="legenda" id="legenda"></textarea>
+        </div>
 
-                <div class="form-group">
-                    <label for="autoria">Créditos e Autoria:</label>
-                    <input type="text" id="autoria" name="autoria" placeholder="Nome do(s) estudante(s), Projeto ou Grupo responsável.">
-                </div>
-                
-                <div class="form-group simple-file-upload">
-                    <label>Arquivo de Áudio (.mp3, .wav):</label>
-                    <div class="file-input-wrapper">
-                        <label for="audio_file" class="custom-file-button">
-                            Escolher Arquivo...
-                        </label>
-                        <span class="file-name-display">Nenhum arquivo selecionado</span>
-                        <input type="file" id="audio_file" name="audio_file" accept="audio/mp3, audio/wav, audio/mpeg" required>
-                    </div>
-                </div>
+        <button class="btn-submit" type="submit">Publicar no IFonias</button>
 
-                <div class="form-group">
-                    <label for="tipo_audio">Tipo de Conteúdo (Obrigatório):</label>
-                    <select id="tipo_audio" name="tipo_audio" required>
-                        <option value="">Selecione o Gênero da sua Produção...</option>
-                        <option value="podcast">Podcast / Programa de Rádio</option>
-                        <option value="musica">Música Original / Trilha Sonora</option>
-                        <option value="relato">Relato de Experiência / Entrevista</option>
-                        <option value="dramatizacao">Apresentação Teatral / Dramatização</option>
-                        <option value="outros">Outros Formatos Sonoros</option>
-                    </select>
-                </div>
+    </form>
 
-                <div class="form-group">
-                    <label for="legenda">Sinopse da Publicação:</label>
-                    <textarea id="legenda" name="legenda" placeholder="Descreva brevemente o que é o seu áudio, quais tópicos ele aborda e seu objetivo. (Máx. 500 caracteres)"></textarea>
-                </div>
-                
-                <button type="submit" class="btn-submit">Publicar no Repositório IFonias</button>
-            </div>
-        </form>
-    </div>
+</div>
+
+<script>
+document.getElementById("audio_file").addEventListener("change", function(){
+    document.querySelector(".file-name-display").innerText = this.files[0].name;
+});
+</script>
+
 </body>
 </html>

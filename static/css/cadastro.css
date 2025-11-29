@@ -1,0 +1,56 @@
+body {
+    background: #F8F5F2;
+    font-family: Arial, sans-serif;
+}
+
+.cadastro-box {
+    width: 380px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,.1);
+}
+
+h1 {
+    text-align: center;
+    color: #F26D00;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 8px;
+    display: block;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 18px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #1E90FF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #187bcd;
+}
+
+.link-voltar {
+    display: block;
+    margin-top: 15px;
+    text-align: center;
+    color: #F26D00;
+    font-weight: bold;
+    text-decoration: none;
+}
