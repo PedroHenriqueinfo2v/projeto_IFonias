@@ -4,7 +4,7 @@ import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.secret_key = "ifonias_bd"
+app.secret_key = "ifonias_chave_super_secreta"
 
 # ===========================
 # CONFIGURAÇÃO DO BANCO

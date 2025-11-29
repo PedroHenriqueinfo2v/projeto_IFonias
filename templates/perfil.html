@@ -34,25 +34,13 @@
     <div class="perfil-header">
         <div class="perfil-cover-bg"></div>
 
-        <div class="perfil-info-box" data-profile-id="{{ user.id_usuario }}">
+        <div class="perfil-info-box" data-profile-id="{{ usuario.id_usuario }}">
 
-            <h2 class="perfil-nome">{{ user.nome }}</h2>
+            <h2 class="perfil-nome">{{ usuario.nome }}</h2>
+
             <p class="perfil-meta">
-                Curso: {{ user.curso }} | Campus: {{ user.campus }} |
-                {{ seguidores_total }} Seguidores
+                Curso: {{ usuario.curso }} | Campus: {{ usuario.campus }}
             </p>
-
-            {% if session['user_id'] != user.id_usuario %}
-                <form method="POST" action="{{ url_for('seguir', user_id=user.id_usuario) }}">
-                    <button class="btn-follow">
-                        {% if seguindo %}
-                            Deixar de seguir
-                        {% else %}
-                            Seguir
-                        {% endif %}
-                    </button>
-                </form>
-            {% endif %}
 
         </div>
     </div>
@@ -60,7 +48,7 @@
     <h3 class="perfil-titulo-audios">💿 Áudios Publicados</h3>
 
     <div class="publicacoes-grid">
-        {% for pub in publicacoes %}
+        {% for pub in audios %}
         <a class="audio-card-grid">
 
             <div class="audio-cover-grid"
@@ -68,7 +56,7 @@
 
             <p class="audio-title-grid">{{ pub.titulo }}</p>
             <p class="audio-meta-grid">
-                {{ pub.data_hora_publicacao.strftime('%d/%b') }}
+                {{ pub.criado_em.strftime('%d/%b') }}
             </p>
 
         </a>
