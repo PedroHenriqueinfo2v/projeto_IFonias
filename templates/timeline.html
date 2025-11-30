@@ -37,7 +37,7 @@
 
         <!-- HEADER -->
         <div class="card-header">
-            <a href="{{ url_for('perfil') }}" class="autor-link">
+            <a href="{{ url_for('perfil_publico', user_id=audio.usuario_id) }}" class="autor-link">
                 {{ audio.nome }}
             </a>
             <span class="data-publicacao">
@@ -84,7 +84,7 @@
 
         </div>
 
-        <!-- ========== MODAL DE CURTIDAS (ESTILO INSTA) ========== -->
+        <!-- ========== MODAL DE CURTIDAS ========== -->
         <div id="modal-likes-{{ audio.id_audio }}" class="modal-likes">
             <div class="modal-likes-content">
                 <span class="close-likes" data-close-likes="{{ audio.id_audio }}">&times;</span>
@@ -101,9 +101,8 @@
                 </div>
             </div>
         </div>
-        <!-- ======================================== -->
 
-        <!-- ========== MODAL DE COMENTÁRIOS (VOLTOU) ========== -->
+        <!-- ========== MODAL DE COMENTÁRIOS ========== -->
         <div id="modal-{{ audio.id_audio }}" class="modal">
             <div class="modal-content">
                 <span class="close-button" data-close-audio-id="{{ audio.id_audio }}">&times;</span>
@@ -145,7 +144,6 @@
 
             </div>
         </div>
-        <!-- ============================================ -->
 
     </div>
     {% endfor %}

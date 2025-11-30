@@ -1,0 +1,59 @@
+body {
+    background: #F8F5F2;
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.audio-container {
+    max-width: 700px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.audio-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 12px 0;
+}
+
+.audio-player {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.audio-meta {
+    color: #555;
+    margin-top: 5px;
+}
+
+.btn-voltar {
+    text-decoration: none;
+    background: #F26D00;
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+}
+
+/* Sinopse igual da timeline */
+.legenda {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.45;
+    white-space: normal;
+    word-break: break-word;
+    max-height: 220px;   /* limite da altura */
+    overflow-y: auto;    /* scroll se ficar grande */
+    padding-right: 6px;  /* espaço da scrollbar */
+    margin-top: 15px;
+    background: #fafafa;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}

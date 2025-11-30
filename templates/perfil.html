@@ -11,8 +11,12 @@
 
 <header class="perfil-header">
 
-    <div class="perfil-info-wrapper">
+    <!-- BOTÃO VOLTAR -->
+    <a href="{{ url_for('timeline') }}" class="btn-voltar">← Voltar</a>
 
+    <div class="perfil-header-content">
+
+        <!-- AVATAR -->
         <div class="perfil-avatar">
             {% if usuario.avatar %}
                 <img src="{{ url_for('static', filename='avatars/' ~ usuario.avatar) }}">
@@ -21,11 +25,20 @@
             {% endif %}
         </div>
 
-        <div class="perfil-textos">
-            <h1 class="perfil-nome">{{ usuario.nome }}</h1>
-            <p class="perfil-meta">{{ usuario.curso }} • {{ usuario.campus }}</p>
+        <!-- DADOS DO PERFIL -->
+        <div class="perfil-dados">
+            <p class="perfil-label">Seu Perfil</p>
 
-            <a href="{{ url_for('editar_perfil') }}" class="btn-editar-perfil">Editar Perfil</a>
+            <h1 class="perfil-nome">{{ usuario.nome }}</h1>
+
+            <p class="perfil-meta">
+                @{{ usuario.usuario }} · {{ usuario.curso }} · {{ usuario.campus }}
+            </p>
+
+            <div class="perfil-buttons">
+                <a href="{{ url_for('editar_perfil') }}" class="btn-editar">Editar perfil</a>
+                <button class="btn-deletar" onclick="abrirModalConta()">Excluir conta</button>
+            </div>
         </div>
 
     </div>
@@ -33,57 +46,80 @@
 </header>
 
 
+<!-- PUBLICAÇÕES -->
 <div class="perfil-container">
 
-    <h2 class="secao-titulo">Suas Publicações</h2>
+    <h2 class="secao-titulo">Seus Áudios</h2>
 
     <div class="publicacoes-grid">
 
         {% for pub in audios %}
-        <div class="audio-card">
+        <!-- CARD CLICÁVEL -->
+        <a href="{{ url_for('audio', audio_id=pub.id_audio) }}" class="card-audio">
 
-            <div class="audio-thumb">🎧</div>
+            <div class="card-thumb">🎧</div>
 
-            <div class="audio-info">
-                <h3>{{ pub.titulo }}</h3>
-                <p class="audio-date">{{ pub.criado_em.strftime('%d/%m/%Y') }}</p>
+            <h3 class="card-titulo">{{ pub.titulo }}</h3>
+            <p class="card-data">{{ pub.criado_em.strftime('%d/%m/%Y') }}</p>
 
-                <button class="btn-excluir"
-                    onclick="abrirModalDelete(`{{ url_for('deletar_audio', id_audio=pub.id_audio) }}`)">
-                    Excluir
-                </button>
-            </div>
+            <!-- BOTÃO EXCLUIR -->
+            <button class="btn-excluir-audio"
+                onclick="event.preventDefault(); abrirModalDelete(`{{ url_for('deletar_audio', id_audio=pub.id_audio) }}`)">
+                Excluir
+            </button>
 
-        </div>
+        </a>
         {% endfor %}
+
+        {% if audios|length == 0 %}
+            <p class="nenhum">Você ainda não publicou nada.</p>
+        {% endif %}
 
     </div>
 
 </div>
 
 
-<!-- MODAL -->
-<div id="modalConfirmDelete" class="modal-delete">
-    <div class="modal-delete-content">
+<!-- MODAL PARA EXCLUIR ÁUDIO -->
+<div id="modalDeleteAudio" class="modal">
+    <div class="modal-content">
+        <h2>Excluir áudio?</h2>
+        <p>Essa ação não pode ser desfeita.</p>
 
-        <h2>Excluir Publicação</h2>
-        <p>Tem certeza que deseja excluir este áudio?</p>
-
-        <div class="modal-delete-actions">
-            <button onclick="fecharModalDelete()" class="btn-cancel">Cancelar</button>
-            <a id="deleteConfirmBtn" class="btn-delete">Excluir</a>
+        <div class="modal-buttons">
+            <button onclick="fecharModalDelete()" class="btn-cancelar">Cancelar</button>
+            <a id="deleteConfirmBtn" class="btn-confirmar">Excluir</a>
         </div>
+    </div>
+</div>
 
+<!-- MODAL PARA EXCLUIR CONTA -->
+<div id="modalDeleteConta" class="modal">
+    <div class="modal-content">
+        <h2>Excluir conta?</h2>
+        <p>Isso apagará todos os seus áudios, curtidas e comentários.</p>
+
+        <div class="modal-buttons">
+            <button onclick="fecharModalConta()" class="btn-cancelar">Cancelar</button>
+            <a href="{{ url_for('deletar_conta') }}" class="btn-confirmar">Excluir</a>
+        </div>
     </div>
 </div>
 
 <script>
 function abrirModalDelete(url) {
     document.getElementById("deleteConfirmBtn").href = url;
-    document.getElementById("modalConfirmDelete").style.display = "flex";
+    document.getElementById("modalDeleteAudio").style.display = "flex";
 }
 function fecharModalDelete() {
-    document.getElementById("modalConfirmDelete").style.display = "none";
+    document.getElementById("modalDeleteAudio").style.display = "none";
+}
+
+function abrirModalConta() {
+    document.getElementById("modalDeleteConta").style.display = "flex";
+}
+function fecharModalConta() {
+    document.getElementById("modalDeleteConta").style.display = "none";
 }
 </script>
 

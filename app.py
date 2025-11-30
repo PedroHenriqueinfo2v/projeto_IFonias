@@ -92,6 +92,20 @@ def timeline():
     db = conectar()
     cursor = db.cursor(dictionary=True)
 
+    cursor.execute("""
+        SELECT 
+            a.*, 
+            u.nome,
+            u.usuario,
+            u.curso,
+            u.campus,
+            (SELECT COUNT(*) FROM curtidas c WHERE c.audio_id = a.id_audio) AS total_curtidas
+        FROM audios a
+        JOIN usuarios u ON a.usuario_id = u.id_usuario
+        ORDER BY a.criado_em DESC
+    """)
+    audios = cursor.fetchall()
+
     # =======================
     # Todos os áudios + total de curtidas
     # =======================
@@ -391,6 +405,121 @@ def cadastrar():
         return render_template("login.html", cadastro_ok=True)
 
     return render_template("cadastro.html")
+
+# ===========================
+# PERFIL PÚBLICO (ver perfil de outro usuário)
+# ===========================
+@app.route("/perfil/<int:user_id>")
+def perfil_publico(user_id):
+    # se não estiver logado, redireciona ao login (opcional)
+    if "usuario_id" not in session:
+        return redirect(url_for("login"))
+
+    db = conectar()
+    cursor = db.cursor(dictionary=True)
+
+    # busca dados do usuário solicitado
+    cursor.execute("SELECT id_usuario, nome, usuario, curso, campus, avatar FROM usuarios WHERE id_usuario=%s", (user_id,))
+    usuario = cursor.fetchone()
+
+    if not usuario:
+        cursor.close()
+        db.close()
+        return redirect(url_for("timeline"))  # usuário não encontrado
+
+    # busca áudios desse usuário
+    cursor.execute("""
+        SELECT * FROM audios
+        WHERE usuario_id=%s
+        ORDER BY criado_em DESC
+    """, (user_id,))
+    audios = cursor.fetchall()
+
+    cursor.close()
+    db.close()
+
+    # renderiza uma página de perfil público (sem botões de editar/deletar)
+    return render_template("perfil_publico.html", usuario=usuario, audios=audios)
+
+# ===========================
+# DELETAR PERFIL
+# ===========================
+@app.route("/deletar_conta")
+def deletar_conta():
+    if "usuario_id" not in session:
+        return redirect(url_for("login"))
+
+    user_id = session["usuario_id"]
+
+    db = conectar()
+    cursor = db.cursor(dictionary=True)
+
+    # buscar avatar para deletar do disco
+    cursor.execute("SELECT avatar FROM usuarios WHERE id_usuario=%s", (user_id,))
+    usuario = cursor.fetchone()
+
+    # deletar avatar do disco
+    if usuario and usuario["avatar"]:
+        caminho = os.path.join(app.config["AVATAR_FOLDER"], usuario["avatar"])
+        if os.path.exists(caminho):
+            os.remove(caminho)
+
+    # deletar comentários do usuário
+    cursor.execute("DELETE FROM comentarios WHERE usuario_id=%s", (user_id,))
+
+    # deletar curtidas do usuário
+    cursor.execute("DELETE FROM curtidas WHERE usuario_id=%s", (user_id,))
+
+    # pegar todos os áudios do usuário
+    cursor.execute("SELECT arquivo_audio FROM audios WHERE usuario_id=%s", (user_id,))
+    audios = cursor.fetchall()
+
+    # deletar arquivos de áudio
+    for a in audios:
+        caminho_audio = os.path.join(app.config["UPLOAD_FOLDER"], a["arquivo_audio"])
+        if os.path.exists(caminho_audio):
+            os.remove(caminho_audio)
+
+    # deletar áudios do banco
+    cursor.execute("DELETE FROM audios WHERE usuario_id=%s", (user_id,))
+
+    # deletar conta
+    cursor.execute("DELETE FROM usuarios WHERE id_usuario=%s", (user_id,))
+    db.commit()
+
+    cursor.close()
+    db.close()
+
+    session.clear()
+
+    return redirect(url_for("login"))
+
+# ===========================
+# PÁGINA DE ÁUDIO INDIVIDUAL
+# ===========================
+@app.route("/audio/<int:audio_id>")
+def audio(audio_id):
+    if "usuario_id" not in session:
+        return redirect(url_for("login"))
+
+    db = conectar()
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT a.*, u.nome, u.usuario, u.avatar
+        FROM audios a
+        JOIN usuarios u ON u.id_usuario = a.usuario_id
+        WHERE id_audio=%s
+    """, (audio_id,))
+    audio = cursor.fetchone()
+
+    cursor.close()
+    db.close()
+
+    if not audio:
+        return redirect(url_for("timeline"))
+
+    return render_template("audio.html", audio=audio)
 
 # ===========================
 # RUN

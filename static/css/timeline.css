@@ -557,3 +557,9 @@ a { color: inherit; }
 .btn-curtidas-lista:hover {
     color: #F26D00;
 }
+
+.autor-infos {
+    color: #666;
+    margin-left: 8px;
+    font-size: 0.95em;
+}

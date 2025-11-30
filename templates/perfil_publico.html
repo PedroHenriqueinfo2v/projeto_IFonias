@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ usuario.nome }} - IFonias</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil_publico.css') }}">
+</head>
+
+<body>
+
+<header class="perfil-header">
+
+    <!-- BOTÃO VOLTAR -->
+    <a href="{{ url_for('timeline') }}" class="btn-voltar">← Voltar</a>
+
+    <div class="perfil-header-content">
+
+        <!-- AVATAR -->
+        <div class="perfil-avatar">
+            {% if usuario.avatar %}
+                <img src="{{ url_for('static', filename='avatars/' ~ usuario.avatar) }}">
+            {% else %}
+                <img src="{{ url_for('static', filename='img/default_profile.png') }}">
+            {% endif %}
+        </div>
+
+        <!-- DADOS -->
+        <div class="perfil-dados">
+            <p class="perfil-label">Perfil</p>
+
+            <h1 class="perfil-nome">{{ usuario.nome }}</h1>
+
+            <p class="perfil-meta">
+                @{{ usuario.usuario }} · {{ usuario.curso }} · {{ usuario.campus }}
+            </p>
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- PUBLICAÇÕES -->
+<div class="perfil-container">
+
+    <h2 class="secao-titulo">Publicações de {{ usuario.nome }}</h2>
+
+    <div class="publicacoes-grid">
+
+        {% for pub in audios %}
+        <!-- CARD CLICÁVEL -->
+        <a href="{{ url_for('audio', audio_id=pub.id_audio) }}" class="card-audio">
+
+            <div class="card-thumb">🎧</div>
+
+            <h3 class="card-titulo">{{ pub.titulo }}</h3>
+            <p class="card-data">{{ pub.criado_em.strftime('%d/%m/%Y') }}</p>
+
+        </a>
+        {% endfor %}
+
+        {% if audios|length == 0 %}
+            <p class="nenhum">Nenhuma publicação ainda.</p>
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
