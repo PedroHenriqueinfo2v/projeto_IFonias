@@ -1,71 +1,153 @@
-body {
-    background: #F8F5F2;
-    font-family: Arial, sans-serif;
+:root {
+    --laranja: #F26D00;
+    --amarelo: #F2A000;
+    --branco: #ffffff;
 }
 
-.login-box {
-    width: 350px;
-    margin: 120px auto;
-    background: #fff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0,0,0,.1);
+/* FUNDO COM IMAGENS TROCANDO */
+body {
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    height: 100vh;
+
+    background: url('../img/bg1.jpg') center/cover no-repeat fixed;
+    animation: trocaFundo 14s infinite alternate ease-in-out;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes trocaFundo {
+    0%   { background-image: url('../img/bg1.jpg'); }
+    100% { background-image: url('../img/bg2.jpg'); }
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(20, 20, 20, 0.55);
+    backdrop-filter: blur(3px);
+    z-index: 1;
+}
+
+/* LOGO */
+.top-logo {
+    position: absolute;
+    top: 25px;
+    left: 35px;
+    z-index: 3;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.85);
+}
+
+/* CARD */
+.login-card {
+    position: relative;
+    z-index: 2;
+    width: 400px;
+    padding: 45px 50px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    color: var(--branco);
+    text-align: left;
+    animation: loginFade 0.6s ease-out;
+}
+
+@keyframes loginFade {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* TÍTULOS */
+h2 {
+    color: var(--laranja);
+    font-size: 2rem;
+    font-weight: 800;
     text-align: center;
 }
 
-h1 {
-    color: #F26D00;
+.desc {
+    text-align: center;
+    margin-top: -10px;
+    margin-bottom: 25px;
+    color: #e8e8e8;
+}
+
+/* FORM */
+form {
+    width: 85%;
+    margin: 0 auto;
 }
 
 label {
-    font-weight: bold;
     display: block;
-    text-align: left;
+    margin-bottom: 6px;
+    font-weight: 600;
 }
 
 input {
     width: 100%;
-    padding: 10px;
-    margin: 8px 0 18px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    background: #F26D00;
+    padding: 13px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    border: 2px solid rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.18);
     color: white;
+}
+
+input::placeholder {
+    color: #ddd;
+}
+
+input:focus {
+    border-color: var(--amarelo);
+    outline: none;
+}
+
+/* BOTÃO */
+.btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    background: var(--laranja);
     border: none;
-    border-radius: 8px;
-    font-size: 1.1em;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    color: white;
     cursor: pointer;
+    transition: .25s;
 }
 
-button:hover {
-    background: #ff8e00;
+.btn:hover {
+    background: var(--amarelo);
+    transform: translateY(-2px);
 }
 
-.alert {
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 12px;
-}
-
-.alerta-vermelho {
-    background: #ffb3b3;
-    color: #8b0000;
-}
-
-.alerta-verde {
-    background: #b6ffb6;
-    color: #005c15;
-}
-
-.link-secundario, .btn-cadastrar {
+/* LINK SECUNDÁRIO */
+.link-sec {
     display: block;
-    margin-top: 15px;
-    text-decoration: none;
-    color: #F26D00;
+    margin-top: 20px;
+    text-align: center;
+    color: var(--amarelo);
     font-weight: bold;
+    text-decoration: none;
 }
+
+.link-sec:hover {
+    color: white;
+}
+
+/* ALERTAS */
+.alert {
+    background: rgba(0,0,0,0.3);
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    border-left: 4px solid var(--amarelo);
+}
+ 

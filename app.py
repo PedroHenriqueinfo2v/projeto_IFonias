@@ -13,7 +13,7 @@ def conectar():
     return connection.MySQLConnection(
         host="127.0.0.1",
         user="root",
-        password="labinfo",
+        password="sy68p014",
         database="ifonias_db"
     )
 
@@ -331,7 +331,7 @@ def curtir(audio_id):
         return {"erro": "Não logado"}, 401
 
     user_id = session["usuario_id"]
-    conn = connection.MySQLConnection(**db_config)
+    conn = connection.MySQLConnection()
     cursor = conn.cursor(dictionary=True)
 
     # Verifica se já curtiu

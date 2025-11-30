@@ -7,9 +7,12 @@
 </head>
 <body>
 
-<div class="cadastro-box">
+<div class="top-logo">IFonias 🎧</div>
 
-    <h1>Criar Conta 🎓</h1>
+<div class="cadastro-card">
+
+    <h2>Criar Conta</h2>
+    <p class="desc">Complete os dados abaixo</p>
 
     <form method="POST" action="{{ url_for('cadastrar') }}">
 
@@ -28,7 +31,7 @@
         <label>Campus:</label>
         <input type="text" name="campus" placeholder="Ex: Mossoró" required>
 
-        <button type="submit">Cadastrar</button>
+        <button class="btn" type="submit">Cadastrar</button>
     </form>
 
     <a href="{{ url_for('login') }}" class="link-voltar">Voltar ao Login</a>
