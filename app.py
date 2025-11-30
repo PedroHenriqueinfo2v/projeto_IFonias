@@ -13,7 +13,7 @@ def conectar():
     return connection.MySQLConnection(
         host="127.0.0.1",
         user="root",
-        password="sy68p014",
+        password="labinfo",
         database="ifonias_db"
     )
 
@@ -328,27 +328,84 @@ def upload():
 @app.route("/curtir/<int:audio_id>")
 def curtir(audio_id):
     if "usuario_id" not in session:
-        return redirect(url_for("login"))
+        return {"erro": "Não logado"}, 401
 
-    db = conectar()
-    cursor = db.cursor()
+    user_id = session["usuario_id"]
+    conn = connection.MySQLConnection(**db_config)
+    cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT * FROM curtidas WHERE usuario_id=%s AND audio_id=%s",
-                   (session["usuario_id"], audio_id))
+    # Verifica se já curtiu
+    cursor.execute("""
+        SELECT * FROM curtidas WHERE usuario_id = %s AND audio_id = %s
+    """, (user_id, audio_id))
     existe = cursor.fetchone()
 
     if existe:
-        cursor.execute("DELETE FROM curtidas WHERE usuario_id=%s AND audio_id=%s",
-                       (session["usuario_id"], audio_id))
+        # Remove curtida
+        cursor.execute("""
+            DELETE FROM curtidas WHERE usuario_id = %s AND audio_id = %s
+        """, (user_id, audio_id))
+        conn.commit()
+        curtido = False
     else:
-        cursor.execute("INSERT INTO curtidas (usuario_id, audio_id) VALUES (%s, %s)",
-                       (session["usuario_id"], audio_id))
+        # Adiciona curtida
+        cursor.execute("""
+            INSERT INTO curtidas (usuario_id, audio_id) VALUES (%s, %s)
+        """, (user_id, audio_id))
+        conn.commit()
+        curtido = True
+
+    # Conta novamente
+    cursor.execute("SELECT COUNT(*) AS total FROM curtidas WHERE audio_id = %s", (audio_id,))
+    total = cursor.fetchone()["total"]
+
+    conn.close()
+
+    return {"curtido": curtido, "total": total}
+
+
+@app.route("/curtir_ajax/<int:audio_id>", methods=["POST"])
+def curtir_ajax(audio_id):
+    if "usuario_id" not in session:
+        return {"erro": "não logado"}, 401
+
+    db = conectar()
+    cursor = db.cursor(dictionary=True)
+
+    # Verifica se já curtiu
+    cursor.execute("""
+        SELECT * FROM curtidas 
+        WHERE usuario_id=%s AND audio_id=%s
+    """, (session["usuario_id"], audio_id))
+    existe = cursor.fetchone()
+
+    if existe:
+        cursor.execute("""
+            DELETE FROM curtidas 
+            WHERE usuario_id=%s AND audio_id=%s
+        """, (session["usuario_id"], audio_id))
+        status = "descurtido"
+    else:
+        cursor.execute("""
+            INSERT INTO curtidas (usuario_id, audio_id)
+            VALUES (%s, %s)
+        """, (session["usuario_id"], audio_id))
+        status = "curtido"
 
     db.commit()
+
+    # Contar curtidas atualizadas
+    cursor.execute("SELECT COUNT(*) AS total FROM curtidas WHERE audio_id=%s", (audio_id,))
+    total = cursor.fetchone()["total"]
+
     cursor.close()
     db.close()
 
-    return redirect(url_for("timeline"))
+    return {
+        "status": status,
+        "total": total
+    }, 200
+
 
 # ===========================
 # COMENTÁRIO
@@ -520,6 +577,32 @@ def audio(audio_id):
         return redirect(url_for("timeline"))
 
     return render_template("audio.html", audio=audio)
+
+
+@app.route("/deletar_comentario/<int:id_comentario>", methods=["POST"])
+def deletar_comentario(id_comentario):
+    if "usuario_id" not in session:
+        return "unauthorized", 403
+
+    db = conectar()
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM comentarios WHERE id_comentario=%s", (id_comentario,))
+    comentario = cursor.fetchone()
+
+    if not comentario or comentario["usuario_id"] != session["usuario_id"]:
+        cursor.close()
+        db.close()
+        return "forbidden", 403
+
+    cursor.execute("DELETE FROM comentarios WHERE id_comentario=%s", (id_comentario,))
+    db.commit()
+
+    cursor.close()
+    db.close()
+
+    return "ok", 200
+
 
 # ===========================
 # RUN

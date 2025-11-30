@@ -4,34 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ audio.titulo }} - IFonias</title>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/audio.css') }}">
 </head>
 
 <body>
 
-<a href="{{ url_for('timeline') }}" class="btn-voltar">← Voltar</a>
+<header class="navbar">
+    <nav class="container nav-main-layout">
+        <a href="{{ url_for('timeline') }}" class="navbar-logo">
+            <span class="logo-icon">🎧</span> IFonias
+        </a>
 
-<div class="audio-container">
+        <a href="{{ url_for('timeline') }}" class="btn-voltar">⬅ Voltar</a>
+    </nav>
+</header>
 
-    <h1>{{ audio.titulo }}</h1>
+<div class="container-audio">
 
-    <p class="audio-meta">
-        Publicado por <strong>{{ audio.nome }}</strong> — @{{ audio.usuario }}
+    <h1 class="titulo">{{ audio.titulo }}</h1>
+
+    <p class="meta">
+        Publicado por 
+        <a href="{{ url_for('perfil_publico', user_id=audio.usuario_id) }}">
+            {{ audio.nome }}
+        </a>
+        em {{ audio.criado_em.strftime('%d/%m/%Y %H:%M') }}
     </p>
 
-    {% if audio.avatar %}
-        <img src="{{ url_for('static', filename='avatars/' ~ audio.avatar) }}" class="audio-avatar">
-    {% endif %}
+    <!-- PLAYER -->
+    <div class="player-box">
+        <audio controls class="player-audio">
+            <source src="{{ url_for('static', filename='audios/' ~ audio.arquivo_audio) }}" type="audio/mpeg">
+        </audio>
+    </div>
 
-    <audio controls class="audio-player">
-        <source src="{{ url_for('static', filename='audios/' ~ audio.arquivo_audio) }}" type="audio/mpeg">
-        Seu navegador não suporta áudio.
-    </audio>
-
-    {% if audio.legenda %}
+    <!-- SINOPSE -->
+    <h2>Sinopse</h2>
     <p class="legenda">{{ audio.legenda }}</p>
-    {% endif %}
+
+    <hr>
+
+    <!-- COMENTÁRIOS -->
+    <h2>Comentários</h2>
+
+    <div class="comments-list">
+        {% for c in comentarios %}
+        <div class="comment-item">
+
+            <p class="comment-meta">
+                <strong>{{ c.nome_usuario }}</strong> •
+                {{ c.criado_em.strftime('%d/%m %H:%M') }}
+            </p>
+
+            <p class="comment-text">{{ c.texto }}</p>
+
+            {% if c.usuario_id == session['usuario_id'] %}
+            <form method="POST" action="{{ url_for('apagar_comentario', id_comentario=c.id) }}">
+                <button class="btn-apagar-comentario">🗑 Excluir</button>
+            </form>
+            {% endif %}
+
+        </div>
+        {% endfor %}
+
+        {% if comentarios|length == 0 %}
+        <p style="color:gray;">Nenhum comentário ainda.</p>
+        {% endif %}
+    </div>
+
+    <!-- FORMULÁRIO -->
+    <div class="comment-form-container">
+        <h3>Adicionar Comentário</h3>
+
+        <form method="POST" action="{{ url_for('comentar', audio_id=audio.id_audio) }}">
+            <textarea name="comentario" required></textarea>
+            <button type="submit" class="btn-enviar">Enviar</button>
+        </form>
+    </div>
 
 </div>
 

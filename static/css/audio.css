@@ -1,59 +1,159 @@
+:root {
+    --fundo-pagina: #F8F5F2;
+    --texto-principal: #1C1C1C;
+    --cor-cabecalho: #F26D00;
+    --cor-titulo: #F2A000;
+    --cor-card: #ffffff;
+    --cor-borda: #e0e0e0;
+    --sombra: 0 8px 25px rgba(0,0,0,0.1);
+}
+
 body {
-    background: #F8F5F2;
-    font-family: "Inter", sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    background: var(--fundo-pagina);
+    font-family: "Inter", sans-serif;
 }
 
-.audio-container {
-    max-width: 700px;
-    margin: 30px auto;
-    background: white;
-    padding: 25px;
-    border-radius: 14px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+/* NAVBAR */
+.navbar {
+    background: linear-gradient(90deg, var(--cor-cabecalho), #ff9900);
+    padding: 12px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
 }
 
-.audio-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 12px 0;
+.nav-main-layout {
+    display: flex;
+    justify-content: space-between;
+    max-width: 900px;
+    margin: auto;
+    align-items: center;
 }
 
-.audio-player {
-    width: 100%;
-    margin-top: 20px;
-}
-
-.audio-meta {
-    color: #555;
-    margin-top: 5px;
+.navbar-logo {
+    text-decoration: none;
+    color: white;
+    font-weight: 800;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
 }
 
 .btn-voltar {
+    background: white;
+    padding: 7px 15px;
+    border-radius: 20px;
+    color: var(--cor-cabecalho);
+    font-weight: 700;
     text-decoration: none;
-    background: #F26D00;
-    padding: 8px 14px;
-    border-radius: 8px;
-    color: white;
-    font-weight: bold;
 }
 
-/* Sinopse igual da timeline */
+/* CONTAINER */
+.container-audio {
+    max-width: 850px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: var(--sombra);
+}
+
+.titulo {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.meta {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+/* PLAYER */
+.player-box {
+    background: #fafafa;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid var(--cor-borda);
+    margin-bottom: 20px;
+}
+
+.player-audio {
+    width: 100%;
+}
+
+/* SINOPSE IGUAL DA TIMELINE */
 .legenda {
     color: #555;
     font-size: 1rem;
     line-height: 1.45;
-    white-space: normal;
     word-break: break-word;
-    max-height: 220px;   /* limite da altura */
-    overflow-y: auto;    /* scroll se ficar grande */
-    padding-right: 6px;  /* espaço da scrollbar */
-    margin-top: 15px;
-    background: #fafafa;
+    white-space: normal;
+    max-height: 220px;
+    overflow-y: auto;
     padding: 12px;
-    border-radius: 8px;
+    background: #fafafa;
     border: 1px solid #eee;
+    border-radius: 8px;
+}
+
+/* ==================
+   LISTA DE COMENTÁRIOS
+================== */
+
+.comment-item {
+    background: #fff;
+    border: 1px solid var(--cor-borda);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.comment-meta {
+    font-size: 0.9rem;
+    color: var(--cor-cabecalho);
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.comment-text {
+    margin-bottom: 10px;
+}
+
+/* BOTÃO APAGAR */
+.btn-apagar-comentario {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.btn-apagar-comentario:hover {
+    background: #d60000;
+}
+
+/* FORMULÁRIO */
+.comment-form-container textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--cor-borda);
+    resize: vertical;
+    margin-bottom: 10px;
+}
+
+.btn-enviar {
+    background: var(--cor-titulo);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-enviar:hover {
+    background: #ffd44d;
 }
