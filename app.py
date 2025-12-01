@@ -13,7 +13,7 @@ def conectar():
     return connection.MySQLConnection(
         host="127.0.0.1",
         user="root",
-        password="labinfo",
+        password="sy68p014",
         database="ifonias_db"
     )
 
