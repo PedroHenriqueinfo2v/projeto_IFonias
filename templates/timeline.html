@@ -46,6 +46,13 @@
     h1 { color: var(--texto-principal); font-weight:900; font-size:2.5em; margin-bottom:25px; text-align:center; border-bottom:3px solid var(--cor-titulo); padding-bottom:10px; }
 
     /* ========================
+       BOTÕES FILTRO TIPO
+       ======================== */
+    .filtro-tipos { display:flex; justify-content:center; gap:10px; margin-bottom:25px; flex-wrap:wrap; }
+    .btn-tipo { background:none; border:2px solid var(--cor-cabecalho); padding:8px 16px; border-radius:50px; font-weight:700; cursor:pointer; transition: all 0.3s; }
+    .btn-tipo.active, .btn-tipo:hover { background-color: var(--cor-cabecalho); color:white; transform:translateY(-2px); }
+
+    /* ========================
        CARD ÁUDIO
        ======================== */
     .card-audio { background-color: var(--cor-card-fundo); border-radius: var(--borda-radius); box-shadow: var(--sombra-leve); padding:24px; margin-bottom:40px; display:flex; flex-direction:column; gap:16px; transition: box-shadow 0.3s ease, transform 0.3s ease; }
@@ -65,7 +72,7 @@
     .btn-curtidas-lista:hover { color: var(--cor-cabecalho); }
 
     /* ========================
-       MODAL DE COMENTÁRIOS
+       MODAIS, FORMULÁRIOS, CONFIRMAÇÃO ETC
        ======================== */
     .modal, .modal-likes, .confirm-modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; overflow:auto; background-color: rgba(0,0,0,0.6); }
     .modal-content, .modal-likes-content, .confirm-modal-content { background-color: var(--cor-card-fundo); margin:5% auto; padding:30px; border-radius: var(--borda-radius); width:90%; max-width:600px; box-shadow: var(--sombra-leve); animation:fadeIn 0.3s; }
@@ -80,19 +87,13 @@
     .comment-item { border-bottom:1px solid var(--cor-borda-leve); padding:10px 0; position:relative; }
     .comment-meta { font-size:0.9em; color: var(--cor-cabecalho); font-weight:700; margin:0 0 5px 0; }
     .comment-text { margin:0 0 10px 0; color: var(--texto-principal); }
-
-    /* FORMULÁRIO */
     .comment-form-container h3 { font-size:1.2em; color: var(--texto-principal); margin:15px 0 10px 0; }
     .comment-form-container textarea { width:100%; min-height:80px; padding:10px; border:1px solid var(--cor-borda-leve); border-radius:8px; resize:vertical; margin-bottom:10px; }
     .comment-form-container button { background-color: var(--cor-titulo); color: var(--texto-principal); border:none; padding:10px 20px; border-radius:5px; font-weight:700; cursor:pointer; transition: background-color 0.3s; }
     .comment-form-container button:hover { background-color:#ffd700; }
-
-    /* BOTÃO APAGAR COMENTÁRIO */
     .btn-apagar-comentario { background:none; border:none; cursor:pointer; float:right; display:flex; align-items:center; justify-content:center; padding:2px 4px; transition: transform 0.2s; }
     .btn-apagar-comentario svg { width:18px; height:18px; fill:#F26D00; transition: transform 0.2s, fill 0.2s; }
     .btn-apagar-comentario:hover svg { fill:#cc5500; transform: scale(1.2); }
-
-    /* MODAL CONFIRMAÇÃO */
     .confirm-modal-content { max-width:400px; text-align:center; }
     .confirm-modal h3 { margin-bottom:20px; }
     .confirm-modal button { padding:8px 18px; border-radius:8px; border:none; font-weight:700; cursor:pointer; margin:0 10px; transition: transform 0.2s; }
@@ -121,9 +122,19 @@
 <div class="container">
   <h1>Novidades do Repositório</h1>
 
-  {% for audio in audios %}
-  <div class="card-audio">
+  <!-- BOTÕES DE FILTRO POR TIPO -->
+  <div class="filtro-tipos">
+    <button class="btn-tipo active" data-tipo="todos">Todos</button>
+    <button class="btn-tipo" data-tipo="podcast">Podcast</button>
+    <button class="btn-tipo" data-tipo="musica">Música</button>
+    <button class="btn-tipo" data-tipo="relato">Relato</button>
+    <button class="btn-tipo" data-tipo="dramatizacao">Dramatização</button>
+    <button class="btn-tipo" data-tipo="outros">Outros</button>
+  </div>
 
+  {% for audio in audios %}
+  <div class="card-audio" data-tipo="{{ audio.tipo_audio }}">
+    <!-- RESTANTE DO HTML DO CARD FICA INTEIRO, EXATAMENTE COMO VOCÊ ME ENVIOU -->
     <div class="card-header">
       <a href="{{ url_for('perfil_publico', user_id=audio.usuario_id) }}" class="autor-link">{{ audio.nome }}</a>
       <span class="data-publicacao">Publicado em {{ audio.criado_em.strftime('%d/%m às %H:%M') }}</span>
@@ -152,12 +163,11 @@
       </button>
     </div>
 
-    <!-- MODAL COMENTÁRIOS -->
+    <!-- MODAIS E COMENTÁRIOS PERMANECEM EXATOS -->
     <div id="modal-{{ audio.id_audio }}" class="modal">
       <div class="modal-content">
         <span class="close-button" data-close-audio-id="{{ audio.id_audio }}">&times;</span>
         <h2>Comentários</h2>
-
         <div class="audio-summary-modal">
           <span class="summary-icon">🎧</span>
           <div>
@@ -165,7 +175,6 @@
             <p class="summary-meta">de {{ audio.nome }}</p>
           </div>
         </div>
-
         <div class="comments-list" data-audio-id="{{ audio.id_audio }}">
           {% for c in comentarios.get(audio.id_audio, []) %}
             {% set comentario_id = c.get('id') or c.get('id_comentario') %}
@@ -184,7 +193,6 @@
             </div>
           {% endfor %}
         </div>
-
         <div class="comment-form-container">
           <h3>Adicionar comentário</h3>
           <form method="POST" action="{{ url_for('comentar', audio_id=audio.id_audio) }}">
@@ -199,7 +207,6 @@
   {% endfor %}
 </div>
 
-<!-- MODAL CONFIRMAÇÃO GLOBAL -->
 <div id="confirm-modal" class="confirm-modal">
   <div class="confirm-modal-content">
     <h3>Tem certeza que deseja apagar este comentário?</h3>
@@ -217,9 +224,8 @@ document.addEventListener('click', function(e){
     fetch(`/curtir_ajax/${audioId}`, { method:'POST', credentials:'same-origin' })
     .then(resp=>resp.json())
     .then(data=>{
-      if(data.status==='curtido'){
-        likeBtn.textContent='❤️ Curtido'; likeBtn.setAttribute('aria-pressed','true');
-      } else { likeBtn.textContent='🤍 Curtir'; likeBtn.setAttribute('aria-pressed','false'); }
+      if(data.status==='curtido'){ likeBtn.textContent='❤️ Curtido'; likeBtn.setAttribute('aria-pressed','true'); }
+      else { likeBtn.textContent='🤍 Curtir'; likeBtn.setAttribute('aria-pressed','false'); }
       const contador=document.getElementById(`like-count-${audioId}`);
       if(contador) contador.textContent=`${data.total} curtidas`;
     });
@@ -255,6 +261,21 @@ document.addEventListener('click', function(e){
   const openComments=e.target.closest('.btn-comentarios');
   if(openComments){ const id=openComments.dataset.audioId; document.getElementById(`modal-${id}`).style.display='block'; return; }
   if(e.target.classList.contains('close-button')){ const id=e.target.dataset.closeAudioId; document.getElementById(`modal-${id}`).style.display='none'; return; }
+});
+
+// FILTRO DE TIPOS
+const botoes = document.querySelectorAll('.btn-tipo');
+const cards = document.querySelectorAll('.card-audio');
+botoes.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    botoes.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const tipoSelecionado = btn.dataset.tipo;
+    cards.forEach(card=>{
+      if(tipoSelecionado==='todos'||card.dataset.tipo===tipoSelecionado) card.style.display='flex';
+      else card.style.display='none';
+    });
+  });
 });
 </script>
 
