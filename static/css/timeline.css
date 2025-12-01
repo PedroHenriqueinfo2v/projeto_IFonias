@@ -1,4 +1,4 @@
-/* timeline.css — versão PRO (Flex layout) */
+/* timeline.css — versão PRO (Flex layout + melhorias visuais) */
 
 /* ========================
    VARIÁVEIS - MODO CLARO REFINADO
@@ -47,6 +47,9 @@ body {
     background: linear-gradient(90deg, var(--cor-cabecalho), #ff9900);
     padding: 12px 0;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .nav-main-layout {
@@ -143,14 +146,23 @@ h1 {
     transition: box-shadow 0.3s ease, transform 0.3s ease;
     padding: 24px;
     margin-bottom: 40px;
-
-    /* FLEX layout: left = conteúdo, right = player */
     display: flex;
+    flex-direction: column; /* vertical layout */
     gap: var(--card-gap);
-    align-items: flex-start;
+    align-items: stretch;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeSlide 0.5s forwards;
 }
 
-/* hover */
+@keyframes fadeSlide {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* hover card */
 .card-audio:hover {
     box-shadow: var(--sombra-interativa);
     transform: translateY(-3px);
@@ -159,25 +171,29 @@ h1 {
 /* Área esquerda (conteúdo text) */
 .card-body {
     flex: 1 1 auto;
-    min-width: 0; /* important to allow truncation/scrolling children */
+    min-width: 0;
 }
 
-/* Área direita (player) */
+/* Área do player */
 .player-container {
-    flex: 0 0 340px; /* fixed-ish width for player column on desktop */
-    max-width: 40%;
+    width: 100%;
+    max-width: 100%;
+    flex: none;
     padding: 16px;
     background-color: var(--fundo-pagina);
     border-radius: var(--borda-radius);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    /* make sure player stays visible */
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: visible;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-/* Make audio control responsive */
+.card-audio:hover .player-container {
+    box-shadow: 0 6px 20px rgba(242,109,0,0.3);
+    transform: translateY(-2px);
+}
+
 .player-audio {
     width: 100%;
     max-width: 100%;
@@ -213,17 +229,14 @@ h1 {
     margin: 8px 0 12px 0;
 }
 
-/* Legenda: evita que quebre layout e mantém leitura */
 .legenda {
     color: var(--cor-texto-secundario);
     font-size: 1.0em;
     line-height: 1.45;
-    white-space: normal;
     word-break: break-word;
-    /* limit height so a very long sinopse não quebre layout */
     max-height: 220px;
     overflow-y: auto;
-    padding-right: 6px; /* espaço para scrollbar */
+    padding-right: 6px;
     margin-bottom: 8px;
 }
 
@@ -239,25 +252,42 @@ h1 {
     flex-wrap: wrap;
 }
 
-/* buttons */
-.btn-curtir, .btn-comentarios {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: color 0.2s, transform 0.2s;
+/* ========================
+   BOTÕES CURTIR / COMENTÁRIOS
+   ======================== */
+.btn-curtir-ajax {
+    background-color: #fff;
+    border: 2px solid var(--cor-cabecalho);
+    padding: 6px 12px;
+    border-radius: 50px;
     font-weight: 700;
-    text-decoration: none;
-    color: var(--cor-texto-secundario);
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
-.btn-curtir:hover {
-    color: #cc0000;
+.btn-curtir-ajax[aria-pressed="true"] {
+    background-color: var(--cor-cabecalho);
+    color: #fff;
+}
+
+.btn-curtir-ajax:hover {
     transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(242,109,0,0.4);
+}
+
+.btn-comentarios {
+    background-color: #fff;
+    border: 2px solid var(--cor-titulo);
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
 .btn-comentarios:hover {
-    color: var(--cor-titulo);
+    background-color: var(--cor-titulo);
+    color: #fff;
     transform: scale(1.05);
 }
 
@@ -398,108 +428,8 @@ h1 {
 }
 
 /* ========================
-   RESPONSIVIDADE
+   MODAL DE CURTIDAS
    ======================== */
-@media (max-width: 992px) {
-    .player-container {
-        flex: 0 0 300px;
-        max-width: 38%;
-    }
-}
-
-@media (max-width: 768px) {
-    /* Navbar Responsiva */
-    .nav-main-layout {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        text-align: center;
-    }
-
-    .navbar-logo {
-        margin-bottom: 5px;
-    }
-
-    .navbar-nav {
-        width: 100%;
-        justify-content: space-around;
-        order: 3;
-    }
-
-    .nav-actions {
-        width: 100%;
-        justify-content: center;
-        order: 2;
-    }
-
-    /* Card de Áudio Responsivo: empilha em coluna */
-    .card-audio {
-        flex-direction: column;
-        gap: 12px;
-        padding: 18px;
-    }
-
-    .player-container {
-        flex: 0 0 auto;
-        width: 100%;
-        max-width: none;
-        padding: 12px;
-    }
-
-    .card-body {
-        width: 100%;
-        padding: 0;
-    }
-
-    .card-footer {
-        padding-top: 12px;
-        margin-top: 12px;
-        gap: 12px;
-    }
-
-    .titulo-audio {
-        font-size: 1.4em;
-    }
-
-    .legenda {
-        max-height: 280px;
-    }
-}
-
-/* Pequenos ajustes finais */
-a { color: inherit; }
-
-/* Modo vertical mais estético */
-.card-audio {
-    flex-direction: column !important;
-    align-items: stretch !important;
-}
-
-/* Player ocupa 100% da largura */
-.player-container {
-    width: 100% !important;
-    max-width: 100% !important;
-    flex: none !important;
-}
-
-.curtidas-area {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.contador-curtidas {
-    font-weight: 600;
-    color: #333;
-}
-
-.curtidores-lista {
-    color: #777;
-    font-style: italic;
-    font-size: 0.9em;
-}
-/* MODAL DE CURTIDAS — estilo Instagram */
 .modal-likes {
     display: none;
     position: fixed;
@@ -529,7 +459,7 @@ a { color: inherit; }
 }
 
 .close-likes:hover {
-    color: #F26D00;
+    color: var(--cor-cabecalho);
 }
 
 .likes-list {
@@ -555,12 +485,76 @@ a { color: inherit; }
 }
 
 .btn-curtidas-lista:hover {
-    color: #F26D00;
+    color: var(--cor-cabecalho);
 }
 
-.autor-infos {
-    color: #666;
-    margin-left: 8px;
-    font-size: 0.95em;
+/* Scrollbar customizada */
+.comments-list::-webkit-scrollbar,
+.legenda::-webkit-scrollbar,
+.likes-list::-webkit-scrollbar {
+    width: 8px;
 }
 
+.comments-list::-webkit-scrollbar-thumb,
+.legenda::-webkit-scrollbar-thumb,
+.likes-list::-webkit-scrollbar-thumb {
+    background-color: rgba(242,109,0,0.6);
+    border-radius: 4px;
+}
+
+.comments-list::-webkit-scrollbar-track,
+.legenda::-webkit-scrollbar-track,
+.likes-list::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 4px;
+}
+
+/* ========================
+   RESPONSIVIDADE
+   ======================== */
+@media (max-width: 992px) {
+    .player-container {
+        flex: 0 0 300px;
+        max-width: 38%;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-main-layout {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .navbar-logo {
+        margin-bottom: 5px;
+    }
+
+    .navbar-nav {
+        width: 100%;
+        justify-content: space-around;
+        order: 3;
+    }
+
+    .nav-actions {
+        width: 100%;
+        justify-content: center;
+        order: 2;
+    }
+
+    .card-audio {
+        padding: 18px;
+    }
+
+    .titulo-audio {
+        font-size: 1.4em;
+    }
+
+    .legenda {
+        max-height: 280px;
+    }
+}
+
+/* Pequenos ajustes finais */
+a { color: inherit; }

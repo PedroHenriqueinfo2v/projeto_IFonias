@@ -4,19 +4,114 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>IFonias - Linha do Tempo</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/timeline.css') }}">
+  <style>
+    /* ========================
+       VARIÁVEIS - MODO CLARO
+       ======================== */
+    :root {
+      --fundo-pagina: #F8F5F2;
+      --texto-principal: #1C1C1C;
+      --cor-cabecalho: #F26D00;
+      --cor-titulo: #F2A000;
+      --cor-card-fundo: #ffffff;
+      --cor-texto-secundario: #444;
+      --cor-borda-leve: #EFEFEF;
+      --borda-radius: 10px;
+      --sombra-leve: 0 8px 25px rgba(0,0,0,0.1);
+      --sombra-interativa: 0 10px 30px rgba(242,109,0,0.3);
+      --card-gap: 24px;
+    }
+
+    /* ========================
+       BASE
+       ======================== */
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body { background-color: var(--fundo-pagina); font-family: 'Inter', Arial, sans-serif; color: var(--texto-principal); line-height: 1.6; }
+    .container { max-width: 900px; margin: 30px auto; padding: 0 15px; }
+
+    /* ========================
+       NAVBAR
+       ======================== */
+    .navbar { background: linear-gradient(90deg, var(--cor-cabecalho), #ff9900); padding:12px 0; box-shadow:0 4px 10px rgba(0,0,0,0.25); }
+    .nav-main-layout { display:flex; justify-content:space-between; align-items:center; max-width:1200px; margin:0 auto; }
+    .navbar-logo { color:white; text-decoration:none; font-size:1.8em; font-weight:900; display:flex; align-items:center; }
+    .logo-icon { font-size:1.2em; margin-right:8px; }
+    .navbar-nav { display:flex; list-style:none; }
+    .nav-item a { color:white; text-decoration:none; padding:12px 20px; display:block; font-weight:700; border-radius:6px; transition: all 0.3s ease; border:1px solid transparent; }
+    .nav-item a:hover, .nav-item.active a { background-color: rgba(255,255,255,0.15); border-color:white; box-shadow:0 0 10px rgba(255,255,255,0.5); transform: translateY(-1px); }
+    .nav-actions { display:flex; align-items:center; }
+    .btn-perfil { background-color: var(--cor-titulo); color: var(--texto-principal); text-decoration:none; padding:8px 15px; border-radius:50px; font-weight:700; transition: all 0.3s; white-space:nowrap; box-shadow:0 2px 5px rgba(0,0,0,0.2); }
+    .btn-perfil:hover { background-color:white; color: var(--cor-cabecalho); }
+
+    h1 { color: var(--texto-principal); font-weight:900; font-size:2.5em; margin-bottom:25px; text-align:center; border-bottom:3px solid var(--cor-titulo); padding-bottom:10px; }
+
+    /* ========================
+       CARD ÁUDIO
+       ======================== */
+    .card-audio { background-color: var(--cor-card-fundo); border-radius: var(--borda-radius); box-shadow: var(--sombra-leve); padding:24px; margin-bottom:40px; display:flex; flex-direction:column; gap:16px; transition: box-shadow 0.3s ease, transform 0.3s ease; }
+    .card-audio:hover { box-shadow: var(--sombra-interativa); transform: translateY(-3px); }
+    .card-body { flex:1; }
+    .player-container { width:100%; max-width:100%; flex:none; padding:12px; background-color: var(--fundo-pagina); border-radius: var(--borda-radius); box-shadow:0 4px 15px rgba(0,0,0,0.1); display:flex; justify-content:center; }
+    .player-audio { width:100%; max-width:100%; outline:none; }
+    .autor-link { font-weight:800; font-size:1.15em; color: var(--texto-principal); text-decoration:none; }
+    .autor-link:hover { color: var(--cor-cabecalho); text-decoration:underline; }
+    .data-publicacao { display:block; color: var(--cor-texto-secundario); font-size:0.8em; margin-top:6px; font-style:italic; }
+    .titulo-audio { color: var(--cor-cabecalho); font-weight:900; font-size:1.6em; margin:8px 0 12px 0; }
+    .legenda { color: var(--cor-texto-secundario); font-size:1em; line-height:1.45; word-break: break-word; max-height:220px; overflow-y:auto; padding-right:6px; margin-bottom:8px; }
+    .card-footer { border-top:2px solid var(--cor-borda-leve); padding-top:16px; margin-top:18px; display:flex; gap:20px; font-size:0.95em; flex-wrap:wrap; align-items:center; }
+    .btn-curtir-ajax, .btn-comentarios, .btn-curtidas-lista { background:none; border:none; cursor:pointer; font-weight:700; transition: transform 0.2s; }
+    .btn-curtir-ajax:hover { transform: scale(1.05); }
+    .btn-comentarios:hover { transform: scale(1.05); }
+    .btn-curtidas-lista:hover { color: var(--cor-cabecalho); }
+
+    /* ========================
+       MODAL DE COMENTÁRIOS
+       ======================== */
+    .modal, .modal-likes, .confirm-modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; overflow:auto; background-color: rgba(0,0,0,0.6); }
+    .modal-content, .modal-likes-content, .confirm-modal-content { background-color: var(--cor-card-fundo); margin:5% auto; padding:30px; border-radius: var(--borda-radius); width:90%; max-width:600px; box-shadow: var(--sombra-leve); animation:fadeIn 0.3s; }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(-20px);} to{opacity:1; transform:translateY(0);} }
+    .close-button, .close-likes { float:right; font-size:30px; font-weight:bold; cursor:pointer; transition: color 0.3s; }
+    .close-button:hover, .close-button:focus, .close-likes:hover { color: var(--cor-cabecalho); }
+    .audio-summary-modal { background-color: var(--fundo-pagina); padding:15px; border-radius:8px; margin-bottom:20px; display:flex; align-items:center; gap:15px; }
+    .summary-icon { font-size:2em; color: var(--cor-titulo); }
+    .summary-title { font-weight:700; color: var(--texto-principal); margin:0; }
+    .summary-meta { font-size:0.9em; color: var(--cor-texto-secundario); margin:0; }
+    .comments-list { max-height:300px; overflow-y:auto; padding-right:10px; margin-bottom:20px; }
+    .comment-item { border-bottom:1px solid var(--cor-borda-leve); padding:10px 0; position:relative; }
+    .comment-meta { font-size:0.9em; color: var(--cor-cabecalho); font-weight:700; margin:0 0 5px 0; }
+    .comment-text { margin:0 0 10px 0; color: var(--texto-principal); }
+
+    /* FORMULÁRIO */
+    .comment-form-container h3 { font-size:1.2em; color: var(--texto-principal); margin:15px 0 10px 0; }
+    .comment-form-container textarea { width:100%; min-height:80px; padding:10px; border:1px solid var(--cor-borda-leve); border-radius:8px; resize:vertical; margin-bottom:10px; }
+    .comment-form-container button { background-color: var(--cor-titulo); color: var(--texto-principal); border:none; padding:10px 20px; border-radius:5px; font-weight:700; cursor:pointer; transition: background-color 0.3s; }
+    .comment-form-container button:hover { background-color:#ffd700; }
+
+    /* BOTÃO APAGAR COMENTÁRIO */
+    .btn-apagar-comentario { background:none; border:none; cursor:pointer; float:right; display:flex; align-items:center; justify-content:center; padding:2px 4px; transition: transform 0.2s; }
+    .btn-apagar-comentario svg { width:18px; height:18px; fill:#F26D00; transition: transform 0.2s, fill 0.2s; }
+    .btn-apagar-comentario:hover svg { fill:#cc5500; transform: scale(1.2); }
+
+    /* MODAL CONFIRMAÇÃO */
+    .confirm-modal-content { max-width:400px; text-align:center; }
+    .confirm-modal h3 { margin-bottom:20px; }
+    .confirm-modal button { padding:8px 18px; border-radius:8px; border:none; font-weight:700; cursor:pointer; margin:0 10px; transition: transform 0.2s; }
+    .confirm-yes { background-color: var(--cor-cabecalho); color:white; }
+    .confirm-yes:hover { background-color:#cc5500; transform:scale(1.05); }
+    .confirm-no { background-color:#ccc; color:#333; }
+    .confirm-no:hover { background-color:#999; transform:scale(1.05); }
+
+  </style>
 </head>
 <body>
 
 <header class="navbar">
   <nav class="container nav-main-layout">
     <a href="{{ url_for('timeline') }}" class="navbar-logo"><span class="logo-icon">🎧</span> IFonias</a>
-
     <ul class="navbar-nav">
       <li class="nav-item active"><a href="{{ url_for('timeline') }}">Linha do Tempo</a></li>
       <li class="nav-item"><a href="{{ url_for('upload') }}">Publicar Áudio</a></li>
     </ul>
-
     <div class="nav-actions">
       <a href="{{ url_for('perfil') }}" class="btn-perfil">👤 Meu Perfil</a>
     </div>
@@ -29,68 +124,38 @@
   {% for audio in audios %}
   <div class="card-audio">
 
-    <!-- HEADER -->
     <div class="card-header">
       <a href="{{ url_for('perfil_publico', user_id=audio.usuario_id) }}" class="autor-link">{{ audio.nome }}</a>
       <span class="data-publicacao">Publicado em {{ audio.criado_em.strftime('%d/%m às %H:%M') }}</span>
     </div>
 
-    <!-- PLAYER -->
     <div class="player-container">
       <audio controls class="player-audio">
         <source src="{{ url_for('static', filename='audios/' ~ audio.arquivo_audio) }}" type="audio/mpeg">
       </audio>
     </div>
 
-    <!-- BODY -->
     <div class="card-body">
       <h3 class="titulo-audio">{{ audio.titulo }}</h3>
       <p class="legenda">{{ audio.legenda }}</p>
     </div>
 
-    <!-- FOOTER -->
     <div class="card-footer">
-
-      <!-- CURTIR AJAX (botão) -->
-      <button class="btn-curtir-ajax"
-              data-audio-id="{{ audio.id_audio }}"
-              aria-pressed="{{ 'true' if audio.id_audio in curtidos else 'false' }}">
+      <button class="btn-curtir-ajax" data-audio-id="{{ audio.id_audio }}" aria-pressed="{{ 'true' if audio.id_audio in curtidos else 'false' }}">
         {% if audio.id_audio in curtidos %}❤️ Curtido{% else %}🤍 Curtir{% endif %}
       </button>
-
-      <!-- CONTADOR -->
       <button class="btn-curtidas-lista" id="like-count-{{ audio.id_audio }}" data-likes-id="{{ audio.id_audio }}">
         {{ audio.total_curtidas }} curtidas
       </button>
-
-      <!-- ABRIR COMENTÁRIOS -->
       <button class="btn-comentarios" data-audio-id="{{ audio.id_audio }}">
         💬 Comentários ({{ comentarios.get(audio.id_audio, []) | length }})
       </button>
-
     </div>
 
-    <!-- MODAL: quem curtiu -->
-    <div id="modal-likes-{{ audio.id_audio }}" class="modal-likes">
-      <div class="modal-likes-content">
-        <span class="close-likes" data-close-likes="{{ audio.id_audio }}">&times;</span>
-        <h2>Quem curtiu</h2>
-        <div class="likes-list">
-          {% for nome in curtidores.get(audio.id_audio, []) %}
-            <div class="like-item">{{ nome }}</div>
-          {% endfor %}
-          {% if curtidores.get(audio.id_audio, []) | length == 0 %}
-            <p style="text-align:center; color:gray;">Ninguém curtiu ainda.</p>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-
-    <!-- MODAL: comentários -->
+    <!-- MODAL COMENTÁRIOS -->
     <div id="modal-{{ audio.id_audio }}" class="modal">
       <div class="modal-content">
         <span class="close-button" data-close-audio-id="{{ audio.id_audio }}">&times;</span>
-
         <h2>Comentários</h2>
 
         <div class="audio-summary-modal">
@@ -101,39 +166,25 @@
           </div>
         </div>
 
-        <!-- LISTA DE COMENTÁRIOS -->
         <div class="comments-list" data-audio-id="{{ audio.id_audio }}">
           {% for c in comentarios.get(audio.id_audio, []) %}
-
-            {# Não acessamos diretamente c.id_comentario; usamos fallback seguro #}
-            {% set comentario_id = c.get('id') or c.get('id_comentario') or c.get('ID') or c.get('comment_id') or c.get('commentId') %}
-
+            {% set comentario_id = c.get('id') or c.get('id_comentario') %}
             <div class="comment-item" {% if comentario_id %} id="comentario-{{ comentario_id }}"{% endif %}>
-
               <div class="comment-header">
-                <p class="comment-meta">
-                  {{ c.nome_usuario }} — {{ c.criado_em.strftime('%d/%m %H:%M') }}
-                </p>
-
+                <p class="comment-meta">{{ c.nome_usuario }} — {{ c.criado_em.strftime('%d/%m %H:%M') }}</p>
                 {% if comentario_id and c.usuario_id == session['usuario_id'] %}
-                <!-- botão de apagar usa data-id (sem inline onclick) -->
                 <button class="btn-apagar-comentario" data-id="{{ comentario_id }}" aria-label="Apagar comentário">
-                  ❌ Apagar
+                  <svg viewBox="0 0 24 24">
+                    <path d="M3 6h18v2H3V6zm2 3h14l-1.5 12.5c-.1.8-.7 1.5-1.5 1.5H8c-.8 0-1.4-.7-1.5-1.5L5 9zm5 2v8h2v-8H10zm4 0v8h2v-8h-2z"/>
+                  </svg>
                 </button>
                 {% endif %}
               </div>
-
               <p class="comment-text">{{ c.texto }}</p>
             </div>
-
           {% endfor %}
-
-          {% if comentarios.get(audio.id_audio, []) | length == 0 %}
-            <p style="color:gray; text-align:center;">Nenhum comentário ainda.</p>
-          {% endif %}
         </div>
 
-        <!-- FORMULÁRIO -->
         <div class="comment-form-container">
           <h3>Adicionar comentário</h3>
           <form method="POST" action="{{ url_for('comentar', audio_id=audio.id_audio) }}">
@@ -141,144 +192,69 @@
             <button type="submit">Enviar</button>
           </form>
         </div>
-
       </div>
     </div>
 
   </div>
   {% endfor %}
+</div>
 
+<!-- MODAL CONFIRMAÇÃO GLOBAL -->
+<div id="confirm-modal" class="confirm-modal">
+  <div class="confirm-modal-content">
+    <h3>Tem certeza que deseja apagar este comentário?</h3>
+    <button class="confirm-yes">Sim</button>
+    <button class="confirm-no">Não</button>
+  </div>
 </div>
 
 <script>
-/* ---------- AJAX CURTIR (usa /curtir_ajax/<id> POST) ---------- */
-document.addEventListener('click', function (e) {
-  // Event delegation para o botão curtir
+document.addEventListener('click', function(e){
+  // CURTIR
   const likeBtn = e.target.closest('.btn-curtir-ajax');
-  if (likeBtn) {
+  if(likeBtn){
     const audioId = likeBtn.dataset.audioId;
-    if (!audioId) return;
-
-    fetch(`/curtir_ajax/${audioId}`, { method: 'POST', credentials: 'same-origin' })
-      .then(resp => {
-        if (!resp.ok) throw new Error('Resposta inválida');
-        return resp.json();
-      })
-      .then(data => {
-        // espera { status: "curtido"|"descurtido", total: N, curtidores?: [...] }
-        if (data.status === 'curtido') {
-          likeBtn.textContent = '❤️ Curtido';
-          likeBtn.setAttribute('aria-pressed', 'true');
-        } else {
-          likeBtn.textContent = '🤍 Curtir';
-          likeBtn.setAttribute('aria-pressed', 'false');
-        }
-
-        // atualiza contador visível
-        const contador = document.getElementById(`like-count-${audioId}`) || document.querySelector(`.contador-curtidas[data-audio-id="${audioId}"]`);
-        if (contador) {
-          if (typeof data.total !== 'undefined') contador.textContent = `${data.total} curtidas`;
-        }
-
-        // se backend retornar lista de curtidores, atualiza modal
-        if (Array.isArray(data.curtidores)) {
-          const modal = document.getElementById(`modal-likes-${audioId}`);
-          if (modal) {
-            const listEl = modal.querySelector('.likes-list');
-            listEl.innerHTML = '';
-            if (data.curtidores.length === 0) {
-              listEl.innerHTML = '<p style="text-align:center; color:gray;">Ninguém curtiu ainda.</p>';
-            } else {
-              data.curtidores.forEach(name => {
-                const d = document.createElement('div');
-                d.className = 'like-item';
-                d.textContent = name;
-                listEl.appendChild(d);
-              });
-            }
-          }
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        alert('Erro ao processar curtida.');
-      });
-
-    return;
-  }
-
-  // Event delegation para apagar comentário
-  const delBtn = e.target.closest('.btn-apagar-comentario');
-  if (delBtn) {
-    const comentarioId = delBtn.dataset.id;
-    if (!comentarioId) { alert('ID do comentário não encontrado.'); return; }
-    if (!confirm('Tem certeza que deseja apagar seu comentário?')) return;
-
-    fetch(`/deletar_comentario/${comentarioId}`, {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json' }
-    })
-    .then(r => {
-      if (r.status === 200) {
-        const el = document.getElementById(`comentario-${comentarioId}`);
-        if (el) el.remove();
-      } else if (r.status === 403) {
-        alert('Você não tem permissão para apagar este comentário.');
-      } else {
-        r.text().then(t => alert('Erro ao apagar comentário: ' + t));
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      alert('Erro ao conectar ao servidor.');
+    fetch(`/curtir_ajax/${audioId}`, { method:'POST', credentials:'same-origin' })
+    .then(resp=>resp.json())
+    .then(data=>{
+      if(data.status==='curtido'){
+        likeBtn.textContent='❤️ Curtido'; likeBtn.setAttribute('aria-pressed','true');
+      } else { likeBtn.textContent='🤍 Curtir'; likeBtn.setAttribute('aria-pressed','false'); }
+      const contador=document.getElementById(`like-count-${audioId}`);
+      if(contador) contador.textContent=`${data.total} curtidas`;
     });
-
     return;
   }
 
-  // abrir modal de curtidas
-  const openLikes = e.target.closest('.btn-curtidas-lista');
-  if (openLikes) {
-    const id = openLikes.dataset.likesId;
-    const modal = document.getElementById(`modal-likes-${id}`);
-    if (modal) modal.style.display = 'block';
+  // APAGAR COMENTÁRIO
+  const delBtn = e.target.closest('.btn-apagar-comentario');
+  if(delBtn){
+    const comentarioId = delBtn.dataset.id;
+    if(!comentarioId) return;
+    const modal = document.getElementById('confirm-modal');
+    modal.style.display='block';
+    const yes = modal.querySelector('.confirm-yes');
+    const no = modal.querySelector('.confirm-no');
+    const closeModal=()=>modal.style.display='none';
+
+    yes.onclick = function(){
+      fetch(`/deletar_comentario/${comentarioId}`, { method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/json'}})
+      .then(r=>{
+        if(r.status===200){ const el=document.getElementById(`comentario-${comentarioId}`); if(el) el.remove();}
+        else if(r.status===403) alert('Você não tem permissão para apagar este comentário.');
+        else r.text().then(t=>alert('Erro ao apagar comentário: '+t));
+      }).catch(()=>alert('Erro ao conectar ao servidor.'));
+      closeModal();
+    }
+    no.onclick = closeModal;
+    modal.onclick = ev=>{ if(ev.target===modal) closeModal(); }
     return;
   }
 
-  // fechar modal de curtidas
-  const closeLikes = e.target.closest('.close-likes');
-  if (closeLikes) {
-    const id = closeLikes.dataset.closeLikes;
-    const modal = document.getElementById(`modal-likes-${id}`);
-    if (modal) modal.style.display = 'none';
-    return;
-  }
-
-  // abrir comentários
-  const openComments = e.target.closest('.btn-comentarios');
-  if (openComments) {
-    e.preventDefault();
-    const id = openComments.dataset.audioId;
-    const modal = document.getElementById(`modal-${id}`);
-    if (modal) modal.style.display = 'block';
-    return;
-  }
-
-  // fechar painel de comentários
-  const closeComments = e.target.closest('.close-button');
-  if (closeComments) {
-    const id = closeComments.dataset.closeAudioId;
-    const modal = document.getElementById(`modal-${id}`);
-    if (modal) modal.style.display = 'none';
-    return;
-  }
-
-  // fechar clicando fora (cada modal tem classe .modal ou .modal-likes)
-  if (e.target.classList && (e.target.classList.contains('modal') || e.target.classList.contains('modal-likes'))) {
-    e.target.style.display = 'none';
-    return;
-  }
+  // ABRIR FECHAR MODAIS COMENTÁRIOS
+  const openComments=e.target.closest('.btn-comentarios');
+  if(openComments){ const id=openComments.dataset.audioId; document.getElementById(`modal-${id}`).style.display='block'; return; }
+  if(e.target.classList.contains('close-button')){ const id=e.target.dataset.closeAudioId; document.getElementById(`modal-${id}`).style.display='none'; return; }
 });
 </script>
 
