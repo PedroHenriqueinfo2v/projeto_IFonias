@@ -7,22 +7,23 @@
 </head>
 <body>
 
-<!-- LOGO NO CANTO -->
+<!-- # logo fixa no canto superior -->
 <div class="top-logo">IFonias 🎧</div>
 
-<div class="login-card">
+<div class="login-card"> <!-- # card principal do login -->
 
     {% if erro_login %}
-        <div class="alert">Usuário ou senha incorretos.</div>
+        <div class="alert">Usuário ou senha incorretos.</div> <!-- # alerta de erro -->
     {% endif %}
 
     {% if cadastro_ok %}
-        <div class="alert verde">Cadastro realizado com sucesso!</div>
+        <div class="alert verde">Cadastro realizado com sucesso!</div> <!-- # alerta de sucesso -->
     {% endif %}
 
-    <h2>Bem-vindo</h2>
+    <h2>Bem-vindo</h2> <!-- # título -->
     <p class="desc">Entre para continuar</p>
 
+    <!-- # formulário de login -->
     <form method="POST" action="{{ url_for('login') }}">
 
         <label>Usuário:</label>
@@ -31,9 +32,10 @@
         <label>Senha:</label>
         <input type="password" name="senha" required>
 
-        <button type="submit" class="btn">Entrar</button>
+        <button type="submit" class="btn">Entrar</button> <!-- # botão de enviar -->
     </form>
 
+    <!-- # link para ir ao cadastro -->
     <a href="{{ url_for('cadastrar') }}" class="link-sec">Criar nova conta</a>
 
 </div>

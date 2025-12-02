@@ -1,4 +1,5 @@
 :root {
+    /* # variáveis de cores da página */
     --fundo-pagina: #F8F5F2;
     --texto-principal: #1C1C1C;
     --cor-cabecalho: #F26D00;
@@ -6,6 +7,7 @@
 }
 
 body {
+    /* # configuração geral do corpo da página */
     background-color: var(--fundo-pagina);
     font-family: 'Inter', Arial, sans-serif;
     display: flex;
@@ -15,6 +17,7 @@ body {
 }
 
 .edit-box {
+    /* # caixa central onde fica o formulário */
     width: 90%;
     max-width: 420px;
     background: #fff;
@@ -24,6 +27,7 @@ body {
 }
 
 h1 {
+    /* # título da página */
     text-align: center;
     margin-bottom: 20px;
     color: var(--cor-cabecalho);
@@ -31,11 +35,13 @@ h1 {
 }
 
 label {
+    /* # estilo dos rótulos dos campos */
     margin-top: 10px;
     font-weight: 700;
 }
 
 input {
+    /* # campos do formulário */
     width: 100%;
     padding: 10px;
     border-radius: 8px;
@@ -45,6 +51,7 @@ input {
 }
 
 button {
+    /* # botão salvar */
     width: 100%;
     padding: 12px;
     background-color: var(--cor-cabecalho);
@@ -58,10 +65,12 @@ button {
 }
 
 button:hover {
+    /* # efeito no hover */
     background-color: #d85f00;
 }
 
 .link-voltar {
+    /* # link para voltar ao perfil */
     display: block;
     text-align: center;
     margin-top: 15px;

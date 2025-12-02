@@ -4,7 +4,7 @@
     --branco: #ffffff;
 }
 
-/* FUNDO COM IMAGENS TROCANDO */
+/* # fundo da página com troca de imagens */
 body {
     margin: 0;
     font-family: "Inter", sans-serif;
@@ -23,6 +23,7 @@ body {
     100% { background-image: url('../img/bg2.jpg'); }
 }
 
+/* # camada escura transparente por cima do fundo */
 body::before {
     content: "";
     position: absolute;
@@ -32,7 +33,7 @@ body::before {
     z-index: 1;
 }
 
-/* LOGO */
+/* # logo fixa no canto */
 .top-logo {
     position: absolute;
     top: 25px;
@@ -43,26 +44,29 @@ body::before {
     color: rgba(255,255,255,0.85);
 }
 
-/* CARD */
+/* # card principal do cadastro */
 .cadastro-card {
     position: relative;
     z-index: 2;
     width: 400px;
     padding: 45px 50px;
+
     background: rgba(255,255,255,0.15);
     border: 1px solid rgba(255,255,255,0.25);
     backdrop-filter: blur(20px);
+
     border-radius: 20px;
     color: var(--branco);
     animation: fadeIn 0.6s ease-out;
 }
 
+/* # animação de entrada do card */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(18px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* TÍTULO */
+/* # título do card */
 h2 {
     color: var(--laranja);
     text-align: center;
@@ -76,18 +80,20 @@ h2 {
     color: #eee;
 }
 
-/* FORM */
+/* # container do form */
 form {
     width: 85%;
     margin: 0 auto;
 }
 
+/* # estilos dos rótulos */
 label {
     display: block;
     margin-bottom: 6px;
     font-weight: 600;
 }
 
+/* # campos de entrada */
 input {
     width: 100%;
     padding: 13px;
@@ -106,7 +112,7 @@ input:focus {
     border-color: var(--amarelo);
 }
 
-/* BOTÃO */
+/* # botão do cadastro */
 .btn {
     width: 100%;
     padding: 14px;
@@ -126,7 +132,7 @@ input:focus {
     transform: translateY(-2px);
 }
 
-/* VOLTAR */
+/* # link para voltar ao login */
 .link-voltar {
     display: block;
     margin-top: 20px;

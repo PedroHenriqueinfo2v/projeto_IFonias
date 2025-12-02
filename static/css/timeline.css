@@ -1,8 +1,4 @@
-/* timeline.css — versão PRO (Flex layout + melhorias visuais) */
-
-/* ========================
-   VARIÁVEIS - MODO CLARO REFINADO
-   ======================== */
+/* Variáveis globais do tema (cores, sombras e espaçamentos) */
 :root {
     --fundo-pagina: #F8F5F2;
     --texto-principal: #1C1C1C;
@@ -17,14 +13,14 @@
     --card-gap: 24px;
 }
 
-/* Box sizing global */
+/* Ajuste do modelo de caixa para evitar cálculos indevidos */
 *,
 *::before,
 *::after {
     box-sizing: border-box;
 }
 
-/* Base e Layout */
+/* Estilos básicos da página */
 body {
     background-color: var(--fundo-pagina);
     font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
@@ -34,15 +30,14 @@ body {
     line-height: 1.6;
 }
 
+/* Largura padrão das seções */
 .container {
     max-width: 900px;
     margin: 30px auto;
     padding: 0 15px;
 }
 
-/* ========================
-   NAVEGAÇÃO (NAVBAR) - MELHORADA
-   ======================== */
+/* Barra superior fixa da interface */
 .navbar {
     background: linear-gradient(90deg, var(--cor-cabecalho), #ff9900);
     padding: 12px 0;
@@ -52,6 +47,7 @@ body {
     z-index: 100;
 }
 
+/* Layout principal da navbar */
 .nav-main-layout {
     display: flex;
     justify-content: space-between;
@@ -60,7 +56,7 @@ body {
     margin: 0 auto;
 }
 
-/* Logo */
+/* Estilo do texto da logo */
 .navbar-logo {
     color: white;
     text-decoration: none;
@@ -71,12 +67,13 @@ body {
     align-items: center;
 }
 
+/* Ícone ao lado da logo */
 .logo-icon {
     font-size: 1.2em;
     margin-right: 8px;
 }
 
-/* Links Principais */
+/* Navegação lateral principal */
 .navbar-nav {
     display: flex;
     list-style: none;
@@ -84,6 +81,7 @@ body {
     padding: 0;
 }
 
+/* Links da navbar */
 .nav-item a {
     color: white;
     text-decoration: none;
@@ -95,6 +93,7 @@ body {
     border: 1px solid transparent;
 }
 
+/* Efeitos ao passar o mouse */
 .nav-item a:hover, .nav-item.active a {
     background-color: rgba(255, 255, 255, 0.15);
     border-color: white;
@@ -102,12 +101,13 @@ body {
     transform: translateY(-1px);
 }
 
-/* Ações (Botão Perfil - Link) */
+/* Container do botão “perfil” */
 .nav-actions {
     display: flex;
     align-items: center;
 }
 
+/* Botão do perfil na navbar */
 .btn-perfil {
     background-color: var(--cor-titulo);
     color: var(--texto-principal);
@@ -125,7 +125,7 @@ body {
     color: var(--cor-cabecalho);
 }
 
-/* TÍTULO H1 */
+/* Título principal da página */
 h1 {
     color: var(--texto-principal);
     font-weight: 900;
@@ -136,9 +136,7 @@ h1 {
     padding-bottom: 10px;
 }
 
-/* ========================
-   CARD DE ÁUDIO (FLEX PRO)
-   ======================== */
+/* Cartões da timeline */
 .card-audio {
     background-color: var(--cor-card-fundo);
     border-radius: var(--borda-radius);
@@ -147,7 +145,7 @@ h1 {
     padding: 24px;
     margin-bottom: 40px;
     display: flex;
-    flex-direction: column; /* vertical layout */
+    flex-direction: column;
     gap: var(--card-gap);
     align-items: stretch;
     opacity: 0;
@@ -155,6 +153,7 @@ h1 {
     animation: fadeSlide 0.5s forwards;
 }
 
+/* Animação de entrada dos cards */
 @keyframes fadeSlide {
     to {
         opacity: 1;
@@ -162,19 +161,19 @@ h1 {
     }
 }
 
-/* hover card */
+/* Efeito ao passar o mouse no card */
 .card-audio:hover {
     box-shadow: var(--sombra-interativa);
     transform: translateY(-3px);
 }
 
-/* Área esquerda (conteúdo text) */
+/* Conteúdo textual do card */
 .card-body {
     flex: 1 1 auto;
     min-width: 0;
 }
 
-/* Área do player */
+/* Área que contém o player */
 .player-container {
     width: 100%;
     max-width: 100%;
@@ -194,13 +193,14 @@ h1 {
     transform: translateY(-2px);
 }
 
+/* Player de áudio */
 .player-audio {
     width: 100%;
     max-width: 100%;
     outline: none;
 }
 
-/* Textual content */
+/* Nome do autor */
 .autor-link {
     font-weight: 800;
     font-size: 1.15em;
@@ -213,6 +213,7 @@ h1 {
     text-decoration: underline;
 }
 
+/* Data da publicação */
 .data-publicacao {
     display: block;
     color: var(--cor-texto-secundario);
@@ -221,7 +222,7 @@ h1 {
     font-style: italic;
 }
 
-/* Título e legenda */
+/* Título do áudio */
 .titulo-audio {
     color: var(--cor-cabecalho);
     font-weight: 900;
@@ -229,6 +230,7 @@ h1 {
     margin: 8px 0 12px 0;
 }
 
+/* Legenda */
 .legenda {
     color: var(--cor-texto-secundario);
     font-size: 1.0em;
@@ -240,7 +242,7 @@ h1 {
     margin-bottom: 8px;
 }
 
-/* card footer (curtir / comentários) */
+/* Área dos botões (curtir, comentários) */
 .card-footer {
     border-top: 2px solid var(--cor-borda-leve);
     padding-top: 16px;
@@ -252,9 +254,7 @@ h1 {
     flex-wrap: wrap;
 }
 
-/* ========================
-   BOTÕES CURTIR / COMENTÁRIOS
-   ======================== */
+/* Botão curtir */
 .btn-curtir-ajax {
     background-color: #fff;
     border: 2px solid var(--cor-cabecalho);
@@ -275,6 +275,7 @@ h1 {
     box-shadow: 0 4px 15px rgba(242,109,0,0.4);
 }
 
+/* Botão abrir comentários */
 .btn-comentarios {
     background-color: #fff;
     border: 2px solid var(--cor-titulo);
@@ -291,9 +292,7 @@ h1 {
     transform: scale(1.05);
 }
 
-/* ========================
-   MODAL DE COMENTÁRIOS
-   ======================== */
+/* Janela de comentários */
 .modal {
     display: none;
     position: fixed;
@@ -306,6 +305,7 @@ h1 {
     background-color: rgba(0, 0, 0, 0.6);
 }
 
+/* Conteúdo da janela */
 .modal-content {
     background-color: var(--cor-card-fundo);
     margin: 5% auto;
@@ -317,11 +317,13 @@ h1 {
     animation: fadeIn 0.3s;
 }
 
+/* Animação de entrada do modal */
 @keyframes fadeIn {
     from {opacity: 0; transform: translateY(-20px);}
     to {opacity: 1; transform: translateY(0);}
 }
 
+/* Botão de fechar modal */
 .close-button {
     color: var(--cor-texto-secundario);
     float: right;
@@ -337,6 +339,7 @@ h1 {
     cursor: pointer;
 }
 
+/* Resumo do áudio dentro do modal */
 .audio-summary-modal {
     background-color: var(--fundo-pagina);
     padding: 15px;
@@ -347,17 +350,20 @@ h1 {
     gap: 15px;
 }
 
+/* Ícone do resumo */
 .summary-icon {
     font-size: 2em;
     color: var(--cor-titulo);
 }
 
+/* Título dentro do modal */
 .summary-title {
     font-weight: 700;
     color: var(--texto-principal);
     margin: 0;
 }
 
+/* Metadados dentro do modal */
 .summary-meta {
     font-size: 0.9em;
     color: var(--cor-texto-secundario);
@@ -372,6 +378,7 @@ h1 {
     margin-bottom: 20px;
 }
 
+/* Comentário individual */
 .comment-item {
     border-bottom: 1px solid var(--cor-borda-leve);
     padding: 10px 0;
@@ -381,6 +388,7 @@ h1 {
     border-bottom: none;
 }
 
+/* Header do comentário */
 .comment-meta {
     font-size: 0.9em;
     color: var(--cor-cabecalho);
@@ -388,18 +396,20 @@ h1 {
     margin: 0 0 5px 0;
 }
 
+/* Texto do comentário */
 .comment-text {
     margin: 0 0 10px 0;
     color: var(--texto-principal);
 }
 
-/* Formulário de comentário */
+/* Título do formulário do modal */
 .comment-form-container h3 {
     font-size: 1.2em;
     color: var(--texto-principal);
     margin: 15px 0 10px 0;
 }
 
+/* Área de texto do comentário */
 .comment-form-container textarea {
     width: 100%;
     min-height: 80px;
@@ -412,6 +422,7 @@ h1 {
     margin-bottom: 10px;
 }
 
+/* Botão enviar comentário */
 .comment-form-container button {
     background-color: var(--cor-titulo);
     color: var(--texto-principal);
@@ -427,9 +438,7 @@ h1 {
     background-color: #ffd700;
 }
 
-/* ========================
-   MODAL DE CURTIDAS
-   ======================== */
+/* Modal das curtidas */
 .modal-likes {
     display: none;
     position: fixed;
@@ -441,6 +450,7 @@ h1 {
     background: rgba(0,0,0,0.6);
 }
 
+/* Conteúdo do modal de curtidas */
 .modal-likes-content {
     background: #fff;
     width: 90%;
@@ -451,6 +461,7 @@ h1 {
     animation: fadeIn 0.3s;
 }
 
+/* Botão fechar curtidas */
 .close-likes {
     float: right;
     font-size: 28px;
@@ -462,6 +473,7 @@ h1 {
     color: var(--cor-cabecalho);
 }
 
+/* Lista de curtidas */
 .likes-list {
     max-height: 300px;
     overflow-y: auto;
@@ -469,12 +481,14 @@ h1 {
     padding-right: 10px;
 }
 
+/* Item da lista de curtidas */
 .like-item {
     padding: 10px;
     border-bottom: 1px solid #eee;
     font-weight: 600;
 }
 
+/* Botão ver curtidas */
 .btn-curtidas-lista {
     background: none;
     border: none;
@@ -488,7 +502,7 @@ h1 {
     color: var(--cor-cabecalho);
 }
 
-/* Scrollbar customizada */
+/* Scrollbar personalizada */
 .comments-list::-webkit-scrollbar,
 .legenda::-webkit-scrollbar,
 .likes-list::-webkit-scrollbar {
@@ -509,9 +523,7 @@ h1 {
     border-radius: 4px;
 }
 
-/* ========================
-   RESPONSIVIDADE
-   ======================== */
+/* Responsividade para telas médias */
 @media (max-width: 992px) {
     .player-container {
         flex: 0 0 300px;
@@ -519,6 +531,7 @@ h1 {
     }
 }
 
+/* Responsividade para telas pequenas */
 @media (max-width: 768px) {
     .nav-main-layout {
         flex-direction: column;
@@ -556,5 +569,5 @@ h1 {
     }
 }
 
-/* Pequenos ajustes finais */
+/* Remove mudança de cor em links */
 a { color: inherit; }

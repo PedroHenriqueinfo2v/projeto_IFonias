@@ -31,20 +31,20 @@
         em {{ audio.criado_em.strftime('%d/%m/%Y %H:%M') }}
     </p>
 
-    <!-- PLAYER -->
+    <!-- # player de áudio do arquivo enviado -->
     <div class="player-box">
         <audio controls class="player-audio">
             <source src="{{ url_for('static', filename='audios/' ~ audio.arquivo_audio) }}" type="audio/mpeg">
         </audio>
     </div>
 
-    <!-- SINOPSE -->
+    <!-- # sinopse/descrição do áudio -->
     <h2>Sinopse</h2>
     <p class="legenda">{{ audio.legenda }}</p>
 
     <hr>
 
-    <!-- COMENTÁRIOS -->
+    <!-- # lista de comentários do áudio -->
     <h2>Comentários</h2>
 
     <div class="comments-list">
@@ -59,6 +59,7 @@
             <p class="comment-text">{{ c.texto }}</p>
 
             {% if c.usuario_id == session['usuario_id'] %}
+            <!-- # botão de excluir comentário (aparece só para o dono) -->
             <form method="POST" action="{{ url_for('apagar_comentario', id_comentario=c.id) }}">
                 <button class="btn-apagar-comentario">🗑 Excluir</button>
             </form>
@@ -72,7 +73,7 @@
         {% endif %}
     </div>
 
-    <!-- FORMULÁRIO -->
+    <!--# formulário para adicionar comentários -->
     <div class="comment-form-container">
         <h3>Adicionar Comentário</h3>
 

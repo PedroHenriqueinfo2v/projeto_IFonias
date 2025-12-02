@@ -15,13 +15,14 @@ body {
     font-family: "Inter", sans-serif;
 }
 
-/* NAVBAR */
+/* # barra superior do site */
 .navbar {
     background: linear-gradient(90deg, var(--cor-cabecalho), #ff9900);
     padding: 12px 0;
     box-shadow: 0 4px 10px rgba(0,0,0,0.25);
 }
 
+/* # layout interno do cabeçalho */
 .nav-main-layout {
     display: flex;
     justify-content: space-between;
@@ -30,6 +31,7 @@ body {
     align-items: center;
 }
 
+/* # logo/ícone da navbar */
 .navbar-logo {
     text-decoration: none;
     color: white;
@@ -39,6 +41,7 @@ body {
     align-items: center;
 }
 
+/* # botão para voltar à timeline */
 .btn-voltar {
     background: white;
     padding: 7px 15px;
@@ -48,7 +51,7 @@ body {
     text-decoration: none;
 }
 
-/* CONTAINER */
+/* # área principal da página do áudio */
 .container-audio {
     max-width: 850px;
     margin: 30px auto;
@@ -63,12 +66,13 @@ body {
     font-size: 2rem;
 }
 
+/* # info do autor e data */
 .meta {
     color: #666;
     margin-bottom: 15px;
 }
 
-/* PLAYER */
+/* # caixa onde fica o player */
 .player-box {
     background: #fafafa;
     padding: 15px;
@@ -77,17 +81,17 @@ body {
     margin-bottom: 20px;
 }
 
+/* # player ocupa 100% da área */
 .player-audio {
     width: 100%;
 }
 
-/* SINOPSE IGUAL DA TIMELINE */
+/* # sinopse do áudio */
 .legenda {
     color: #555;
     font-size: 1rem;
     line-height: 1.45;
     word-break: break-word;
-    white-space: normal;
     max-height: 220px;
     overflow-y: auto;
     padding: 12px;
@@ -96,10 +100,7 @@ body {
     border-radius: 8px;
 }
 
-/* ==================
-   LISTA DE COMENTÁRIOS
-================== */
-
+/* # bloco de cada comentário */
 .comment-item {
     background: #fff;
     border: 1px solid var(--cor-borda);
@@ -108,6 +109,7 @@ body {
     margin-bottom: 15px;
 }
 
+/* # info do usuário e horário */
 .comment-meta {
     font-size: 0.9rem;
     color: var(--cor-cabecalho);
@@ -115,11 +117,12 @@ body {
     margin-bottom: 8px;
 }
 
+/* # texto do comentário */
 .comment-text {
     margin-bottom: 10px;
 }
 
-/* BOTÃO APAGAR */
+/* # botão para apagar comentários */
 .btn-apagar-comentario {
     background: #ff4d4d;
     color: white;
@@ -134,7 +137,7 @@ body {
     background: #d60000;
 }
 
-/* FORMULÁRIO */
+/* # caixa de texto do formulário de comentário */
 .comment-form-container textarea {
     width: 100%;
     min-height: 80px;
@@ -145,6 +148,7 @@ body {
     margin-bottom: 10px;
 }
 
+/* # botão enviar comentário */
 .btn-enviar {
     background: var(--cor-titulo);
     border: none;

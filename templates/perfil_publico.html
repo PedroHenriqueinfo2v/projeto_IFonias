@@ -12,12 +12,12 @@
 
 <header class="perfil-header">
 
-    <!-- BOTÃO VOLTAR -->
+    <!-- # botão para voltar à timeline -->
     <a href="{{ url_for('timeline') }}" class="btn-voltar">← Voltar</a>
 
     <div class="perfil-header-content">
 
-        <!-- AVATAR -->
+        <!-- # avatar do usuário -->
         <div class="perfil-avatar">
             {% if usuario.avatar %}
                 <img src="{{ url_for('static', filename='avatars/' ~ usuario.avatar) }}">
@@ -26,7 +26,7 @@
             {% endif %}
         </div>
 
-        <!-- DADOS -->
+        <!-- # informações do usuário -->
         <div class="perfil-dados">
             <p class="perfil-label">Perfil</p>
 
@@ -41,8 +41,7 @@
 
 </header>
 
-
-<!-- PUBLICAÇÕES -->
+<!-- # área onde aparece a lista de áudios do usuário -->
 <div class="perfil-container">
 
     <h2 class="secao-titulo">Publicações de {{ usuario.nome }}</h2>
@@ -50,7 +49,7 @@
     <div class="publicacoes-grid">
 
         {% for pub in audios %}
-        <!-- CARD CLICÁVEL -->
+        <!-- # card de cada publicação -->
         <a href="{{ url_for('audio', audio_id=pub.id_audio) }}" class="card-audio">
 
             <div class="card-thumb">🎧</div>

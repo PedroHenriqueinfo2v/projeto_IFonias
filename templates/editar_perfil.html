@@ -7,10 +7,11 @@
 </head>
 <body>
 
-<div class="edit-box">
+<div class="edit-box"> <!-- # caixa do formulário -->
 
     <h1>Editar Perfil ✏</h1>
 
+    <!-- # formulário para atualizar dados -->
     <form method="POST" enctype="multipart/form-data">
 
         <label>Nome:</label>
@@ -26,17 +27,17 @@
         <input type="text" name="campus" value="{{ usuario.campus }}" required>
 
         <label>Foto de Perfil:</label>
-        <input type="file" name="avatar" accept="image/*">
+        <input type="file" name="avatar" accept="image/*"> <!-- # upload de avatar -->
 
         {% if usuario.avatar %}
         <p class="preview-label">Avatar atual:</p>
-        <img src="{{ url_for('static', filename='avatars/' ~ usuario.avatar) }}" class="avatar-preview">
+        <img src="{{ url_for('static', filename='avatars/' ~ usuario.avatar) }}" class="avatar-preview"> <!-- # imagem atual -->
         {% endif %}
 
-        <button type="submit">Salvar</button>
+        <button type="submit">Salvar</button> <!-- # botão de enviar -->
     </form>
 
-    <a href="{{ url_for('perfil') }}" class="link-voltar">Cancelar</a>
+    <a href="{{ url_for('perfil') }}" class="link-voltar">Cancelar</a> <!-- # voltar sem salvar -->
 
 </div>
 

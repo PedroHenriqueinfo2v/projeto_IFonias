@@ -1,4 +1,5 @@
 :root {
+    /* # variáveis de cor usadas no perfil */
     --fundo: #F8F5F2;
     --texto: #1C1C1C;
     --cabecalho: #F26D00;
@@ -8,9 +9,7 @@
     --cinza: #7a7a7a;
 }
 
-/* =========================
-   BASE
-   ========================= */
+/* # base do body */
 body {
     background: var(--fundo);
     font-family: "Inter", sans-serif;
@@ -19,9 +18,7 @@ body {
     color: var(--texto);
 }
 
-/* =========================
-   HEADER (Spotify Style)
-   ========================= */
+/* # cabeçalho grande estilo Spotify */
 .perfil-header {
     background: linear-gradient(180deg, var(--cabecalho), var(--titulo));
     padding: 40px 20px 60px;
@@ -30,11 +27,11 @@ body {
     position: relative;
 }
 
+/* # botão voltar */
 .btn-voltar {
     position: absolute;
     top: 20px;
     left: 20px;
-
     background: rgba(255,255,255,0.2);
     padding: 8px 16px;
     border-radius: 6px;
@@ -49,6 +46,7 @@ body {
     background: rgba(255,255,255,0.35);
 }
 
+/* # conteúdo interno do header */
 .perfil-header-content {
     max-width: 900px;
     margin: 0 auto;
@@ -57,7 +55,7 @@ body {
     gap: 30px;
 }
 
-/* Avatar grande */
+/* # avatar do usuário */
 .perfil-avatar {
     width: 160px;
     height: 160px;
@@ -66,13 +64,14 @@ body {
     border: 4px solid rgba(255,255,255,0.6);
     box-shadow: 0 0 20px rgba(0,0,0,0.25);
 }
+
 .perfil-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-/* TEXTOS */
+/* # textos do header */
 .perfil-dados .perfil-label {
     text-transform: uppercase;
     font-size: 0.85em;
@@ -93,9 +92,7 @@ body {
     font-size: 1.1em;
 }
 
-/* =========================
-   CONTEÚDO
-   ========================= */
+/* # container geral do conteúdo */
 .perfil-container {
     max-width: 900px;
     margin: 40px auto;
@@ -108,15 +105,14 @@ body {
     margin-bottom: 20px;
 }
 
-/* =========================
-   GRID DE PUBLICAÇÕES (Spotify playlists)
-   ========================= */
+/* # grid de cards de publicações */
 .publicacoes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 25px;
 }
 
+/* # card clicável do áudio */
 .card-audio {
     background: var(--cartao-bg);
     border-radius: 14px;
@@ -124,37 +120,43 @@ body {
     text-align: center;
     box-shadow: 0 4px 8px rgba(0,0,0,0.08);
     transition: .25s;
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }
 
 .card-audio:hover {
     transform: translateY(-4px);
+    transition: 0.25s;
 }
 
+/* # icone da miniatura */
 .card-thumb {
     width: 85px;
     height: 85px;
     margin: 0 auto 12px;
-
     font-size: 2.8em;
     background: var(--titulo);
     border-radius: 12px;
-
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/* # título do áudio */
 .card-titulo {
     font-size: 1.1em;
     font-weight: 700;
     margin-bottom: 8px;
 }
 
+/* # data da publicação */
 .card-data {
     color: var(--cinza);
     font-size: 0.9em;
 }
 
+/* # mensagem quando não há áudios */
 .nenhum {
     grid-column: 1 / -1;
     text-align: center;
@@ -162,20 +164,7 @@ body {
     font-size: 1.1em;
 }
 
-/* Card clicável */
-.card-audio {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-}
-
-/* Animação ao passar o mouse */
-.card-audio:hover {
-    transform: translateY(-4px);
-    transition: 0.25s;
-}
-
-/* Garantir visibilidade do botão voltar */
+/* # garantir visibilidade do botão voltar */
 .btn-voltar {
     z-index: 10;
 }

@@ -8,6 +8,7 @@
     --cinza: #7a7a7a;
 }
 
+/* Estrutura geral da página */
 body {
     background: var(--fundo);
     font-family: "Inter", Arial;
@@ -15,9 +16,7 @@ body {
     color: var(--texto);
 }
 
-/* =========================
-   HEADER ESTILO SPOTIFY
-   ========================= */
+/* Área superior com gradiente */
 .perfil-header {
     background: linear-gradient(180deg, var(--cabecalho), var(--titulo));
     padding: 40px 20px 60px;
@@ -26,6 +25,7 @@ body {
     position: relative;
 }
 
+/* Botão de retornar */
 .btn-voltar {
     position: absolute;
     top: 20px;
@@ -44,6 +44,7 @@ body {
     background: rgba(255,255,255,0.35);
 }
 
+/* Container do conteúdo do cabeçalho */
 .perfil-header-content {
     max-width: 900px;
     margin: 0 auto;
@@ -52,7 +53,7 @@ body {
     gap: 30px;
 }
 
-/* Avatar grande estilo Spotify */
+/* Avatar do usuário */
 .perfil-avatar {
     width: 160px;
     height: 160px;
@@ -68,7 +69,7 @@ body {
     object-fit: cover;
 }
 
-/* TEXTOS */
+/* Identificação do usuário */
 .perfil-dados .perfil-label {
     text-transform: uppercase;
     font-size: 0.85em;
@@ -89,7 +90,7 @@ body {
     font-size: 1.1em;
 }
 
-/* Botões */
+/* Botões de ação */
 .perfil-buttons {
     margin-top: 20px;
     display: flex;
@@ -124,28 +125,28 @@ body {
     background: rgba(255,0,0,1);
 }
 
-/* =========================
-   LISTA DE ÁUDIOS
-   ========================= */
+/* Container das publicações */
 .perfil-container {
     max-width: 900px;
     margin: 40px auto;
     padding: 0 20px;
 }
 
+/* Título da seção */
 .secao-titulo {
     font-size: 2em;
     font-weight: 900;
     margin-bottom: 20px;
 }
 
+/* Grid com os áudios */
 .publicacoes-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 25px;
 }
 
-/* Card estilo Spotify (playlists) */
+/* Card do áudio */
 .card-audio {
     background: var(--cartao-bg);
     border-radius: 14px;
@@ -153,6 +154,9 @@ body {
     text-align: center;
     box-shadow: 0 4px 8px rgba(0,0,0,0.08);
     transition: .25s;
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }
 
 .card-audio:hover {
@@ -183,6 +187,7 @@ body {
     margin-bottom: 12px;
 }
 
+/* Botão excluir áudio */
 .btn-excluir-audio {
     background: #ff4c4c;
     border: none;
@@ -193,9 +198,7 @@ body {
     font-size: 0.9em;
 }
 
-/* =========================
-   MODAIS
-   ========================= */
+/* Estrutura dos modais */
 .modal {
     display: none;
     position: fixed;
@@ -231,10 +234,4 @@ body {
     color: white;
     padding: 10px 20px;
     border-radius: 8px;
-}
-
-.card-audio {
-    display: block;
-    text-decoration: none;
-    color: inherit;
 }

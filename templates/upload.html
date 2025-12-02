@@ -9,18 +9,22 @@
 
 <body>
 
+<!-- Barra de navegação superior -->
 <header class="navbar">
     <nav class="container nav-main-layout">
         
+        <!-- Logo / Voltar para timeline -->
         <a href="{{ url_for('timeline') }}" class="navbar-logo">
             <span class="logo-icon">🎧</span> IFonias
         </a>
 
+        <!-- Menu de páginas -->
         <ul class="navbar-nav">
             <li class="nav-item"><a href="{{ url_for('timeline') }}">Linha do Tempo</a></li>
             <li class="nav-item active"><a href="{{ url_for('upload') }}">Publicar Áudio</a></li>
         </ul>
 
+        <!-- Acesso ao perfil -->
         <div class="nav-actions">
             <a href="{{ url_for('perfil', user_id=session['user_id']) }}" class="btn-perfil">👤 Meu Perfil</a>
         </div>
@@ -36,29 +40,39 @@
         Compartilhe seu podcast, música ou produção sonora com a comunidade IF.
     </p>
 
+    <!-- Formulário de upload -->
     <form class="form-upload" method="POST" enctype="multipart/form-data">
 
+        <!-- Campo de título -->
         <div class="form-group">
             <label for="titulo">Título da Produção:</label>
             <input type="text" id="titulo" name="titulo" required>
         </div>
 
+        <!-- Campo de autoria -->
         <div class="form-group">
             <label for="autoria">Autoria:</label>
             <input type="text" id="autoria" name="autoria">
         </div>
 
+        <!-- Upload de arquivo com botão estilizado -->
         <div class="form-group simple-file-upload">
             <label>Arquivo de Áudio:</label>
 
             <div class="file-input-wrapper">
+                <!-- Botão customizado que aciona o input invisível -->
                 <label for="audio_file" class="custom-file-button">Escolher Arquivo...</label>
+
+                <!-- Texto que exibe o nome do arquivo escolhido -->
                 <span class="file-name-display">Nenhum arquivo</span>
+
+                <!-- Input real do arquivo -->
                 <input type="file" id="audio_file" name="audio_file"
                        accept="audio/mp3, audio/wav" required>
             </div>
         </div>
 
+        <!-- Tipo de áudio -->
         <div class="form-group">
             <label for="tipo_audio">Tipo:</label>
             <select name="tipo_audio" required>
@@ -71,11 +85,13 @@
             </select>
         </div>
 
+        <!-- Sinopse / descrição -->
         <div class="form-group">
             <label for="legenda">Sinopse:</label>
             <textarea name="legenda" id="legenda"></textarea>
         </div>
 
+        <!-- Botão principal -->
         <button class="btn-submit" type="submit">Publicar no IFonias</button>
 
     </form>
@@ -83,6 +99,7 @@
 </div>
 
 <script>
+/* Exibe o nome do arquivo selecionado */
 document.getElementById("audio_file").addEventListener("change", function(){
     document.querySelector(".file-name-display").innerText = this.files[0].name;
 });

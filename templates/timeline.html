@@ -60,11 +60,15 @@
     .card-body { flex:1; }
     .player-container { width:100%; max-width:100%; flex:none; padding:12px; background-color: var(--fundo-pagina); border-radius: var(--borda-radius); box-shadow:0 4px 15px rgba(0,0,0,0.1); display:flex; justify-content:center; }
     .player-audio { width:100%; max-width:100%; outline:none; }
+
     .autor-link { font-weight:800; font-size:1.15em; color: var(--texto-principal); text-decoration:none; }
     .autor-link:hover { color: var(--cor-cabecalho); text-decoration:underline; }
+
     .data-publicacao { display:block; color: var(--cor-texto-secundario); font-size:0.8em; margin-top:6px; font-style:italic; }
+
     .titulo-audio { color: var(--cor-cabecalho); font-weight:900; font-size:1.6em; margin:8px 0 12px 0; }
     .legenda { color: var(--cor-texto-secundario); font-size:1em; line-height:1.45; word-break: break-word; max-height:220px; overflow-y:auto; padding-right:6px; margin-bottom:8px; }
+
     .card-footer { border-top:2px solid var(--cor-borda-leve); padding-top:16px; margin-top:18px; display:flex; gap:20px; font-size:0.95em; flex-wrap:wrap; align-items:center; }
     .btn-curtir-ajax, .btn-comentarios, .btn-curtidas-lista { background:none; border:none; cursor:pointer; font-weight:700; transition: transform 0.2s; }
     .btn-curtir-ajax:hover { transform: scale(1.05); }
@@ -72,47 +76,40 @@
     .btn-curtidas-lista:hover { color: var(--cor-cabecalho); }
 
     /* ========================
-       MODAIS, FORMULÁRIOS, CONFIRMAÇÃO ETC
+       MODAIS
        ======================== */
-    .modal, .modal-likes, .confirm-modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; overflow:auto; background-color: rgba(0,0,0,0.6); }
-    .modal-content, .modal-likes-content, .confirm-modal-content { background-color: var(--cor-card-fundo); margin:5% auto; padding:30px; border-radius: var(--borda-radius); width:90%; max-width:600px; box-shadow: var(--sombra-leve); animation:fadeIn 0.3s; }
+    .modal, .confirm-modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; overflow:auto; background-color: rgba(0,0,0,0.6); }
+    .modal-content { background-color: var(--cor-card-fundo); margin:5% auto; padding:30px; border-radius: var(--borda-radius); width:90%; max-width:600px; box-shadow: var(--sombra-leve); animation:fadeIn 0.3s; }
+
     @keyframes fadeIn { from{opacity:0; transform:translateY(-20px);} to{opacity:1; transform:translateY(0);} }
-    .close-button, .close-likes { float:right; font-size:30px; font-weight:bold; cursor:pointer; transition: color 0.3s; }
-    .close-button:hover, .close-button:focus, .close-likes:hover { color: var(--cor-cabecalho); }
-    .audio-summary-modal { background-color: var(--fundo-pagina); padding:15px; border-radius:8px; margin-bottom:20px; display:flex; align-items:center; gap:15px; }
-    .summary-icon { font-size:2em; color: var(--cor-titulo); }
-    .summary-title { font-weight:700; color: var(--texto-principal); margin:0; }
-    .summary-meta { font-size:0.9em; color: var(--cor-texto-secundario); margin:0; }
-    .comments-list { max-height:300px; overflow-y:auto; padding-right:10px; margin-bottom:20px; }
+
+    .close-button { float:right; font-size:30px; font-weight:bold; cursor:pointer; transition: color 0.3s; }
+    .close-button:hover { color: var(--cor-cabecalho); }
+
     .comment-item { border-bottom:1px solid var(--cor-borda-leve); padding:10px 0; position:relative; }
     .comment-meta { font-size:0.9em; color: var(--cor-cabecalho); font-weight:700; margin:0 0 5px 0; }
     .comment-text { margin:0 0 10px 0; color: var(--texto-principal); }
-    .comment-form-container h3 { font-size:1.2em; color: var(--texto-principal); margin:15px 0 10px 0; }
-    .comment-form-container textarea { width:100%; min-height:80px; padding:10px; border:1px solid var(--cor-borda-leve); border-radius:8px; resize:vertical; margin-bottom:10px; }
-    .comment-form-container button { background-color: var(--cor-titulo); color: var(--texto-principal); border:none; padding:10px 20px; border-radius:5px; font-weight:700; cursor:pointer; transition: background-color 0.3s; }
-    .comment-form-container button:hover { background-color:#ffd700; }
-    .btn-apagar-comentario { background:none; border:none; cursor:pointer; float:right; display:flex; align-items:center; justify-content:center; padding:2px 4px; transition: transform 0.2s; }
-    .btn-apagar-comentario svg { width:18px; height:18px; fill:#F26D00; transition: transform 0.2s, fill 0.2s; }
-    .btn-apagar-comentario:hover svg { fill:#cc5500; transform: scale(1.2); }
-    .confirm-modal-content { max-width:400px; text-align:center; }
-    .confirm-modal h3 { margin-bottom:20px; }
-    .confirm-modal button { padding:8px 18px; border-radius:8px; border:none; font-weight:700; cursor:pointer; margin:0 10px; transition: transform 0.2s; }
-    .confirm-yes { background-color: var(--cor-cabecalho); color:white; }
-    .confirm-yes:hover { background-color:#cc5500; transform:scale(1.05); }
-    .confirm-no { background-color:#ccc; color:#333; }
-    .confirm-no:hover { background-color:#999; transform:scale(1.05); }
 
+    .btn-apagar-comentario svg { width:18px; height:18px; fill:#F26D00; transition: transform 0.2s, fill 0.2s; }
+
+    .confirm-modal-content { background:white; padding:25px; border-radius:12px; width:90%; max-width:400px; text-align:center; margin:100px auto; }
+    .confirm-modal button { padding:8px 18px; border-radius:8px; border:none; font-weight:700; cursor:pointer; margin:0 10px; }
+    .confirm-yes { background-color: var(--cor-cabecalho); color:white; }
+    .confirm-no { background-color:#ccc; }
   </style>
 </head>
+
 <body>
 
 <header class="navbar">
   <nav class="container nav-main-layout">
     <a href="{{ url_for('timeline') }}" class="navbar-logo"><span class="logo-icon">🎧</span> IFonias</a>
+
     <ul class="navbar-nav">
       <li class="nav-item active"><a href="{{ url_for('timeline') }}">Linha do Tempo</a></li>
       <li class="nav-item"><a href="{{ url_for('upload') }}">Publicar Áudio</a></li>
     </ul>
+
     <div class="nav-actions">
       <a href="{{ url_for('perfil') }}" class="btn-perfil">👤 Meu Perfil</a>
     </div>
@@ -120,9 +117,10 @@
 </header>
 
 <div class="container">
+
   <h1>Novidades do Repositório</h1>
 
-  <!-- BOTÕES DE FILTRO POR TIPO -->
+  <!-- FILTRO -->
   <div class="filtro-tipos">
     <button class="btn-tipo active" data-tipo="todos">Todos</button>
     <button class="btn-tipo" data-tipo="podcast">Podcast</button>
@@ -134,11 +132,9 @@
 
   {% for audio in audios %}
   <div class="card-audio" data-tipo="{{ audio.tipo_audio }}">
-    <!-- RESTANTE DO HTML DO CARD FICA INTEIRO, EXATAMENTE COMO VOCÊ ME ENVIOU -->
-    <div class="card-header">
-      <a href="{{ url_for('perfil_publico', user_id=audio.usuario_id) }}" class="autor-link">{{ audio.nome }}</a>
-      <span class="data-publicacao">Publicado em {{ audio.criado_em.strftime('%d/%m às %H:%M') }}</span>
-    </div>
+
+    <a href="{{ url_for('perfil_publico', user_id=audio.usuario_id) }}" class="autor-link">{{ audio.nome }}</a>
+    <span class="data-publicacao">Publicado em {{ audio.criado_em.strftime('%d/%m às %H:%M') }}</span>
 
     <div class="player-container">
       <audio controls class="player-audio">
@@ -146,65 +142,57 @@
       </audio>
     </div>
 
-    <div class="card-body">
-      <h3 class="titulo-audio">{{ audio.titulo }}</h3>
-      <p class="legenda">{{ audio.legenda }}</p>
-    </div>
+    <h3 class="titulo-audio">{{ audio.titulo }}</h3>
+    <p class="legenda">{{ audio.legenda }}</p>
 
     <div class="card-footer">
       <button class="btn-curtir-ajax" data-audio-id="{{ audio.id_audio }}" aria-pressed="{{ 'true' if audio.id_audio in curtidos else 'false' }}">
         {% if audio.id_audio in curtidos %}❤️ Curtido{% else %}🤍 Curtir{% endif %}
       </button>
+
       <button class="btn-curtidas-lista" id="like-count-{{ audio.id_audio }}" data-likes-id="{{ audio.id_audio }}">
         {{ audio.total_curtidas }} curtidas
       </button>
+
       <button class="btn-comentarios" data-audio-id="{{ audio.id_audio }}">
         💬 Comentários ({{ comentarios.get(audio.id_audio, []) | length }})
       </button>
     </div>
 
-    <!-- MODAIS E COMENTÁRIOS PERMANECEM EXATOS -->
+    <!-- MODAL DE COMENTÁRIOS -->
     <div id="modal-{{ audio.id_audio }}" class="modal">
       <div class="modal-content">
         <span class="close-button" data-close-audio-id="{{ audio.id_audio }}">&times;</span>
+
         <h2>Comentários</h2>
-        <div class="audio-summary-modal">
-          <span class="summary-icon">🎧</span>
-          <div>
-            <p class="summary-title">{{ audio.titulo }}</p>
-            <p class="summary-meta">de {{ audio.nome }}</p>
-          </div>
-        </div>
+
         <div class="comments-list" data-audio-id="{{ audio.id_audio }}">
           {% for c in comentarios.get(audio.id_audio, []) %}
             {% set comentario_id = c.get('id') or c.get('id_comentario') %}
-            <div class="comment-item" {% if comentario_id %} id="comentario-{{ comentario_id }}"{% endif %}>
-              <div class="comment-header">
-                <p class="comment-meta">{{ c.nome_usuario }} — {{ c.criado_em.strftime('%d/%m %H:%M') }}</p>
-                {% if comentario_id and c.usuario_id == session['usuario_id'] %}
-                <button class="btn-apagar-comentario" data-id="{{ comentario_id }}" aria-label="Apagar comentário">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M3 6h18v2H3V6zm2 3h14l-1.5 12.5c-.1.8-.7 1.5-1.5 1.5H8c-.8 0-1.4-.7-1.5-1.5L5 9zm5 2v8h2v-8H10zm4 0v8h2v-8h-2z"/>
-                  </svg>
-                </button>
-                {% endif %}
-              </div>
+            <div class="comment-item" id="comentario-{{ comentario_id }}">
+              <p class="comment-meta">{{ c.nome_usuario }} — {{ c.criado_em.strftime('%d/%m %H:%M') }}</p>
+
+              {% if c.usuario_id == session['usuario_id'] %}
+              <button class="btn-apagar-comentario" data-id="{{ comentario_id }}">
+                <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3V6zm2 3h14l-1.5 12.5c-.1.8-.7 1.5-1.5 1.5H8c-.8 0-1.4-.7-1.5-1.5L5 9zm5 2v8h2v-8H10zm4 0v8h2v-8h-2z"/></svg>
+              </button>
+              {% endif %}
+
               <p class="comment-text">{{ c.texto }}</p>
             </div>
           {% endfor %}
         </div>
-        <div class="comment-form-container">
-          <h3>Adicionar comentário</h3>
-          <form method="POST" action="{{ url_for('comentar', audio_id=audio.id_audio) }}">
-            <textarea name="comentario" required></textarea>
-            <button type="submit">Enviar</button>
-          </form>
-        </div>
+
+        <form method="POST" action="{{ url_for('comentar', audio_id=audio.id_audio) }}">
+          <textarea name="comentario" required></textarea>
+          <button type="submit">Enviar</button>
+        </form>
       </div>
     </div>
 
   </div>
   {% endfor %}
+
 </div>
 
 <div id="confirm-modal" class="confirm-modal">
@@ -216,66 +204,63 @@
 </div>
 
 <script>
-document.addEventListener('click', function(e){
-  // CURTIR
-  const likeBtn = e.target.closest('.btn-curtir-ajax');
+/* Curtir */
+document.addEventListener("click", function(e){
+  const likeBtn = e.target.closest(".btn-curtir-ajax");
   if(likeBtn){
-    const audioId = likeBtn.dataset.audioId;
-    fetch(`/curtir_ajax/${audioId}`, { method:'POST', credentials:'same-origin' })
-    .then(resp=>resp.json())
-    .then(data=>{
-      if(data.status==='curtido'){ likeBtn.textContent='❤️ Curtido'; likeBtn.setAttribute('aria-pressed','true'); }
-      else { likeBtn.textContent='🤍 Curtir'; likeBtn.setAttribute('aria-pressed','false'); }
-      const contador=document.getElementById(`like-count-${audioId}`);
-      if(contador) contador.textContent=`${data.total} curtidas`;
-    });
-    return;
+    fetch(`/curtir_ajax/${likeBtn.dataset.audioId}`, {method:"POST"})
+      .then(r=>r.json())
+      .then(data=>{
+        likeBtn.textContent = data.status === "curtido" ? "❤️ Curtido" : "🤍 Curtir";
+        document.getElementById(`like-count-${likeBtn.dataset.audioId}`).textContent =
+          `${data.total} curtidas`;
+      });
   }
 
-  // APAGAR COMENTÁRIO
-  const delBtn = e.target.closest('.btn-apagar-comentario');
+  /* Comentários */
+  const open = e.target.closest(".btn-comentarios");
+  if(open){
+    document.getElementById(`modal-${open.dataset.audioId}`).style.display="block";
+  }
+
+  if(e.target.classList.contains("close-button")){
+    document.getElementById(`modal-${e.target.dataset.closeAudioId}`).style.display="none";
+  }
+
+  /* Apagar comentário */
+  const delBtn = e.target.closest(".btn-apagar-comentario");
   if(delBtn){
-    const comentarioId = delBtn.dataset.id;
-    if(!comentarioId) return;
-    const modal = document.getElementById('confirm-modal');
-    modal.style.display='block';
-    const yes = modal.querySelector('.confirm-yes');
-    const no = modal.querySelector('.confirm-no');
-    const closeModal=()=>modal.style.display='none';
+    const modal = document.getElementById("confirm-modal");
+    modal.style.display="block";
 
-    yes.onclick = function(){
-      fetch(`/deletar_comentario/${comentarioId}`, { method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/json'}})
-      .then(r=>{
-        if(r.status===200){ const el=document.getElementById(`comentario-${comentarioId}`); if(el) el.remove();}
-        else if(r.status===403) alert('Você não tem permissão para apagar este comentário.');
-        else r.text().then(t=>alert('Erro ao apagar comentário: '+t));
-      }).catch(()=>alert('Erro ao conectar ao servidor.'));
-      closeModal();
-    }
-    no.onclick = closeModal;
-    modal.onclick = ev=>{ if(ev.target===modal) closeModal(); }
-    return;
+    modal.querySelector(".confirm-yes").onclick = function(){
+      fetch(`/deletar_comentario/${delBtn.dataset.id}`, {method:"POST"})
+        .then(r=>{ if(r.status===200) document.getElementById(`comentario-${delBtn.dataset.id}`).remove(); });
+      modal.style.display="none";
+    };
+
+    modal.querySelector(".confirm-no").onclick = function(){
+      modal.style.display="none";
+    };
   }
-
-  // ABRIR FECHAR MODAIS COMENTÁRIOS
-  const openComments=e.target.closest('.btn-comentarios');
-  if(openComments){ const id=openComments.dataset.audioId; document.getElementById(`modal-${id}`).style.display='block'; return; }
-  if(e.target.classList.contains('close-button')){ const id=e.target.dataset.closeAudioId; document.getElementById(`modal-${id}`).style.display='none'; return; }
 });
 
-// FILTRO DE TIPOS
-const botoes = document.querySelectorAll('.btn-tipo');
-const cards = document.querySelectorAll('.card-audio');
+/* Filtro */
+const botoes = document.querySelectorAll(".btn-tipo");
+const cards = document.querySelectorAll(".card-audio");
+
 botoes.forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    botoes.forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    const tipoSelecionado = btn.dataset.tipo;
+  btn.onclick = ()=>{
+    botoes.forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+
+    const tipo = btn.dataset.tipo;
+
     cards.forEach(card=>{
-      if(tipoSelecionado==='todos'||card.dataset.tipo===tipoSelecionado) card.style.display='flex';
-      else card.style.display='none';
+      card.style.display = (tipo === "todos" || card.dataset.tipo === tipo)
+        ? "flex" : "none";
     });
-  });
+  };
 });
 </script>
 

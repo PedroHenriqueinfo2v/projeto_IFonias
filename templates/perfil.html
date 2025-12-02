@@ -11,12 +11,12 @@
 
 <header class="perfil-header">
 
-    <!-- BOTÃO VOLTAR -->
+    <!-- Link para retornar à timeline -->
     <a href="{{ url_for('timeline') }}" class="btn-voltar">← Voltar</a>
 
     <div class="perfil-header-content">
 
-        <!-- AVATAR -->
+        <!-- Avatar do usuário (foto ou padrão) -->
         <div class="perfil-avatar">
             {% if usuario.avatar %}
                 <img src="{{ url_for('static', filename='avatars/' ~ usuario.avatar) }}">
@@ -25,16 +25,18 @@
             {% endif %}
         </div>
 
-        <!-- DADOS DO PERFIL -->
+        <!-- Informações principais do perfil -->
         <div class="perfil-dados">
             <p class="perfil-label">Seu Perfil</p>
 
             <h1 class="perfil-nome">{{ usuario.nome }}</h1>
 
+            <!-- Dados secundários do perfil -->
             <p class="perfil-meta">
                 @{{ usuario.usuario }} · {{ usuario.curso }} · {{ usuario.campus }}
             </p>
 
+            <!-- Botões de ação do perfil -->
             <div class="perfil-buttons">
                 <a href="{{ url_for('editar_perfil') }}" class="btn-editar">Editar perfil</a>
                 <button class="btn-deletar" onclick="abrirModalConta()">Excluir conta</button>
@@ -45,8 +47,7 @@
 
 </header>
 
-
-<!-- PUBLICAÇÕES -->
+<!-- Lista de publicações do usuário -->
 <div class="perfil-container">
 
     <h2 class="secao-titulo">Seus Áudios</h2>
@@ -54,7 +55,7 @@
     <div class="publicacoes-grid">
 
         {% for pub in audios %}
-        <!-- CARD CLICÁVEL -->
+        <!-- Card de áudio clicável -->
         <a href="{{ url_for('audio', audio_id=pub.id_audio) }}" class="card-audio">
 
             <div class="card-thumb">🎧</div>
@@ -62,7 +63,7 @@
             <h3 class="card-titulo">{{ pub.titulo }}</h3>
             <p class="card-data">{{ pub.criado_em.strftime('%d/%m/%Y') }}</p>
 
-            <!-- BOTÃO EXCLUIR -->
+            <!-- Botão para abrir modal de exclusão -->
             <button class="btn-excluir-audio"
                 onclick="event.preventDefault(); abrirModalDelete(`{{ url_for('deletar_audio', id_audio=pub.id_audio) }}`)">
                 Excluir
@@ -79,8 +80,7 @@
 
 </div>
 
-
-<!-- MODAL PARA EXCLUIR ÁUDIO -->
+<!-- Modal de confirmação para excluir áudio -->
 <div id="modalDeleteAudio" class="modal">
     <div class="modal-content">
         <h2>Excluir áudio?</h2>
@@ -93,7 +93,7 @@
     </div>
 </div>
 
-<!-- MODAL PARA EXCLUIR CONTA -->
+<!-- Modal para excluir toda a conta do usuário -->
 <div id="modalDeleteConta" class="modal">
     <div class="modal-content">
         <h2>Excluir conta?</h2>
@@ -107,17 +107,23 @@
 </div>
 
 <script>
+/* Define a URL e abre o modal de exclusão do áudio */
 function abrirModalDelete(url) {
     document.getElementById("deleteConfirmBtn").href = url;
     document.getElementById("modalDeleteAudio").style.display = "flex";
 }
+
+/* Fecha o modal de exclusão do áudio */
 function fecharModalDelete() {
     document.getElementById("modalDeleteAudio").style.display = "none";
 }
 
+/* Abre o modal para excluir a conta */
 function abrirModalConta() {
     document.getElementById("modalDeleteConta").style.display = "flex";
 }
+
+/* Fecha o modal de exclusão da conta */
 function fecharModalConta() {
     document.getElementById("modalDeleteConta").style.display = "none";
 }
